@@ -1,0 +1,139 @@
+\documentclass[10pt]{article}
+\usepackage{kennyworkman}
+
+\title{Wasserman: All of Statistics}
+\author{Kenny Workman}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Probability}
+
+\subsection{Basics}
+
+\begin{example}
+
+It's actually tricky to show $\P(A \cup B) = \P(A) + \P(B) - \P(A \cap B)$ using
+only the three axioms:
+
+\begin{align*}
+\P(A \cup B) &= \P(AB^c \cap AB \cap A^cB) \\
+&= \P(AB^c) + \P(AB) + \P(A^cB) \\
+&= \P(AB^c) + \P(AB) + \P(A^cB) + P(AB) - P(AB) \\
+&= \P(AB^c \cup AB) + \P(A^cB \cup AB) - P(AB) \\
+&= \P(A) + \P(B) - P(AB)
+\end{align*}
+\end{example}
+
+Another simple idea is that events that are identical at the limit should have
+identical probabilities.
+
+\begin{theorem}[Continuity of Events]
+If $A_n \to A$ then $\P(A_n) \to \P(A)$.
+\end{theorem}
+
+\begin{proof}
+    Let $A_n$ be monotone increasing: $A_1 \subset A_2 \subset \dots$. Let
+    $A = \lim_{n \to \infty} A_n = \bigcup_{i=1}^{\infty} A_i$.
+
+    Construct disjoint sets $B_i$ from each $A_i$ where $B_1 = A_1$ and $B_n =
+    \{ \omega \in \Omega : \omega \in A_n,\omega \notin \bigcup_{i=1}^{i-1}A_i \}$. It will be
+    shown that (1) each pair of $B_i$ are disjoint, (2) $\bigcup_{i=1}^n A_i =
+    \bigcup_{i=1}^n B_i$ and (3) $A = \bigcup_{i=1}^\infty A_i =
+    \bigcup_{i=1}^\infty B_i$ (Exercise 1.1).
+
+    From Axiom 3: $\P(A_n) = \P(\bigcup\limits_{i=1}^n A_i) = \P(\bigcup\limits_{i=1}^n B_i) =
+    \sum\limits_{i=1}^n \P(B_i)$.
+
+    Then $\lim_{n \to \infty} \P(A_n)
+    = \lim_{n \to \infty} \sum\limits^{n}\P(B_n)
+    = \sum\limits^{\infty}\P(B_n)
+    = \P(\bigcup\limits^{\infty}B_n)
+    = \P(A)$
+
+\end{proof}
+
+\begin{exercise}
+    Fill in the details for Theorem 1.2 and extend to the case where $A_n$ is monotone decreasing.
+\end{exercise}
+
+\begin{proof}
+    For any pair $B_{n+1}$ and $B_n$, because $B_n \subset A_n$ and $B_{n+1}
+    \cap A_n = \emptyset$, it follows that $B_{n+1} \cap B_n = \emptyset$.
+
+    Let $\bigcup_{i=1}^n B_i = \bigcup_{i=1}^n A_i$. Then $\bigcup_{i=1}^{n+1}
+    B_i = (A_{n+1} \setminus \bigcup_{i=1}^n A_i) \bigcup (\bigcup_{i=1}^n
+    A_i) = \bigcup_{i=1}^{n+1} A_i$.
+
+    For the monotone decreasing case, let $A_n$ be a sequence where $A_1 \supset A_2 \supset A_3 \dots$. 
+
+    Observe $A_1^c \subset A_2^c \dots$ and $\lim_{n \to \infty} A_n = \Omega
+    \setminus \bigcup^{\infty} A_i^c$. Construct disjoint $B^c_n$ from $A^c$ in
+    the same way.
+
+    Then $\lim_{n \to \infty} \P(A_n) = 1 - \sum\limits^{\infty} \P(B^c_i) = 1 -
+    \P(A^c) = \P(A)$
+\end{proof}
+
+
+\setcounter{exercise}{2}
+\begin{exercise}
+    Let $\Omega$ be a sample space and $A_1, A_2, \dots$ be events. Define
+    $B_n = \cup_{i=n}^{\infty} A_i$ and $C_n = \cap_{i=n}^{\infty} A_i$.
+    \begin{enumerate}[(a)]
+        \item{Show $B_1 \supset B_2 \supset B_3 \dots$ and $C_1 \subset C_2
+            \subset C_3 \dots$}
+        \item{Show $\omega \in \cap_{n=1}^{\infty} B_n$ iff $\omega$ is in an
+            infinite number of the events}
+        \item{Show $\omega \in \cup{n=1}^{\infty} C_n$ iff $\omega$ belongs to all
+                of the events, except possibly a finite number of those
+            events.}
+    \end{enumerate}
+\end{exercise}
+
+\begin{proof}
+    \begin{enumerate}[(a)]
+        \item{Certainly $\cup_{i=1}^{\infty} A_i \supset \cup_{i=2}^{\infty} A_i \dots$ and $\cap_{i=1}^{\infty} A_i \subset \cap_{i=2}^{\infty} \dots$.}
+        \item{Forward. Assume $\omega \in \cap_{n=1}^{\infty}B_n$. If $\omega$
+            does not belong to an infinite number of events $A_i$, there exists
+        some index $j$ past which $\omega \notin B_j$. Then certainly $\omega \notin \cap_{n=1}^{\infty}B_n$. Reverse. $\omega$ belonging to infinite events means there cannot exist such a $j$ described previously so $\omega \in B_n$ for all $n$. Indeed $\omega \in \cap_{n=1}^{\infty}B_n$}
+    \item{Forward. Assume $\omega \in \cup_{n=1}^{\infty}C_n$. Then $\omega \in
+        C_j = \cap_{i=j}^{\infty} A_i$ for some $j$. This is another way of
+    saying $\omega$ is in every single event except for perhaps a finite number
+in $A_{i < j}$. Reverse. Let $j$ be the index of the largest event that
+$\omega$ is not in. Then $\omega \in C_{n > j}$ and certainly $\omega \in
+\cup^{\infty}C_n$.}
+    \end{enumerate}
+\end{proof}
+
+\begin{note}
+    The key idea above is this notion of "infinitely often" (i.o.) and "all but finitely
+    often" (eventually) which are two distinct structures of infinite occurence in
+    sequences. Consider an $\omega$ that exists in every other event (eg. just the
+    odd indices) for infinite events and revisit its inclusion in $\cap^{\infty}
+    B_i$ and $\cup^{\infty} C_i$.
+\end{note}
+
+\begin{note}
+    % https://chatgpt.com/c/67c5f3d7-48f4-8004-a28f-8f25f47b44c4
+    $\lim \cap \cup A_n$ is also referred to as the limit infimum of $A_n$. Similarly,
+    $\lim \cup \cap A_n$ is referred to as the limit supremum of $A_n$.
+    %TODO: show equivalence
+    % Then revisit Borel Cantelli lemma: https://en.wikipedia.org/wiki/Borel%E2%80%93Cantelli_lemma
+\end{note}
+
+\setcounter{exercise}{6}
+\begin{exercise}
+    Let $\P(\bigcup\limits^n A_i) \leq \sum\limits^n \P(A_i)$. Then
+    $\P(A_{n+1} \cup (\bigcup\limits^n A_i)) \leq \P(A_{n+1}) +
+    (\sum\limits^n \P(A_i)) - \P(A_{n+1} \cap(\bigcup\limits^n A_i)) \leq
+    \sum\limits^{n+1}\P(A_i)$
+\end{exercise}
+
+\begin{note}
+% https://en.wikipedia.org/wiki/Boole%27s_inequality
+    Expand a bit on the Boole inequality.
+\end{note}
+\end{document}
