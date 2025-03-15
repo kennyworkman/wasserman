@@ -13,10 +13,30 @@
 
 \subsection{Basics}
 
+\begin{definition}
+    The \textbf{sample space} $\Omega$ is the set of outcomes from an experiment. Each
+    point is denoted $\omega$ and subsets, eg. $A \subset \Omega$ are called
+    \textbf{events}.
+\end{definition}
+
+\begin{definition}[Axioms of Probability]
+    A function $\P: \Omega \to \R$ that assigns a real number to each event $A
+    \subset \Omega$ is called a \textbf{probability function} or
+    \textbf{probability measure} if it satsifies these three axioms:
+    \begin{enumerate}
+        \item \textbf{Non-negativity}. $\P(A) \ge 0$ for every event $A$
+        \item \textbf{Normalization}. $\P(\Omega) = 1$.
+        \item \textbf{Additivity}. $\P(A\cup B) = \P(A) + \P(B)$ if $A \cap B = \emptyset$.
+    \end{enumerate}
+\end{definition}
+
+It is incredible, and not obvious, that much of probability is built up from
+these only these three axioms
+
 \begin{example}
 
-It's actually tricky to show $\P(A \cup B) = \P(A) + \P(B) - \P(A \cap B)$ using
-only the three axioms:
+It's actually tricky to show $\P(A \cup B) = \P(A) + \P(B) - \P(A \cap B)$ with
+these three facts:
 
 \begin{align*}
 \P(A \cup B) &= \P(AB^c \cap AB \cap A^cB) \\
@@ -54,6 +74,11 @@ If $A_n \to A$ then $\P(A_n) \to \P(A)$.
     = \P(A)$
 
 \end{proof}
+
+\begin{definition}[Conditional Probability]
+    If $\P(B) > 0$, then the probability of $A$ given $B$ is 
+    \[\P(A \mid B) = \dfrac{\P(AB)}{\P(B)}.\]
+\end{definition}
 
 \begin{exercise}
     Fill in the details for Theorem 1.2 and extend to the case where $A_n$ is monotone decreasing.
@@ -136,4 +161,83 @@ $\omega$ is not in. Then $\omega \in C_{n > j}$ and certainly $\omega \in
 % https://en.wikipedia.org/wiki/Boole%27s_inequality
     Expand a bit on the Boole inequality.
 \end{note}
+
+\setcounter{exercise}{8}
+\begin{exercise}
+    For fixed $B$ s.t. $\P(B) > 0$, show $\P(.\mid B)$ satisfies the three
+    axioms of probability.
+\end{exercise}
+\begin{proof}
+    \begin{itemize}
+        \item{\textbf{Non-negativity}. If $\P(B) > 0$ and $\P(AB) > 0$ for any
+                $A \subset \Omega$, certainly
+            $\frac{\P(AB)}{\P(B)} > 0$}.
+        \item{\textbf{Normalization}. $\frac{\P(\Omega \cap B)}{\P(B)} =
+            \frac{\P(B)}{\P(B)} = 1$}
+        \item{\textbf{Additivity}. Let $AB \cap CB = \emptyset$, then $\P(AB
+            \cap CB) = \P(AB) + \P(CB)$. Indeed $\frac{\P(AB\cap CB)}{B} =
+        \frac{\P(AB)}{B} + \frac{\P(CB)}{B}$}
+    \end{itemize}
+\end{proof}
+
+\setcounter{exercise}{10}
+\begin{exercise}
+    Suppose $A$ and $B$ are independent events. Show that $A^c$ and $B^c$ are
+    also independent.
+\end{exercise}
+\begin{proof}
+    We are given $\P(AB) = \P(A)\P(B)$. Then $\P(A^c)\P(B^c) = (1 - \P(A))(1
+    - \P(B)) = 1 - \P(A) - \P(B) + \P(A)\P(B) = 1 - \P(A\cup B) = \P(A^cB^c)$.
+    The second to last equality uses independence of $P(AB)$. The last equality
+    uses the property of set complements $P(A \cup B) = P(A^c \cap B^c)$.
+\end{proof}
+
+\setcounter{exercise}{12}
+\begin{exercise}
+    Suppose a fair coin is tossed repeatedly until heads and tails is each
+    encoutered exactly once. Describe $\Omega$ and compute the probablity
+    exactly three tosses are needed.
+\end{exercise}
+\begin{proof}
+    \begin{itemize}
+        \item{The sample space is the set of binary strings with exactly one
+            $0$ and $1$. For strings of length greater than 2, these are
+        repeated strings of $0$ or $1$ capped with a $1$ or $0$ respectively.}
+    \item{By independence, each n-string has an identical probability
+        $\frac{1}{2}^n$. There are two such 3-strings: 001 and 110. Using additivity,
+    $\P(\text{3 tosses}) = \frac{1}{8} + \frac{1}{8} = \frac{1}{4}$}
+    \end{itemize}
+\end{proof}
+
+\setcounter{exercise}{14}
+\begin{exercise}
+    The probability a child has blue eyes is $\frac{1}{4}$. Assume independence
+    between children. Consider a family with 3 children.
+    \begin{itemize}
+        \item{If it is known that at least one of the children have blue eyes,
+            what is the probablity that at least two of the children have blue
+        eyes?}
+    \item{If it is know that the youngest child has blue eyes, what is the
+        probability that at least two of the children have blue eyes?}
+    \end{itemize}
+\end{exercise}
+\begin{proof}
+    \begin{itemize}
+        \item{Straightforward conditional probability. Let $A$ be the event
+                where at least one child has blue eyes and $B$ be the event
+                where at least two children have blue eyes. Consider first,
+                $\P(A) = 1 - \P(\text{no child has blue eyes}) =
+                1 - \frac{27}{64} = \frac{37}{64}$. Compute $\P(A\cap B)$ by
+                enumerating events 101, 111, 110 and using additivity: $2\cdot
+                \frac{1}{4}^2\cdot\frac{3}{4} + \frac{1}{4}^3 = \frac{10}{64}$. Then $\P(B\mid A) = \frac{\P(A
+            \cap B)}{\P(A)} = \frac{10}{64}\cdot\frac{64}{37} = \frac{10}{37}$}
+        \item{Similar procedure. Let $A$ be the event where the youngest child
+            has blue eyes and $B$ be as before. Using independence, $\P(A) =
+        \frac{1}{4}$. (To see this rigorously, enumerate the sample space and
+    see $\P(\Omega\mid \text{first child blue}) = 1$). Now $\P(B \cap A)$
+    describe events 110, 101, 111 only. $\frac{7}{64}\cdot\frac{4}{1} =
+\frac{7}{16}$.}
+    \end{itemize}
+\end{proof}
+
 \end{document}
