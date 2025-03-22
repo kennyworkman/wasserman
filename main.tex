@@ -240,4 +240,133 @@ $\omega$ is not in. Then $\omega \in C_{n > j}$ and certainly $\omega \in
     \end{itemize}
 \end{proof}
 
+\setcounter{exercise}{16}
+\begin{exercise}
+    Show $\P(ABC) = \P(A \mid BC)\P(B \mid C)\P(C)$
+\end{exercise}
+\begin{proof}
+    By straightforward application of the definition of conditional
+    probability: $\dfrac{\P(ABC)}{\P(BC)}\dfrac{\P(BC)}{\P(C)}\P(C) = \P(ABC)$
+\end{proof}
+
+\begin{theorem}[Total Probability]
+    If $A_1 \cdots A_k$ partition $\Omega$, $\P(B) = \sum_{i=1}^k\P(B\mid A_i)\P(A_i)$
+\end{theorem}
+
+
+\setcounter{exercise}{18}
+\begin{exercise}
+    Suppose $50\%$ of computer users are Windows. $30\%$ are Mac. $20\%$ are
+    Linux. Suppose $65\%$ of Mac users, $82\%$ of
+    Windows users and $50\%$ of Linux users get a virus. We select a person at random and learn
+    they have the virus. What is the probability they are a Windows user?
+\end{exercise}
+\begin{proof}
+
+    Let each $\omega \in \Omega$ be a distinct user. Then $W, M, L \subset
+    \Omega$ are the users with Windows, Mac + Linux machines. $V, N \subset
+    \Omega$ are the users with and without viruses.
+
+    We want $\P(W\mid V) = \dfrac{\P(V\mid W)\P(W)}{\P(V)}$. Compute
+$\P(V) = \sum_{X = \{W, M, L\}} \P(V\mid X)\P(X) = 0.705$. Then $\P(W\mid
+V)= \dfrac{0.82\cdot0.50}{0.705} = 0.581$.
+\end{proof}
+
+\setcounter{exercise}{19}
+\begin{exercise}
+
+    A box contains 5 coins, each with a different probability of heads: $0,
+    0.25, 0.5, 0.75, 1$. Let $C_i$ be the event with coin $i$ and $H_i$ be the
+    event that heads is recovered on toss $i$.Suppose you select a coin at random and flip it.
+
+    \begin{itemize}
+    \item{What is the posterior probability $\P(C_i \mid H_1)$ for each coin?}
+    \item{What is $\P(H_2 \mid H_1)$?}
+    \item{Let $B_i$ be the event that the first heads is recovered on flip $i$.
+        What is $\P(C_i \mid B_i) $ for each coin?}
+    \end{itemize}
+\end{exercise}
+
+\begin{proof}
+    \begin{itemize}
+        \item{$\P(H_1) = \frac{1}{2}$. For each coin,
+            $\P(C_i \mid H) = \dfrac{\P(H \mid C_i)\P(C_i)}{\P(H)}$. $\P(H)$
+            can be worked out using total probability: $\sum_i \P(H |
+        C_i)\P(C_i) = \frac{1}{2}$. Then eg. the posterior $\P(C_4\mid H) =
+    \frac{3}{4}\cdot\frac{1}{5}\cdot\frac{2}{1} = \frac{3}{10}$.}
+        \item{Note that both tosses are conditionally independent:
+            $\P(H_2H_1\mid C_i) = \P(H_2\mid C_i)\P(H_1\mid C_i)$. $\P(H_2\mid
+        H_1) = \dfrac{\P(H_2 H_1)}{\P(H_1)} = \dfrac{\sum_i \P(H_2 H_1 \mid C_i) \P(C_i)}{\sum_i \P(H_1 \mid C_i) \P(C_i)}.$ Because $\P(C_i)$ is
+    uniform, we can simply to $\dfrac{\sum_i \P(H_2 H_1 \mid C_i)}{\sum_i \P(H_1 \mid C_i)}$. The result is $\dfrac{\sum_i p_i^2}{\sum_i p_i}$.}
+    \item{Similar idea to (a).}
+    \end{itemize}
+\end{proof}
+
+\begin{note}
+    Important to see that independent events are not conditionally independent
+    in general. Try to construct an example.
+\end{note}
+
+
+\subsection{Random Variables}
+
+\begin{definition}[random variable]
+\end{definition}
+
+
+\begin{definition}[cumulative distribution function]
+\end{definition}
+
+The CDF contains "all the information" in a random variable. This is
+articulated by the following theorem:
+
+\begin{theorem}
+    For random variables $X$ and $Y$ with CDFs $F$ and $G$, if $F(x) = G(X)
+    \forall x \in [0, 1]$, then $X = Y$ ($\P(X \in A) = \P(Y \in A)$ for each
+    $A \subset \R$).
+\end{theorem}
+
+And the behavior of the CDF, including "all of its information" is uniquely
+determined by just three properties:
+
+\begin{theorem}
+    A function $F: \R \to [0, 1]$ is a CDF iff it satisfies three properties:
+    \begin{itemize}
+        \item{Non-decreasing. $x_2 > x_1 \implies F(x_2) \geq F(x_1)$}
+        \item{Normalization. $\lim_{y\to 0}F(y) = 0$ and $\lim_{y\to 1}F(y) = 1$}
+        \item{Right-continuous. For any $x \in \R$, $F(x) = F^+(x)$ where
+            $F^+(x) = \lim_{y \to x, y>x}F(y)$}
+    \end{itemize}
+\end{theorem}
+
+\begin{proof}
+    Starting with (iii) from the text, let $A = (-\infty, x]$ and $y_1, y_2, \dots$ be a sequence where
+        $y_1 < y_2 \dots$ and $\lim_i y_i = x$. By the definition of the
+        CDF, $F(y_i) = \P(A_i)$ and $F(x) = \P(A)$, where $\lim_i F(y_i)$ is equivalent to
+        $\lim_{y\to x, y>x}F(y)$. Observe $\cap_i A_i = A$ so $\P(A) =
+        \P(\cap_i A_i) = \lim_i \P(A_i) = \lim_i F(y_i) = F(x)$ as desired.
+
+        To see (ii), $\lim_{y\to -\infty}F(y) = 0$, define a sequence $y_1, y_2
+        \cdots$ where $y_1 > y_2 \cdots$ as before and $y_1 = y$. Let $A_i = (\infty, y_i]$.
+        Then $\cap_i A_i = \emptyset$ and $\P(\cap_i A_i) = \P(\emptyset) = 0$.
+        Indeed $\lim_{y \to -\infty}F(y) = \lim_{i}\P(A_i) = \P(\cap_i A_i) =
+        0$. A similar argument shows the limit to the other direction.
+
+        For (iii), if $x_2 > x_1$ then $P((-\infty, x_2]) \geq P((-\infty,
+        x_1])$ and $F(x_2) \geq F(x_1)$.
+\end{proof}
+
+The interesting direction is the reverse: a function satisfying these
+properties uniquely determines a probability function. It is difficult to show
+in general. A concrete example is the Cantor function
+(\href{https://en.wikipedia.org/wiki/Cantor_function}{Devil's staircase}) which
+satisfies non-decreasing, normality and right-continuous properties but from
+which is difficult to derive a measure that satisfies eg. countable additivity.
+
+\begin{note}
+    A deeper measure theory course will approach this problem by defining the
+    probablity function on an algebra of subsets rather than on each subset
+    directly. Refer to tools like \href{https://en.wikipedia.org/wiki/Carath%C3%A9odory%27s_extension_theorem}{Caratheodory's extension theorem}.
+\end{note}
+
 \end{document}
