@@ -80,6 +80,38 @@ If $A_n \to A$ then $\P(A_n) \to \P(A)$.
     \[\P(A \mid B) = \dfrac{\P(AB)}{\P(B)}.\]
 \end{definition}
 
+\begin{theorem}[Total Probability]
+    If $A_1 \cdots A_k$ partition $\Omega$, $\P(B) = \sum_{i=1}^k\P(B\mid A_i)\P(A_i)$
+\end{theorem}
+
+\begin{note}
+    It can be difficult to assign a probability to every subset of $\Omega$. In
+    practice, we only assign values to select subsets described by a \textbf{sigma
+    algebra} denoted $A$. This is a subset algebra with three properties:
+
+    \begin{itemize}
+        \item{Non empty. $\emptyset \in A$. "Measure of the impossible."}
+        \item{Closed over unions. $A_1, A_2 \cdots \in A \implies \cup_i A_i \in A$.}
+        \item{Closed over complements. $A \in A \implies A^c \in A$.}
+    \end{itemize}
+    Every set in $A$ is considered \textbf{measurable} (by its membership in
+    the sigma algebra). $A$ along with $\Omega$ comprises a \textbf{measurable
+    space}, denoted by the pair $(A, \Omega)$. If the measure on $A$ is a
+    probability function, importantly $\P(\Omega) = 1$, this space is also a
+    \textbf{probability space}, denoted by the triple $(\Omega, A, \P)$.
+
+    When $\Omega$ is the real line, the measure is often the Lebesgue measure,
+    assigning intuitive values of "set length", eg. $[a, b] \mapsto b - a$.
+
+    Why is this important? While overly pedantic at first glance, this is the
+    structure that explains why continuous density functions (next section)
+    have nonzero probabilities when integrated over intervals but assign 0
+    probability to single points. The continuous measure, eg. Lebesgue measure,
+    defined on the underlying probability space assigns positive values to sets
+    and 0 to single points.
+\end{note}
+
+
 \begin{exercise}
     Fill in the details for Theorem 1.2 and extend to the case where $A_n$ is monotone decreasing.
 \end{exercise}
@@ -249,10 +281,6 @@ $\omega$ is not in. Then $\omega \in C_{n > j}$ and certainly $\omega \in
     probability: $\dfrac{\P(ABC)}{\P(BC)}\dfrac{\P(BC)}{\P(C)}\P(C) = \P(ABC)$
 \end{proof}
 
-\begin{theorem}[Total Probability]
-    If $A_1 \cdots A_k$ partition $\Omega$, $\P(B) = \sum_{i=1}^k\P(B\mid A_i)\P(A_i)$
-\end{theorem}
-
 
 \setcounter{exercise}{18}
 \begin{exercise}
@@ -309,12 +337,22 @@ V)= \dfrac{0.82\cdot0.50}{0.705} = 0.581$.
 
 
 \subsection{Random Variables}
+\renewcommand{\theexercise}{2.\arabic{exercise}}
+\renewcommand{\thedefinition}{2.\arabic{definition}}
+-- (kenny) TODO fix counters
 
-\begin{definition}[random variable]
+\begin{definition}[Random Variable]
+    A random variable $X$ is a function mapping the sample space to real
+    numbers: $X: \Omega \to \R$.
 \end{definition}
 
+It is important to think of the relationship between the random variable and
+its underlying sample space when computing probabilities: eg. $\P(X = x) =
+\P(X^{-1}(x))$ and $\P(X \in A) = \P(X^{-1}(A))$.
 
-\begin{definition}[cumulative distribution function]
+\begin{definition}[Cumulative Distribution Function]
+    The CDF is the function $F_X: \R \to [0, 1]$ where $F_X(x) = \P(X \leq x)$.
+    Equivalently $F_X(x) = \P(X^{-1}((-\infty, x])$.
 \end{definition}
 
 The CDF contains "all the information" in a random variable. This is
@@ -368,5 +406,90 @@ which is difficult to derive a measure that satisfies eg. countable additivity.
     probablity function on an algebra of subsets rather than on each subset
     directly. Refer to tools like \href{https://en.wikipedia.org/wiki/Carath%C3%A9odory%27s_extension_theorem}{Caratheodory's extension theorem}.
 \end{note}
+
+It is from these random variables that we build "distributions", essentially
+functions $\R \to [0, 1]$ that obey the three probability axioms.
+
+\begin{definition}
+    If $X$ "takes" countably many values (eg. has a countable range) it is
+    \textbf{discrete}. $f_X(x) = \P(X = x)$ is its \textbf{probability mass
+    function} or PMF.
+\end{definition}
+
+\begin{definition}
+    $X$ is \textbf{continuous} if it has some $f_X$ that obeys three properties:
+    \begin{itemize}
+        \item{$\int_{-\infty}^{\infty} f_X(x) \dd x = 1$}
+        \item{$ \forall x \in \R: f_X(x) \geq 0$}
+        \item{$\P(a < X < b) = \int_a^b f_X(x) \dd x$}
+    \end{itemize}
+    $f_X$ is called the \textbf{probability density function} or PDF.
+    Additionally, $F_X(x) = \int_{-\infty}^x f_X(x) \dd x$ and $f_X(x) =
+    F'_X(x)$ for all points $x$ where $F_X$ is differentiable.
+\end{definition}
+
+The formal relation between the density function and the sample space is a bit
+tricky, especially when $X$ is continuous. In practice, we often just produce
+a function and deal with it directly while assuming the underlying sample space
+with a well defined measure is lurking around.
+
+\begin{note}
+    We learned the probability function is defined on a well-defined sample space by measuring events / sets. 
+\end{note}
+
+We will proceed with some important mass functions.
+
+\begin{definition}[The Point Mass Distribution]
+    If $X \sim \sigma_a$ (reads "$X$ has a point mass distribution at $a$"),
+    $f_X(a) = 1$ while $f_X(x) = 0$ for all $x \neq a$.
+    \[
+    F_X(x) =
+    \begin{cases}
+    0, & x < a, \\
+    1, & x \geq a
+    \end{cases}
+    \]
+    \end{definition}
+
+\begin{definition}[The Uniform Distribution]
+\end{definition}
+
+\begin{definition}[The Bernoulli Distribution]
+\end{definition}
+
+\begin{definition}[The Binomial Distribution]
+\end{definition}
+
+\begin{definition}[The Geometric Distribution]
+\end{definition}
+
+\begin{definition}[The Poisson Distribution]
+\end{definition}
+
+\setcounter{exercise}{1}
+\begin{exercise}
+    Show $\P(X = x) = F(x^+) - F(x^-)$
+\end{exercise}
+
+\begin{proof}
+    The key here is to see $\lim_{z < x, z\to x}F(z) = \P(X \in \cup_i (\infty,
+    z_i]) = \P(X < x)$ for some sequence $z_1, z_2, \cdots $ where $\lim_i z_i
+    = x_i$.
+    While $\lim_{y > x, y\to x}F(y) = \P(X \in \cap_i(\infty, y_i]) = \P(X \leq
+    x)$.
+
+    Pay attention to the behavior of converging sets and the boundary. In the
+    right-continous case, the sequence is approaching the boundary $x$ from
+    above and each sequence is closed on $x$. Therefore in the limit, they
+    include $x$.
+
+    In the left-continuous case, the sequence is approaching the boundary $x$
+    from below and each sequence excludes $x$. Therefore in the limit, they
+    exclude $x$.
+
+    To conclude $F(x^+) - F(x^-) = \P(X \leq x ) - \P(X < x) = \P(X = x)$. Of
+    course, if $X$ is continuous, $F(x^+) = F(x^-)$ and $\P(X = x) = 0$,
+    showing once again that every real value has no probability mass.
+\end{proof}
 
 \end{document}
