@@ -437,6 +437,13 @@ with a well defined measure is lurking around.
     We learned the probability function is defined on a well-defined sample space by measuring events / sets. 
 \end{note}
 
+\begin{definition}
+    The quartile function (or inverse CDF) is $F^{-1}(q) = \inf\{ x : q < F(x) \}$
+\end{definition}
+
+We call $F^{-1}(\frac{1/4})$ the first quartile, $F^{-1}(\frac{1/2})$ the
+second quartile (or median), etc.
+
 We will proceed with some important mass functions.
 
 \begin{definition}[The Point Mass Distribution]
@@ -452,21 +459,199 @@ We will proceed with some important mass functions.
     \end{definition}
 
 \begin{definition}[The Uniform Distribution]
+    Suppose $X$ has a mass function:
+    \[f(x) = 
+    \begin{cases}
+        \frac{1}{k}, & x \in \{1 \dots k\} \\
+        0, & \text{o.w.}
+    \end{cases}
+    \]
+    $X$ then has a uniform distribution on $\{1 \dots k \}$.
 \end{definition}
 
 \begin{definition}[The Bernoulli Distribution]
+    If $X \sim Bernoulli(p)$, the PMF of $X$ is $f(x) = p^x(1-p)^{1-x}$ for $x
+    \in \{0, 1\}$ and $p \in [0, 1]$.
 \end{definition}
+
+Here is the first instance of a parameterized random variable.
 
 \begin{definition}[The Binomial Distribution]
+    Binomial variables model the number of successful flips for $n$ identical
+    trials with probability $p$ for each.
+    We say $X \sim Binomial(n, p)$ with PMF:
+    \[f(x) = \begin{cases}
+        \binom{n}{x}p^x(1-p)^{n-x} & x \in \{1 \dots n\} \\
+        0 & \text{o.w.}
+    \end{cases}
+    \]
 \end{definition}
+
+The following represent different ideas of unbounded "counting": trials until
+success and trials in some interval of time.
 
 \begin{definition}[The Geometric Distribution]
+    Here we have the idea of flipping a coin until our first success.
+    $X \sim Geometric(p)$ with PMF: $f(x) = (1-p)^{x-1}p$
 \end{definition}
+
+The probability value of each term is a geometric series. Indeed $p
+\sum^{\infty}(1-p)^x = \frac{p}{1-(1-p)} = 1$.
 
 \begin{definition}[The Poisson Distribution]
+    If $X \sim Poisson(\lambda)$ with PMF $f(x) = e^{-\lambda}\frac{\lambda^x}{x!}$
 \end{definition}
 
-\setcounter{exercise}{1}
+$\lambda$ can be thought of as some interval of time. $X$ then measures the
+number of events in this interval: decaying particles or mRNA translation.
+
+Similarly to the geometric distribution, each term in the poisson is a Taylor
+polynomial, derived from the power series expansion of the exponential
+function. Indeed $e^{-\lambda}\sum^{\infty}\frac{\lambda^x}{x!} = e^{-\lambda}e^{\lambda}
+= 1$. 
+
+\begin{note}
+    For distributions that count trials in some interval - some time or
+    number of trials - the sum of variables equals a single variable that
+    accumulates the interval. 
+
+    If $X_1 \sim Binomial(n_1, p)$ and $X_2 \sim Binomial(n_2, p)$, then $X_1 +
+    X_2 \sim Binomial(n_1 + n_2, p)$.
+
+    If $X_1 \sim Poisson(\lambda_1)$ and $X_2 \sim Poisson(\lambda_2)$, then $X_1 +
+    X_2 \sim Poisson(\lambda_1 + \lambda_2)$.
+\end{note}
+
+\begin{note}
+    Recall $\Omega$ really lurking around. Eg. let $X \sim Bernoulli$ and $\P(X
+    = 1)$ is $\P(\omega \in [0, p]) = p$. 
+\end{note}
+
+For the continuous distributions, useful to think of integration.
+
+\begin{definition}[The Continuous Uniform Distribution]
+    If $X$ has a uniform distribution on the interval $[a, b]$ with PDF: \[f(x) = \begin{cases}
+        \frac{1}{b-a} & x \in [a, b] \\
+        0 & \text{o.w.}
+        \end{cases}
+    \]
+    and CDF: \[F(x) = \begin{cases}
+        0 & x < a \\
+        \frac{x - a}{b - a} & x \in [a, b] \\
+        1 & x \geq b \\
+    \end{cases}
+    \]
+\end{definition}
+
+\begin{definition}[The Normal (Gaussian) Distribution]
+    $f(x) = \frac{1}{\sigma \sqrt{2\pi}}e^{-\frac{1}{2\sigma^2}(x-\mu)^2}$
+\end{definition}
+
+\begin{note}
+    If $X \sim N(0, 1)$ we say that $X$ has a \textbf{standard Normal
+    distribution}. We often denote $X$ as $Z$ with $\phi$ and $\Phi$ as the
+    PDF and CDF.
+
+    There is no closed form function for $\Phi$, so we use precomputed values
+    from tables or rely on statistical programs. Calculations with Normal
+    distributions then proceed by reexpressing $X$ as some function of $Z$ and
+    using these values.
+\end{note}
+
+The following facts are essential when manipulating these variables:
+
+\begin{itemize}
+\item{If $X \sim N(\mu, \sigma)$, then $Z = \frac{X - \mu}{\sigma} \sim N(0, 1)$}
+\item{If $Z \sim N(0, 1)$, then $X = \mu + \sigma Z \sim N(\mu, \sigma)$}
+\item{If $X_i \sim N(\mu_i, \sigma_i)$ are independent, then $X = \sum_i X_i \sim N(\sum_i \mu, \sum_i \sigma)$}
+\end{itemize}
+
+\begin{definition}[The Exponential Distribution]
+    If $X \sim Exp(\beta)$, then $f(x) = \frac{1}{\beta}e^{-\frac{x}{\beta}}$.
+\end{definition}
+
+Indeed $\int$
+
+\begin{note}[The Gamma Function]
+    We often want a continuous extension of the factorial to real
+    arguments, where $\Gamma(x) = (x-1)!$ for $x \in \Z^+$. This is the
+    \textbf{gamma function} and defined $\Gamma(x) = \int_0^{\infty}
+    y^{x-1}e^{-y}dy$.
+
+    Evaluating the integral for $\Gamma(1), \Gamma(2) \dots$ is a useful
+    exercise to convince oneself of agreement with the factorial.
+
+    For example, $\Gamma(3) = \int_0^{\infty} y^2e^{-y} dy$. Using integration
+    by parts, this evaluates to $[-y^2e^{-y} - 2ye^{-y} - 2e^{-y}]^{\infty}_0$.
+    Using L'Hopital's, the first two terms drop out and we are left with
+    $\Gamma(3) = 2 = (3-1)!$ as desired.
+\end{note}
+
+Equipped with the gamma function, we can now develop the gamma distribution.
+
+\begin{definition}[Gamma Distribution]
+  Let $\alpha,\beta>0$. A continuous random variable $X$ is said to have a
+  \emph{Gamma distribution} with shape parameter $\alpha$ and scale parameter
+  $\beta$, denoted
+  \[
+    X \sim \Gamma(\alpha, \beta),
+  \]
+  if its probability density function is
+  \[
+    f_X(x)
+    = \frac{1}{\beta^{\alpha}\,\Gamma(\alpha)} \; x^{\alpha - 1} \, e^{-\,x/\beta},
+    \quad x \ge 0.
+  \]
+
+  If $X_i \sim \Gamma(\alpha_i, \beta)$ are independent, $\sum_i X_i =
+  \Gamma(\sum \alpha_i, \beta)$.
+\end{definition}
+
+The exponential distribution is then just a special case of a gamma
+distribution with $\alpha = 1$.
+
+\begin{note}
+The Gamma‐normalization comes from evaluating
+\[
+  \int_{0}^{\infty} x^{\alpha-1} \,e^{-x/\beta}\,dx.
+\]
+We make the substitution
+\[
+  x = \beta\,t,\quad dx = \beta\,dt,
+\]
+so that
+\[
+  \int_{0}^{\infty} x^{\alpha-1} e^{-x/\beta}\,dx
+  = \int_{0}^{\infty} (\beta t)^{\alpha-1}\,e^{-t}\,(\beta\,dt)
+  = \beta^{\alpha-1}\,\beta
+    \int_{0}^{\infty} t^{\alpha-1} e^{-t}\,dt
+  = \beta^{\alpha}\,\Gamma(\alpha).
+\]
+Hence in the density
+\[
+  f(x) = \frac{1}{\beta^\alpha\,\Gamma(\alpha)}\;x^{\alpha-1}\,e^{-x/\beta}
+\]
+the factor \(\beta^\alpha\,\Gamma(\alpha)\) is exactly the normalizing constant
+that makes \(\int_0^\infty f(x)\,dx=1\).  
+\end{note}
+
+%% TODO: Transformations of random variables. Why F'_X = f_X.
+
+\begin{definition}[Independence of Random Variables]
+    If $\P(X \in A, Y \in B) = \P(X \in A)\P(Y \in B)$, we say $X$ and $Y$ are
+    independent, written $X \indep Y$.
+\end{definition}
+
+\begin{definition}[Transformation of Continuous R.V.]
+    When $Y$ and $X$ are continuous.
+    \begin{itemize}
+        \item{Find $A_y = \{ x : r(x) \leq y \}$ for each $y \in R$ }
+        \item{Then $F_Y(y) = \P(r(X) \leq y) = \int_{A_y} f_X dx$}
+        \item{$f_Y = F'_Y$}
+    \end{itemize}
+\end{definition}
+
+\setcounter{exercise}{0}
 \begin{exercise}
     Show $\P(X = x) = F(x^+) - F(x^-)$
 \end{exercise}
@@ -490,6 +675,29 @@ We will proceed with some important mass functions.
     To conclude $F(x^+) - F(x^-) = \P(X \leq x ) - \P(X < x) = \P(X = x)$. Of
     course, if $X$ is continuous, $F(x^+) = F(x^-)$ and $\P(X = x) = 0$,
     showing once again that every real value has no probability mass.
+\end{proof}
+
+\setcounter{exercise}{3}
+\begin{exercise}
+    Let $X$ have density
+    \[
+    f_X(x) =
+    \begin{cases}
+    \frac{1}{4}, & 0 < x < 1, \\
+    \frac{3}{8}, & 3 < x < 5
+    \end{cases}
+    \]
+    \begin{item}
+    \item{Find the CDF of $f_X$}
+    \item{Let $Y = \frac{1}{X}$. Find $f_Y$.}
+    \end{item}
+\end{exercise}
+
+\begin{proof}
+    \begin{itemize}
+    %% TODO: unsure if this is sufficient
+    \item{$F_X(x) = \int_{-\infty}^x f_X \dd x$}
+\end{itemize}
 \end{proof}
 
 \end{document}
