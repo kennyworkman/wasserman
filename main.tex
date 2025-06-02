@@ -635,12 +635,67 @@ the factor \(\beta^\alpha\,\Gamma(\alpha)\) is exactly the normalizing constant
 that makes \(\int_0^\infty f(x)\,dx=1\).  
 \end{note}
 
+\begin{definition}[$\Chi^2$ Distribution]
+    $X$ has a $\Chi^2$ distribution with $p$ degrees of freedom if the PDF is
+    \[
+        f(x) =
+        \frac{1}{\Gamma(\frac{p}{2})2^{\frac{p}{2}}}x^{\frac{p}{2}-1}e^{\frac{x}{2}}
+    \]
+    Let $p>0$. A random variable $X$ is said to have a $\chi^2$ distribution with 
+    $p$ degrees of freedom, denoted $X \sim \chi^2_p$, if its probability density 
+    function is
+    \[
+      f_X(x)
+      = \frac{1}{2^{\,p/2}\,\Gamma\bigl(\tfrac{p}{2}\bigr)}\,
+        x^{\,\tfrac{p}{2}-1}\,e^{-x/2},
+      \quad x > 0.
+    \]
+    This distribution is the sum of squared, independent normals. If $Z_i \sim
+    N(0, 1)$ then $\sum_i Z_i^2 \sim \Chi_p^2$.
+\end{definition}
+
 %% TODO: Transformations of random variables. Why F'_X = f_X.
 
 \begin{definition}[Independence of Random Variables]
     If $\P(X \in A, Y \in B) = \P(X \in A)\P(Y \in B)$, we say $X$ and $Y$ are
     independent, written $X \indep Y$.
 \end{definition}
+
+\setcounter{exercise}{4}
+\begin{exercise}
+    Let $X$ and $Y$ be discrete random variables. Show $X$ and $Y$ are independent iff $f_{X,Y}(x, y) = f_X(x)f_Y(y)$
+\end{exercise}
+
+\begin{proof}
+    If $\P(X \in A, Y \in B) = \P(X \in A)\P(Y \in B)$ for every subset $A, B$, let $A = \{x\}$ and $B = \{y\}$ for every possible pair of elements. Then $f_{X, Y}(x, y) =
+    f_X(x)f_Y(y)$. To see the reverse, 
+    $\P(X \in A, Y \in B) = \sum_{x\in A}\sum_{y\in B}f_{X,Y}(x, y) =
+    \sum_{x\in A} f_X(x) \sum_{y\in B} f_Y(y) = \P(X \in A)\P(Y \in B)$
+\end{proof}
+
+\begin{theorem}
+    Suppose the range of $X$ and $Y$ is a (potentially infinite) rectangle. If we can express $f_{X,Y} =
+    g(x)h(y)$, then $X$ and $Y$ are independent.
+\end{theorem}
+
+\begin{proof}
+    Start by computing the marginals. $f_X = \int g(x)h(y) dy = g(x) (\int h(y)
+    dy)$ and $f_Y = \int g(x)h(y) dx = h(y)(\int g(x) dx)$. 
+
+    Then $f_X f_Y = g(x) (\int h(y) dy) h(y) (\int g(x) dx) = g(x)h(y) (\int \int h(y) g(x) dx
+    dy)$. Because $g(x)h(y) = f_{X,Y}$, the integration term evaluates to $1$.
+    Then $f_Xf_Y=g(x)h(y)(\int \int h(y) g(x) dx dy)=g(x)h(y)(1)=f_{X,Y}$ which is exactly the condition for
+    independence of $X$ and $Y$.
+\end{proof}
+
+In the above problem, notice the significance of requiring the range to be a
+rectangle. Any other region would produce integration limits in one variable
+that are functions of the other variable and you can no longer pull out the
+integration terms from the maringals:
+
+\[
+f_X(x) \;=\; g(x)\Bigl[\underbrace{\int_{y = x^2}^{1} h(y)\,dy}_{\text{a function of }x}\Bigr].
+\]
 
 \begin{definition}[Transformation of Continuous R.V.]
     When $Y$ and $X$ are continuous.
@@ -695,8 +750,16 @@ that makes \(\int_0^\infty f(x)\,dx=1\).
 
 \begin{proof}
     \begin{itemize}
-    %% TODO: unsure if this is sufficient
-    \item{$F_X(x) = \int_{-\infty}^x f_X \dd x$}
+    \begin{item}\[
+    F_X(x) =
+    \begin{cases}
+    \frac{1}{4}x, & 0 < x < 1, \\
+    \frac{1}{4}, & 1 < x < 3, \\
+    \frac{3}{8}(x -3) + \frac{1}{4}, & 3 < x < 5 \\
+    1, & x \geq 5
+    \end{cases}
+    \]
+    \end{item}
 \end{itemize}
 \end{proof}
 
