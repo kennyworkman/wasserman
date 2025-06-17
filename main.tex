@@ -784,4 +784,16 @@ f_X(x) \;=\; g(x)\Bigl[\underbrace{\int_{y = x^2}^{1} h(y)\,dy}_{\text{a functio
 \end{itemize}
 \end{proof}
 
+\setcounter{exercise}{6}
+\begin{exercise}
+    Let $X$ and $Y$ be independent and suppose each is $Uniform(0, 1)$. Let 
+    $Z = min\{X, Y\}$. Find the density $f_Z(z)$.
+\end{exercise}
+
+\begin{proof}
+    $\P(Z > z) = \P(X > z, Y > z) = \P(X > z)\P(Y > z)$.
+    Then, $\P(Z > z) = (1 - z)^2$ and $F_Z = 1 - \P(Z > z) = 1 - (1 - z)^2$.
+    $f_Z = F'_Z = -2z + 2$
+\end{proof}
+
 \end{document}
