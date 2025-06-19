@@ -796,4 +796,24 @@ f_X(x) \;=\; g(x)\Bigl[\underbrace{\int_{y = x^2}^{1} h(y)\,dy}_{\text{a functio
     $f_Z = F'_Z = -2z + 2$
 \end{proof}
 
+\setcounter{exercise}{8}
+\begin{exercise}
+    Let $X \sim Exp(\beta)$. Find $F(x)$ and $F^{-1}(q)$.
+\end{exercise}
+
+\begin{proof}
+    $f(x) = \frac{1}{\beta}e^{1/\beta}$. So $F(x) = \int_{0}^{x} f(x) dx
+    = 1 - e^{-x/\beta}$.
+
+    $F$ is a bijection over the interval $[0, \infty)$ so we can find a genuine
+    inverse $F^{-1}$ as $-\beta\ln(1-q)$.
+
+\end{proof}
+
+Plugging in a few numbers to get a feel for $F^{-1}(q)$, we see that
+$F^{-1}(0.99) = \beta 4.6$ and $F^{-1}(0.9999) = \beta 9.2$, confirming
+that linear changes in sample space value have exponential effect in
+probability and that eg. increasing $\beta$ decreases likelihood of events by
+stretching the density.
+
 \end{document}
