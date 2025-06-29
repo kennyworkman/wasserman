@@ -1,5 +1,7 @@
 \documentclass[10pt]{article}
 \usepackage{kennyworkman}
+\usepackage{graphicx}
+\usepackage{float}
 
 \title{Wasserman: All of Statistics}
 \author{Kenny Workman}
@@ -865,5 +867,36 @@ Y\sim\mathrm{Poisson}\bigl(\lambda(1-p)\bigr),
 and
 \(\P\{X=x,\,Y=y\}=\P\{X=x\}\P\{Y=y\}\), so \(X\) and \(Y\) are independent.
 \end{proof}
+
+\setcounter{exercise}{12}
+\begin{exercise}
+    Let $X \sim Normal(0, 1)$ and $Y = e^X$.
+    \begin{itemize}
+        \item{Find $f_Y$ and plot it.}
+        \item{Generate 10,000 random draws from $X$. Create a histogram of
+            these draws and compare to the density plot.}
+    \end{itemize}
+\end{exercise}
+
+\begin{proof}
+    Because $r = e^x$ is a strictly monotonically increasing function, we can
+    apply $f_Y = f_X(s(x))s'(x)$ where $s = r^{-1}$. Then $f_Y(y) =
+    f_X(ln(y))\frac{1}{y}$. Using the standard normal density, $f_Y(y) =
+    \frac{1}{\sqrt{2\pi}y}e^{-\frac{(\ln y)^2}{2}}$
+\end{proof}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{code/2.13.pdf}
+  \caption{Histogram of $Y=e^{X}$ overlaid with its log-normal density.}
+  \label{fig:lognormal}
+\end{figure}
+
+\begin{note}
+    It is worth understanding why $f_Y = f_X(s(x))s'(x)$ can be used when $r$
+    is a strict monotonically increasing or decreasing function. This condition
+    forces $s$ to be differentiable and single-valued for the single-variable
+    change-of-variable integration. 
+\end{note}
 
 \end{document}
