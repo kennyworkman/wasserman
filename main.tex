@@ -899,4 +899,22 @@ and
     change-of-variable integration. 
 \end{note}
 
+\setcounter{exercise}{14}
+\begin{exercise}
+    \begin{itemize}
+        \item{Let $X$ have a continuous, strictly increasing CDF $F$. Let $Y =
+            F^{-1}(X)$. Find the density of $Y$.}
+        \item{Now let $U \sim Uniform(0, 1)$. Let $X = F^{-1}(U)$, where $F$ is
+                no longer the CDF of $X$ but is still continuous and strictly
+                increasing. Show $F_X = X$.}
+    \end{itemize}
+\end{exercise}
+
+\begin{proof}
+    \begin{itemize}
+        \item{$\P(Y \leq y) = \P(F(X) \leq y) = \P(X \leq F^{-1}(y)) = F(F^{-1}(y))$ So $F_y = 1$.}
+        \item{$\P(X \leq x) = \P(F^{-1}(U) \leq x) = \P(U \leq F(x)) = F_U(F(x)) = F(x)$}
+    \end{itemize}
+\end{proof}
+
 \end{document}
