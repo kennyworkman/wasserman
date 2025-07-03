@@ -907,6 +907,8 @@ and
         \item{Now let $U \sim Uniform(0, 1)$. Let $X = F^{-1}(U)$, where $F$ is
                 no longer the CDF of $X$ but is still continuous and strictly
                 increasing. Show $F_X = X$.}
+        \item{Write a program to generate $Exponential(\beta)$ random variables
+            from $Uniform(0, 1)$}
     \end{itemize}
 \end{exercise}
 
@@ -914,7 +916,18 @@ and
     \begin{itemize}
         \item{$\P(Y \leq y) = \P(F(X) \leq y) = \P(X \leq F^{-1}(y)) = F(F^{-1}(y))$ So $F_y = 1$.}
         \item{$\P(X \leq x) = \P(F^{-1}(U) \leq x) = \P(U \leq F(x)) = F_U(F(x)) = F(x)$}
+        \item{Using the fact that $X = F^{-1}(U)$ has CDF $F$, we compute the
+                exponential CDF and find its inverse: $F_X^{-1}(q) = -\beta \ln
+            (1 - \beta^2 q)$. A histogram of generated values, overlayed
+        against the exponential PDF, can be found below.}
     \end{itemize}
 \end{proof}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{code/2.15.pdf}
+  \caption{Histogram of generated exponentials overlayed against theoretical PDF}
+  \label{fig:generated}
+\end{figure}
 
 \end{document}
