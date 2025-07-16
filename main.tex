@@ -930,4 +930,31 @@ and
   \label{fig:generated}
 \end{figure}
 
+\setcounter{exercise}{15}
+\begin{exercise}
+    Let $X \sim Poisson(\lambda)$ and $Y \sim Poisson(\mu)$ be independent
+    random variables. Find the density of $X$ given $X + Y = n$. Use the fact
+    that $X + Y \sim Poisson(\lambda + \mu)$ and $\P(X = x, X + Y = n) = \P(X =
+    x, Y = n - x)$.
+\end{exercise}
+
+\begin{proof}
+    We are interested in the quantity $\P(X = x, X + Y = n | X + Y = n)$.
+    Observe $\P(X + Y = n) = e^{-(\lambda + \mu)} \frac{(\lambda +
+    \mu)^n}{n!}$. And $\P(X = x, X + Y = n) = \P(X = x, Y = n - x) = \P(X =
+    x)\P(Y = n - x) = e^{-\lambda}\frac{\lambda^x}{x!}e^{-\mu}\frac{\mu^{n-x}}{(n-x)!}$.
+
+    Our conditional distribution is then the expression: 
+
+    \[ \frac{e^{-\lambda} e^{-\mu} \frac{\lambda^x}{x!} \frac{\mu^{n-x}}{(n-x)!}}{e^{-(\lambda+ \mu)} \frac{(\lambda+ \mu)^n}{n!}} \]
+
+    Simplifying we begin to see the shape of the binomial:
+
+    \[ \frac{\lambda^x}{x!}\frac{\mu^{n-x}}{(n-x)!} \frac{n!}{(\lambda + \mu)^n} \]
+    \[ \frac{n!}{(n-x)!x!} \frac{\lambda^x\mu^{n-x}}{(\lambda + \mu)^n} \]
+    \[ \frac{n!}{(n-x)!x!} \frac{\lambda^x\mu^{n-x}}{(\lambda + \mu)^{n-x} (\lambda + \mu)^x} \]
+
+    This is $\binom{n}{x}(\frac{\lambda}{\lambda + \mu})^x (\frac{\mu}{\lambda + \mu})^(n-x)$ or $Binomial(n, \frac{\lambda}{\lambda + \mu})$.
+\end{proof}
+
 \end{document}
