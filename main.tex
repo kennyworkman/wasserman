@@ -957,4 +957,42 @@ and
     This is $\binom{n}{x}(\frac{\lambda}{\lambda + \mu})^x (\frac{\mu}{\lambda + \mu})^(n-x)$ or $Binomial(n, \frac{\lambda}{\lambda + \mu})$.
 \end{proof}
 
+\setcounter{exercise}{19}
+\begin{exercise}
+\end{exercise}
+
+
+\subsection{Expectation}
+
+\begin{definition}
+    The expected value (or mean or first moment) of $X$ is defined as 
+    \[\E X =
+    \int x dF_X(x) = 
+    \begin{cases} 
+        \sum_x x f(x),&\text{if X is discrete}\\ 
+        \int_x x f(x)dx,&\text{if X is continuous}\\ 
+    \end{cases}\]
+
+    Assuming the sum or integral is well-defined, we use the following notation
+    to denote the expected value of $X$: $\E X = \mu = \mu_X$
+\end{definition}
+
+\begin{theorem}
+    $\E {\sum_i X_i} = \sum_i \E X_i$
+\end{theorem}
+
+\begin{theorem}
+    If $X_1 \dots X_i$ are independent, $\E {\prod X_i} = \prod_i \E X_i$
+\end{theorem}
+
+\begin{note}
+    Work out the above briefly and note why we need
+    independence for the product and not the sum. Eg. $\int (x + y)f_{X, Y}$
+    vs. $\int xy f_{X, Y}$. Integration is additive but factorization of the
+    joint PDF/PMF is necessary for the product terms.
+\end{note}
+
+\begin{definition}
+\end{definition}
+
 \end{document}
