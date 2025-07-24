@@ -993,6 +993,37 @@ and
 \end{note}
 
 \begin{definition}
+    The variance of $X$ is defined as 
+    \[
+        \E {(X - \E X)^2}
+    \]
+    and is denoted as $\sigma^2_X$ or $\sigma^2$ or $\Var X$
 \end{definition}
+
+\begin{theorem}
+    Assuming the variance of $X$ is well-defined, it has the following
+    properties:
+    \begin{itemize}
+        \item{$\Var X = \E X^2 - (\E X)^2$}
+        \item{$\Var {aX + b} = a^2 \Var X$}
+        \item{If $X_1 \dots X_n$ are independent, $\Var{\sum_i a_i X_i} = \sum a_i^2 \Var{X_i}$}
+    \end{itemize}
+\end{theorem}
+
+\begin{proof}
+    \begin{itemize}
+        \item{$\E{(X - \mu)^2} = \E{X^2 - 2 X \mu + \mu^2} = \E{X^2} - \mu^2$}
+        \item{$\E {(aX + b) - \E{aX +b}}^2 = \E {(aX + b - a \mu + b)^2} = \E
+            {(a(X - \mu))^2} = a^2 \E{(X - \mu)^2} = a^2 \Var X$}
+        \item{$\Var {\sum_i a_i X_i} = \E {(\sum_i a_i X_i - \E {\sum_i a_i
+            X_i})^2}$. Using additivity of expectation, $\E {\sum_i a_i X_i} =
+        \sum_i a_i \E X_i$. Then our expression becomes $\E{ (\sum a_i X_i -
+    a_i \E X_i)^2}$. Expanding this expression, we arrive at $\E {\sum_i
+(a_iX_i - a_i\E X_i)^2 + \sum_{i, j} a_ia_j(X_i - \E X_i)(X_j - \E X_j)}$. The
+first set of terms become $\sum_i a_i^2 \Var X_i$ and the second set of terms
+drop out when expanded as every pair of variables are independent. ($\E{X_iX_j}
+- \E X_i \E X_j = 0$).}
+    \end{itemize}
+\end{proof}
 
 \end{document}
