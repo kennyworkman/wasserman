@@ -1026,4 +1026,30 @@ drop out when expanded as every pair of variables are independent. ($\E{X_iX_j}
     \end{itemize}
 \end{proof}
 
+\begin{definition}
+    Let $X_1 \dots X_n$ be random variables. The \textbf{sample mean} is then 
+    \[\bar{X_n} = \frac{1}{n}\sum_i X_i\]
+    And the \textbf{sample variance} is
+    \[S^2_n = \frac{1}{1-n}\sum_i (X_i - \bar{X_n})^2\]
+\end{definition}
+
+\begin{theorem}
+    If $X_1 \dots X_n$ are i.i.d. and $\E {X_i} = \mu$ and $\Var {X_i} = \sigma^2$,
+    then $\E {\bar{X_n}} = \mu$, $\Var {\bar{X_n}} = \frac{\sigma^2}{n}$, and
+    $\E {S^2_n} = \sigma^2$.
+\end{theorem}
+
+\begin{proof}
+    \[\E{\bar{X_n}} = \frac{1}{n}\sum_i \E{X_i} = \mu\]
+    \[\Var{\bar{X_n}} = \frac{1}{n^2}\sum_i \Var{X_i} = \frac{\sigma^2}{n}\]
+    Notice $\sum_i (X_i - \bar{X_n})^2 = \sum_i (X_i^2 - 2 X_i \bar{X_n} +
+    \bar{X_n}) = \sum_i (X_i^2) - 2 \sum_i {X_i \bar{X_n} + \sum_i
+    \bar{X_n}^2}$. The inner term becomes $2 \bar{X_n} n \bar{X_n} =
+    2n\bar{X_n}^2$. So:
+
+    \[\E{S^2_n} = \E{\frac{1}{n} \sum_i (X_i - \bar{X_n})^2} = \frac{1}{n-1}
+        \sum_i \E {X_i^2} - \E{X_n^2} = \frac{1}{n-1}n[(\sigma^2 - \mu^2) -
+        (\frac{\sigma^2}{n} - \mu^2)] = \sigma^2]
+\end{proof}
+
 \end{document}
