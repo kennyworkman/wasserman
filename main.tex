@@ -1049,7 +1049,63 @@ drop out when expanded as every pair of variables are independent. ($\E{X_iX_j}
 
     \[\E{S^2_n} = \E{\frac{1}{n} \sum_i (X_i - \bar{X_n})^2} = \frac{1}{n-1}
         \sum_i \E {X_i^2} - \E{X_n^2} = \frac{1}{n-1}n[(\sigma^2 - \mu^2) -
-        (\frac{\sigma^2}{n} - \mu^2)] = \sigma^2]
+        (\frac{\sigma^2}{n} - \mu^2)] = \sigma^2 \]
 \end{proof}
+
+\begin{definition}
+    Let $X$ and $Y$ be r.v.s with means $\mu_X, \mu_Y$ and standard deviations
+    $\sigma_X, \sigma_Y$. The \textbf{covariance} of $X$ and $Y$ is then:
+
+    \[Cov(X, Y) = \E{(X-\mu_X)(Y-\mu_Y)}\]
+
+    The correlation is then:
+
+    \[\rho = \rho_{X,Y} = \frac{Cov(X, Y)}{\sigma_X \sigma_Y}\]
+\end{definition}
+
+\begin{theorem}
+    $Cov(X, Y) = \E{XY} - \E{X}\E{Y}$ and $\rho_{X,Y}$ satisfies $-1 \leq
+    \rho_{X,Y} \leq 1$. If $Y = aX + b$, where $a,b$ are constants, then
+    $\rho_{X,Y} = \begin{cases}-1,&a<0\\1,&a>0\end{cases}$. If $X, Y$ are
+    independent, then $Cov(X, Y) = 0$, although the converse need not be true.
+\end{theorem}
+
+\begin{definition}[Conditional Expectation]
+\end{definition}
+
+\begin{definition}[The Law of Iterated Expectation]
+    $\E{\E{X | Y}} = \E{X}$
+\end{definition}
+
+\begin{definition}
+\end{definition}
+
+\begin{example}
+    Suppose we pick a county from the US at random and choose $n$ people from
+    it. Let $X$ be the number of these people with a disease. Let $Q$ be the
+    proportion of people in the county with the disease. Then $X$ given $Q = q$
+    is $Binomial(n, q)$. $\E{X | Q=q} = nQ$ and $\Var{X|Q=q} = nQ(1-Q)$.
+
+    Suppose now $Q \sim Uniform(0, 1)$. This is a \textbf{hierarchical model}.
+    $\E{X} = \E{\E{X}} = \E{nQ} = \frac{n}{2}$. $\Var{X} = \Var{\E{X|Q}} +
+    \E{\Var{X|Q}}$. 
+
+    \[\Var{\E{X|Q}} = \Var{nQ} = n^2\E{Q} = n^2\frac{1}{12}\]
+    \[\E{\Var{X|Q}} = \E{nQ(1-Q)} = n\E{Q-Q^2} = \int{q - q^2 dq} = \frac{n}{6}\]
+
+    Then:
+
+    \[\Var{X} = \frac{n}{6} + \frac{n^2}{12}\]
+\end{example}
+
+\begin{definition}[The Moment Generating Function]
+    $\psi_{X}{t} = \E{e^{tX}} = \int e^{tX} dF_X dx$ is the MGF or Laplace
+    Transformation of X. $t$ varies over $\R$
+\end{definition}
+
+We will use the MGF to compute the moments of $X$. Assuming $\psi$ is well
+defined on the open interval around $t=0$, $\psi'_X(0) =
+\frac{d}{dt}\,\E{e^{tX}}|_{t=0} = \E{\frac{d}{dt}e^{tX}}|_{t=0} =
+\E{Xe^{tX}}|_{t=0} = \E{X}$.
 
 \end{document}
