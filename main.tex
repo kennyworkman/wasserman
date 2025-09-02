@@ -2,6 +2,7 @@
 \usepackage{kennyworkman}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{chngcntr}
 
 \title{Wasserman: All of Statistics}
 \author{Kenny Workman}
@@ -963,6 +964,9 @@ and
 
 
 \subsection{Expectation}
+\renewcommand{\theexercise}{3.\arabic{exercise}}
+\renewcommand{\thedefinition}{3.\arabic{definition}}
+
 
 \begin{definition}
     The expected value (or mean or first moment) of $X$ is defined as 
@@ -1107,5 +1111,95 @@ We will use the MGF to compute the moments of $X$. Assuming $\psi$ is well
 defined on the open interval around $t=0$, $\psi'_X(0) =
 \frac{d}{dt}\,\E{e^{tX}}|_{t=0} = \E{\frac{d}{dt}e^{tX}}|_{t=0} =
 \E{Xe^{tX}}|_{t=0} = \E{X}$.
+
+\setcounter{exercise}{0}
+\begin{exercise}
+    Assume we have some fortune $c$ and we play a game where each turn we half
+    or double our money with even probability. Compute the expected value of
+    the resulting fortune after $n$ turns.
+\end{exercise}
+
+\begin{proof}
+    Let $X_n$ be our random variable and see $\P(X_n = c*2^{n-2x}) =
+    \binom{n}{x} 2^{-n} $. The density is binomial with support $c*2^{n-2x}$
+    ranging over $x=0$ to $x=n$. The $2^{-n}$ expression comes from simplifying
+    the standard $\frac{1}{2}^x \frac{1}{2}^{n-x}$. Similar for $2^{n-2x}$
+
+    Then $\E{X_n} = \sum_{x=0}^n c*2^{n-2x} \binom{n}{x} 2^{-n}$. Simplifying
+    the obvious things, we have $c \sum_{x=0}^n 2^{-2x} \binom{n}{x}$.
+\end{proof}
+
+\setcounter{exercise}{2}
+\begin{exercise}
+    Let $X_1 \dots X_n$ be i.i.d. $\text{Uniform}(0, 1)$ and $Y_n = \max\{X_1 \dots
+    X_n\}$. Compute $\E{Y_n}$.
+\end{exercise}
+
+\begin{proof}
+    Observe $F_{Y_n} = \P(\max\{X_1 \dots X_n\} \leq y) = y^n$. (It is helpful to
+    see also that $\P(\min\{X_1 \dots X_n\} \leq y) = 1-(1-y)^n$). Then
+    $f_{Y_n} = dF_{Y_n} = \frac{d(y^n)}{dy} = ny^{n-1}$. $\E{Y_n} = \int y
+    d_{Y_n} dy = \int  ny^n dy = [\frac{n}{n+1}y^{n+1}]_{y=0}^{1} =
+    \frac{n}{n+1}$.
+\end{proof}
+
+\begin{note}
+    Another approach is invoking the "rule of the lazy statistician", eg. $E{Y} = \int r(x) f_{X_1 \dots X_n} dx_1
+    \dots dx_n$. In two dimensions, this calculation is trivial as the density
+    can be evaluated as a piecewise integral over two halves of the unit square
+    (those halves separated by a line through the diagonal). $2
+    \int \int_{x_1 > x_2} x_1 dx_2 dx_1 = 2 * \frac{1}{3} = \frac{2}{3}$ as
+    expected for $\E{Y_2}$
+\end{note}
+
+\setcounter{exercise}{4}
+\begin{exercise}
+    Flip a fair coin until you encounter a heads. Compute the expected value of
+    the number of tosses.
+\end{exercise}
+
+\begin{proof}
+    Let $X$ be the random variable holding the number of tosses. See that $\P(X
+    = x) = \frac{1}{2}^x$. Then $\E{X} = \sum_{x=1}^{\infty} \frac{x}{2^x}$. To
+    compute this series, recognize a general form of a geometric series can be
+    expressed as $G(r) = \sum_{x=1}^{\infty} r^x = \frac{1}{1-r}$. 
+
+    We need to rearrange things a bit:
+    First, we take the derivative to pull out an x: $\frac{d(G(r))}{dr} = \sum_{x=1}^{\infty} xr^{x-1} =
+    (1-r)^{-2}$. Then we multiply by r: $\sum_{x=1}^{\infty} xr^x =
+    r*(1-r)^{-2}$.
+    When $r=\frac{1}{2}$, this expression is equivalent to the series
+    of our expectation. $\E{X} = 2$
+\end{proof}
+
+\setcounter{exercise}{1}
+\begin{exercise}
+    Show $\Var{X} = 0$ iff exists some constant $c$ where $\P(X = c) = 1$.
+\end{exercise}
+
+\begin{proof}
+    This is equivalent to computing the series $\sum_{x=1}^{\infty}
+    \frac{x}{2^x}$.
+\end{proof}
+
+\setcounter{exercise}{14}
+\begin{exercise}
+    Compute $\E{X}$ and $\Var{X}$ when $X$ is Poisson, Exponential.
+\end{exercise}
+
+\begin{proof}
+    Let $X \sim Poisson(\lambda)$. Recall $e^{x} = \sum_{n=0}^{\infty}
+    \frac{x^n}{n!}$ using the Maclaurin series for $e^{x}$. We are interested
+    in $\sum_{x=0}^{\infty} x f_X(x) = \sum_{x=0}^{\infty} x
+    \frac{\lambda^x}{x!} e^{-\lambda}$ for $\E{X}$. Notice the Maclaurin series for
+    $xe^{x}$ is $\frac{nx^n}{n!}$. Then $ e^{-\lambda} \sum_{x=0}^{\infty}
+    \frac{x\lambda^x}{x!} = e^{-\lambda}\lambda e^{\lambda} = \lambda$ as
+    desired.
+\end{proof}
+
+
+\subsection{Appendix}
+
+%% TODO: Taylor
 
 \end{document}

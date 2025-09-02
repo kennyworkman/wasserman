@@ -263,6 +263,8 @@ INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/cleveref/cleveref.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/cleveref/cleveref.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/float/float.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/float/float.sty
+INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/chngcntr/chngcntr.sty
+INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/chngcntr/chngcntr.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 INPUT ./main.aux
