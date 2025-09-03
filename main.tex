@@ -1195,6 +1195,25 @@ defined on the open interval around $t=0$, $\psi'_X(0) =
     $xe^{x}$ is $\frac{nx^n}{n!}$. Then $ e^{-\lambda} \sum_{x=0}^{\infty}
     \frac{x\lambda^x}{x!} = e^{-\lambda}\lambda e^{\lambda} = \lambda$ as
     desired.
+
+    To compute $\Var{X}$, we are instructed to first find $\E{X(X-1)}$. Notice
+    $\E{X^2} = \E{X(X-1)} + \E{X}$.
+
+    \[\E{X(X-1)} = \sum_{x=0}^{\infty} \frac{x(x-1)\lambda^x}{x!} e^{-\lambda}\]
+
+    Simplify and notice this looks like a "shifted" form of the Maclaurin
+    series for $e^{\lambda}$. The first two terms are 0, so we can start our
+    counter at $x=2$:
+
+    \[\sum_{x=2}^{\infty} \frac{\lambda^x}{(x-2)!} e^{-\lambda}\]
+
+    Factoring out a $\lambda^2$ we arrive at the familiar series:
+
+    \[e^{-\lambda} \lambda^2 \sum_{x=2}^{\infty} \frac{\lambda^{(x-2)}}{(x-2)!}
+= e^{-\lambda}\lambda^2 e^\lambda = \lambda^2\]
+
+    Indeed, $\E{X^2} = \E{X(X-1)} + \E{X} = \lambda^2 + \lambda$. So $\Var{X} =
+    \E{X^2} - \E{X}^2 = \lambda^2 + \lambda - \lambda^2 = \lambda$ a desired.
 \end{proof}
 
 
