@@ -4,6 +4,9 @@
 \usepackage{float}
 \usepackage{chngcntr}
 
+\counterwithin{exercise}{section}
+\counterwithin{theorem}{section}
+
 \title{Wasserman: All of Statistics}
 \author{Kenny Workman}
 \date{\today}
@@ -12,9 +15,7 @@
 
 \maketitle
 
-\section{Probability}
-
-\subsection{Basics}
+\section{Basics}
 
 \begin{definition}
     The \textbf{sample space} $\Omega$ is the set of outcomes from an experiment. Each
@@ -339,7 +340,7 @@ V)= \dfrac{0.82\cdot0.50}{0.705} = 0.581$.
 \end{note}
 
 
-\subsection{Random Variables}
+\section{Random Variables}
 \renewcommand{\theexercise}{2.\arabic{exercise}}
 \renewcommand{\thedefinition}{2.\arabic{definition}}
 -- (kenny) TODO fix counters
@@ -963,10 +964,9 @@ and
 \end{exercise}
 
 
-\subsection{Expectation}
-\renewcommand{\theexercise}{3.\arabic{exercise}}
-\renewcommand{\thedefinition}{3.\arabic{definition}}
+\section{Expectation}
 
+\subsection{Expectation of a Random Variable}
 
 \begin{definition}
     The expected value (or mean or first moment) of $X$ is defined as 
@@ -980,6 +980,8 @@ and
     Assuming the sum or integral is well-defined, we use the following notation
     to denote the expected value of $X$: $\E X = \mu = \mu_X$
 \end{definition}
+
+\subsection{Properties of Expectation}
 
 \begin{theorem}
     $\E {\sum_i X_i} = \sum_i \E X_i$
@@ -996,6 +998,8 @@ and
     joint PDF/PMF is necessary for the product terms.
 \end{note}
 
+\subsection{Variance and Covariance}
+
 \begin{definition}
     The variance of $X$ is defined as 
     \[
@@ -1008,9 +1012,9 @@ and
     Assuming the variance of $X$ is well-defined, it has the following
     properties:
     \begin{itemize}
-        \item{$\Var X = \E X^2 - (\E X)^2$}
+        \item{$\Var X = \E{X^2} - \E{X}^2$}
         \item{$\Var {aX + b} = a^2 \Var X$}
-        \item{If $X_1 \dots X_n$ are independent, $\Var{\sum_i a_i X_i} = \sum a_i^2 \Var{X_i}$}
+        \item{If $X_1 \dots X_n$ are independent, $\Var{\sum_i a_i X_i} = \sum_i a_i^2 \Var{X_i}$}
     \end{itemize}
 \end{theorem}
 
@@ -1034,7 +1038,7 @@ drop out when expanded as every pair of variables are independent. ($\E{X_iX_j}
     Let $X_1 \dots X_n$ be random variables. The \textbf{sample mean} is then 
     \[\bar{X_n} = \frac{1}{n}\sum_i X_i\]
     And the \textbf{sample variance} is
-    \[S^2_n = \frac{1}{1-n}\sum_i (X_i - \bar{X_n})^2\]
+    \[S^2_n = \frac{1}{n-1}\sum_i (X_i - \bar{X_n})^2\]
 \end{definition}
 
 \begin{theorem}
@@ -1051,10 +1055,31 @@ drop out when expanded as every pair of variables are independent. ($\E{X_iX_j}
     \bar{X_n}^2}$. The inner term becomes $2 \bar{X_n} n \bar{X_n} =
     2n\bar{X_n}^2$. So:
 
-    \[\E{S^2_n} = \E{\frac{1}{n} \sum_i (X_i - \bar{X_n})^2} = \frac{1}{n-1}
-        \sum_i \E {X_i^2} - \E{X_n^2} = \frac{1}{n-1}n[(\sigma^2 - \mu^2) -
+    \[\E{S^2_n} = \E{\frac{1}{n-1} \sum_i (X_i - \bar{X_n})^2} = \frac{1}{n-1}
+        \sum_i \E {X_i^2} - \E{\bar{X_n}^2} = \frac{1}{n-1}n[(\sigma^2 - \mu^2) -
         (\frac{\sigma^2}{n} - \mu^2)] = \sigma^2 \]
 \end{proof}
+
+\begin{note}
+So what's up with the $\frac{1}{n-1}$?
+
+Natural way to introduce "degrees of freedom". Consider the vector of residuals
+$r_i = X_i - \bar{X_n}$. We actually "use up" one of these residuals in the following
+way. 
+
+Notice the sum of our residuals evaluates to 0. 
+
+\[\sum_{i=1}^n (X_i - \bar{X_n}) = \sum_{i=1}^n (X_i - \frac{1}{n} \sum_{i=1}^n
+X_i) = \sum_{i=1}^n X_i - \sum_{i=1}^n X_i = 0\]
+
+This is just algebra and comes from the fact that our mean is not the true
+mean rather estimated from data. So after picking $n-1$ such $r_i$, the last
+$r_n$ must equal $-\sum_{i=0}^{n-1} r_i$ for this identity to hold. 
+
+We then say that the sum of residuals, $\sum_i r_i$, used within the $S_n^2$
+statistic has only $n-1$ "degrees of freedom". It is common shorthand to also
+say the variance estimate itself ($S_n^2$) also has $n-1$ degrees of freedom.
+\end{note}
 
 \begin{definition}
     Let $X$ and $Y$ be r.v.s with means $\mu_X, \mu_Y$ and standard deviations
@@ -1073,6 +1098,11 @@ drop out when expanded as every pair of variables are independent. ($\E{X_iX_j}
     $\rho_{X,Y} = \begin{cases}-1,&a<0\\1,&a>0\end{cases}$. If $X, Y$ are
     independent, then $Cov(X, Y) = 0$, although the converse need not be true.
 \end{theorem}
+
+
+\subsection{Expectation and Variance of Important Random Variables}
+
+\subsection{Conditional Expectation}
 
 \begin{definition}[Conditional Expectation]
 \end{definition}
@@ -1102,15 +1132,34 @@ drop out when expanded as every pair of variables are independent. ($\E{X_iX_j}
     \[\Var{X} = \frac{n}{6} + \frac{n^2}{12}\]
 \end{example}
 
+
+\subsection{Moment Generating Functions}
+
 \begin{definition}[The Moment Generating Function]
-    $\psi_{X}{t} = \E{e^{tX}} = \int e^{tX} dF_X dx$ is the MGF or Laplace
-    Transformation of X. $t$ varies over $\R$
+    The MGF, or Lapace Transformation, of $X$, is $\psi_{X}{t} = \E{e^{tX}} =
+    \int e^{tX} dF_X dx$ where $t$ varies over $\R$.
 \end{definition}
 
 We will use the MGF to compute the moments of $X$. Assuming $\psi$ is well
-defined on the open interval around $t=0$, $\psi'_X(0) =
-\frac{d}{dt}\,\E{e^{tX}}|_{t=0} = \E{\frac{d}{dt}e^{tX}}|_{t=0} =
-\E{Xe^{tX}}|_{t=0} = \E{X}$.
+defined on the open interval around $t=0$, $\psi'_X(0) = \frac{d}{dt}\,\E{e^{tX}}|_{t=0} = \E{\frac{d}{dt}e^{tX}}|_{t=0} = \E{Xe^{tX}}|_{t=0} = \E{X}$.
+
+Swapping differentiation with expectation when $\psi$ is well defined in this
+interval is a fact we will assume for now but (hopefully) will return to later.
+
+\begin{theorem}[Properties of the MGF]
+\item{If $Y = aX + b$, then $\psi_Y(t) = e^b\psi_X(at)$}
+\item{}
+\end{theorem}
+
+\begin{theorem}
+    Let $X$ and $Y$ be random variables. If $\psi_X(t) = \psi_Y(t)$ for all
+    $t$, then $X$ and $Y$ are equal in distribution.
+\end{theorem}
+
+I view the above fact as another way of saying if $X$ and $Y$ have identical
+moments, they must have the same distribution.
+
+\subsection{Exercises}
 
 \setcounter{exercise}{0}
 \begin{exercise}
@@ -1178,11 +1227,10 @@ defined on the open interval around $t=0$, $\psi'_X(0) =
 \end{exercise}
 
 \begin{proof}
-    This is equivalent to computing the series $\sum_{x=1}^{\infty}
-    \frac{x}{2^x}$.
+    % TODO
 \end{proof}
 
-\setcounter{exercise}{14}
+\setcounter{exercise}{11}
 \begin{exercise}
     Compute $\E{X}$ and $\Var{X}$ when $X$ is Poisson, Exponential.
 \end{exercise}
@@ -1214,7 +1262,33 @@ defined on the open interval around $t=0$, $\psi'_X(0) =
 
     Indeed, $\E{X^2} = \E{X(X-1)} + \E{X} = \lambda^2 + \lambda$. So $\Var{X} =
     \E{X^2} - \E{X}^2 = \lambda^2 + \lambda - \lambda^2 = \lambda$ a desired.
+
+    Now let $X \sim Exp(\beta)$. Recall $f_X(x) =
+    \frac{1}{\beta}e^{-\frac{x}{\beta}}$. Then $\E{X} = \int_{x > 0}
+    \frac{x}{\beta}e^{-\frac{x}{\beta}} dx$.
+
+    Now we approach $\Var{X} = \E{X^2} - \E{X}^2$. First we compute $\E{X^2} =
+    \int_{x > 0} \frac{x^2}{\beta}e^{-\frac{x}{\beta}} dx$.
+    % TODO
+
 \end{proof}
+
+\setcounter{exercise}{22}
+\begin{exercise}
+    Find the MGFs for Poisson, Normal and Gamma distributions.
+\end{exercise}
+
+\begin{exercise}
+    Let $X \sim Poisson(\lambda)$. Then $\psi_X(t) = \E{e^{Xt}} =
+    \sum_{x=0}^{\infty} e^{Xt} e^{-\lambda} \frac{\lambda^x}{x!}$. Recognize
+    $\sum_{x=0}^{\infty} \frac{e^{xt}\lambda^{x}}{x!} = \sum_{x=0}^{\infty}
+    \frac{(e^t\lambda)^x}{x!}$ is the Maclaurin series for $e^{\lambda e^t}$.
+    Then $e^{-\lambda} \sum_{x=0}^{\infty} e^{Xt} \frac{\lambda^x}{x!} =
+    e^{-\lambda}e^{e^t\lambda} = e^{\lambda(e^t-1)}$.
+
+    Let $X \sim Normal(\mu, \sigma^2)$.
+    % TODO, finish completing the square
+\end{exercise}
 
 
 \subsection{Appendix}
