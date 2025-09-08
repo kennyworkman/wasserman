@@ -1265,7 +1265,10 @@ moments, they must have the same distribution.
 
     Now let $X \sim Exp(\beta)$. Recall $f_X(x) =
     \frac{1}{\beta}e^{-\frac{x}{\beta}}$. Then $\E{X} = \int_{x > 0}
-    \frac{x}{\beta}e^{-\frac{x}{\beta}} dx$.
+    \frac{x}{\beta}e^{-\frac{x}{\beta}} dx$ Using integration by parts,
+    $\frac{1}{\beta} \int xe^{\frac{-x}{\beta}} = \frac{1}{\beta} [\left. -\beta x
+        e^{\frac{-x}{\beta}} - \beta^2 e^{\frac{x}{\beta}} \right|_{x=0}^{\infty} ] =
+    \frac{1}{\beta} * \beta^2 = \beta$ as desired.
 
     Now we approach $\Var{X} = \E{X^2} - \E{X}^2$. First we compute $\E{X^2} =
     \int_{x > 0} \frac{x^2}{\beta}e^{-\frac{x}{\beta}} dx$.
