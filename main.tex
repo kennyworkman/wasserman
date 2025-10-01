@@ -1099,6 +1099,11 @@ say the variance estimate itself ($S_n^2$) also has $n-1$ degrees of freedom.
     independent, then $Cov(X, Y) = 0$, although the converse need not be true.
 \end{theorem}
 
+\begin{theorem}[Variance of a sum]
+    $\Var{X + Y} = \Var{X} + \Var{Y} + 2Cov(X,Y)$. More generally $\Var{\sum_i
+    a_i X_i} = \sum_i a_i^2 \Var{X_i} + \sum \sum_{i < j} 2*a_i*a_j Cov(X_i,
+    X_j)$
+\end{theorem}
 
 \subsection{Expectation and Variance of Important Random Variables}
 
@@ -1178,6 +1183,15 @@ moments, they must have the same distribution.
     the obvious things, we have $c \sum_{x=0}^n 2^{-2x} \binom{n}{x}$.
 \end{proof}
 
+\setcounter{exercise}{1}
+\begin{exercise}
+    Show $\Var{X} = 0$ iff exists some constant $c$ where $\P(X = c) = 1$.
+\end{exercise}
+
+\begin{proof}
+    % TODO
+\end{proof}
+
 \setcounter{exercise}{2}
 \begin{exercise}
     Let $X_1 \dots X_n$ be i.i.d. $\text{Uniform}(0, 1)$ and $Y_n = \max\{X_1 \dots
@@ -1190,6 +1204,14 @@ moments, they must have the same distribution.
     $f_{Y_n} = dF_{Y_n} = \frac{d(y^n)}{dy} = ny^{n-1}$. $\E{Y_n} = \int y
     d_{Y_n} dy = \int  ny^n dy = [\frac{n}{n+1}y^{n+1}]_{y=0}^{1} =
     \frac{n}{n+1}$.
+\end{proof}
+
+
+\setcounter{exercise}{3}
+\begin{exercise}
+\end{exercise}
+
+\begin{proof}
 \end{proof}
 
 \begin{note}
@@ -1219,15 +1241,6 @@ moments, they must have the same distribution.
     r*(1-r)^{-2}$.
     When $r=\frac{1}{2}$, this expression is equivalent to the series
     of our expectation. $\E{X} = 2$
-\end{proof}
-
-\setcounter{exercise}{1}
-\begin{exercise}
-    Show $\Var{X} = 0$ iff exists some constant $c$ where $\P(X = c) = 1$.
-\end{exercise}
-
-\begin{proof}
-    % TODO
 \end{proof}
 
 \setcounter{exercise}{11}
@@ -1271,9 +1284,16 @@ moments, they must have the same distribution.
     \frac{1}{\beta} * \beta^2 = \beta$ as desired.
 
     Now we approach $\Var{X} = \E{X^2} - \E{X}^2$. First we compute $\E{X^2} =
-    \int_{x > 0} \frac{x^2}{\beta}e^{-\frac{x}{\beta}} dx$.
-    % TODO
-
+    \int_{x > 0} \frac{x^2}{\beta}e^{-\frac{x}{\beta}} dx = \frac{1}{\beta}\int_{x > 0} x^2e^{-\frac{x}{\beta}}$.
+    Again using integration by parts we arrive at: 
+    \[\frac{1}{\beta}(\left. -\beta x^2 e^{\frac{-x}{\beta}} - \int (-\beta) 2x
+        e^{\frac{-x}{\beta}})\right|_{x=0}^{\infty} = \]
+    \[\frac{1}{\beta}(\left. -\beta x^2 e^{\frac{-x}{\beta}} +2\beta(-\beta x e^{\frac{-x}{\beta}} - \beta^2 e^{\frac{-x}{\beta}})) \right|_{x=0}^{\infty} = \]
+    \[\frac{1}{\beta}(\left. -\beta x^2 e^{\frac{-x}{\beta}} - 2\beta^2 x
+        e^{\frac{-x}{\beta}} - 2\beta^3 e^{\frac{-x}{\beta}})) \right|_{x=0}^{\infty} = \]
+        \[\frac{1}{\beta}(2\beta^3) = 2\beta^2\]
+        Then $\Var{X} = \E{X^2} - \E{X}^2 = 2\beta^2 - \beta^2 = \beta^2$ as
+        desired.
 \end{proof}
 
 \setcounter{exercise}{22}
@@ -1291,8 +1311,139 @@ moments, they must have the same distribution.
 
     Let $X \sim Normal(\mu, \sigma^2)$.
     % TODO, finish completing the square
+
+    % TODO Gamma
 \end{exercise}
 
+\setcounter{exercise}{5}
+\begin{exercise}
+    Prove the rule of the lazy statistician in the discrete case.
+\end{exercise}
+\begin{proof}
+    Let $Y = r(X)$. $\E{Y} = \sum_{y \in Y} y \P(Y = y)$. For any given $y$, $y * \P(Y
+    = y) = \sum_{x \in r^{-1}(y)} r(x) \P(X = x) = r(x) \sum_{x \in r^{-1}(y)}
+    \P(X = x)$. Then $\sum_{y \in Y} y \P(Y = y) = \sum_{y \in Y} \sum_{x \in
+    r^{-1}(y)} r(x) \P(X = x) = \sum_{x \in X} r(x) \P(X = x)$.
+\end{proof}
+
+\setcounter{exercise}{14}
+\begin{exercise}
+    Let
+    \[
+        f_{X,Y} = \begin{cases}
+            \frac{1}{3}(x+y), &0\leq x \leq 1, 0 \leq y \leq 2 \\
+            0, & o.w.
+        \end{cases}
+    \] and find $\Var{2X + 3Y + 8}$.
+\end{exercise}
+
+\begin{proof}
+    The main idea is $\Var{2X + 3Y + 8} = 4\Var{X} + 9\Var{Y} + 2 * 2 * 3 Cov(X, Y)$. The rest is tedious algebra.
+
+    The following calculations are important: $\E{X} = \frac{5}{9}$
+    $\E{X^2} = \frac{7}{18}$
+    $\E{Y} = \frac{11}{9}$
+    $\E{Y^2} = \frac{16}{9}$
+    $\Var{X} = \frac{13}{162}$
+    $\Var{Y} = \frac{23}{81}$
+    $\E{XY} = \frac{2}{3}$
+    $Cov(X, Y) = -\frac{1}{81}$
+
+    Plugging things back in, we arrive at $\frac{245}{81}$.
+\end{proof}
+
+\setcounter{exercise}{15}
+\begin{exercise}
+    Let $r(x)$ and $s(y)$ be functions of $x$ and $y$. Show that
+    $\E{r(X)s(Y)|X} = r(X)\E{s(Y)|X}$. Then show $\E{r(X)|X} = r(X)$.
+\end{exercise}
+
+\begin{proof}
+    $\E{r(X)s(Y)|X} = \int r(x')s(y) f_{X,Y|X}(x',y|x) dx' dy$. Pay careful
+    attention to the use of $x'$ and $x$. We integrate over all $x'$ in $X$ where as $x$
+    is provided by the conditioning $X$ (and may be fixed in future
+    calculations).
+
+    $\int r(x')s(y) f_{X,Y|X}(x',y|x) dx' dy = \int r(x')s(y) f_{Y|X}(y|x')
+    f_{X|X}(x'|x) dx' dy$ by the chain rule of conditional densities. Now
+    observe when $x$ is fixed, eg. in the expression $\E{r(X)s(Y)|X=x}$,
+    $f_{X|X}(x'|x)$ becomes $1_{X=x}$ and $X$ degenerates to $X=x$. Indeed, 
+    $\E{r(X)s(Y)|X=x} = r(x) \int s(y) f_{Y|X}(y|x') dx' dy = r(x) \E{s(Y)|X}$.
+    When $X$ is not fixed, $\E{r(X)s(Y)|X} = r(X)\E{s(Y)|X}$
+    % Tighten up issues.
+    % https://chatgpt.com/c/68d572d6-d014-8328-8c82-5b8d5dfd0695
+\end{proof}
+
+\setcounter{exercise}{18}
+\begin{exercise}
+\end{exercise}
+
+\begin{proof}
+    $\E{\bar{X_n}} = \frac{1}{n}*n*\E{X_i} = \E{X_i}$
+    $\Var{\bar{X_n}} = \frac{1}{n^2}*n*\Var{X_i} = \frac{1}{n} \Var{X_i}$
+\end{proof}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{code/3.19.1.pdf}
+  \caption{Expectation and variance of statistic as function of n}
+  \label{fig:lognormal}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{code/3.19.2.pdf}
+  \caption{Sampling distribution for increasing n}
+  \label{fig:lognormal}
+\end{figure}
+
+\setcounter{exercise}{21}
+\begin{exercise}
+    Let $0 < a < b < 1$ and $X \sim Uniform(0, 1)$. Let
+    \[
+        Y =
+        \begin{cases}
+        1, & 0 < X < b, \\
+        0, & \text{otherwise},
+        \end{cases}
+        \qquad
+        Z =
+        \begin{cases}
+        1, & a < X < 1, \\
+        0, & \text{otherwise}.
+        \end{cases}
+    \]
+    \begin{itemize}
+        \item{Show $Y$ and $Z$ are not independent.}
+        \item{Evaluate $\E{Y | Z}$}
+    \end{itemize}
+\end{exercise}
+
+\begin{proof}
+    \begin{itemize}
+        \item{$\P(Y=1,Z=1) = b-a \neq \P(Y=1)\P(Z=1) = a*(1-a)$}
+        \item{
+        $\E{Y | Z} = $
+        $\begin{cases}
+        \frac{b-a}{2-a}, & Z=1, \\
+        1, & Z=0.
+        \end{cases}$}
+    \end{itemize}
+\end{proof}
+
+\section{Inequalities}
+
+\subsection{Probability Inequalities}
+
+\begin{definition}[Markov's Inequality]
+    For some nonnegative r.v. $X$ and $t > 0$:
+    \[ \P(X \geq t) \leq \frac{\E{X}}{t} \]
+\end{definition}
+
+\subsection{Inequalities for Expectation}
+
+% https://chatgpt.com/c/689b6b5f-4d00-832e-b574-8f6572915d59
 
 \subsection{Appendix}
 

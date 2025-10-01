@@ -350,6 +350,16 @@ INPUT ./code/2.15.pdf
 INPUT ./code/2.15.pdf
 INPUT ./code/2.15.pdf
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT ./code/3.19.1.pdf
+INPUT ./code/3.19.1.pdf
+INPUT ./code/3.19.1.pdf
+INPUT ./code/3.19.1.pdf
+INPUT ./code/3.19.1.pdf
+INPUT ./code/3.19.2.pdf
+INPUT ./code/3.19.2.pdf
+INPUT ./code/3.19.2.pdf
+INPUT ./code/3.19.2.pdf
+INPUT ./code/3.19.2.pdf
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out
