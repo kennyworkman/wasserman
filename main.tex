@@ -1324,7 +1324,7 @@ moments, they must have the same distribution.
     4)$. Find the mean and standard deviation of $X$.
 \end{exercise}
 
-\begin{solution}
+\begin{proof}
     Let $Y \sim Bernoulli(0.5)$ represent the coin flip.
     $\E{X} = \E{\E{X|Y}} = 0.5 * \E{X|Y=0} + 0.5 * \E{X|Y=1} = 0.5 * 0.5 + 0.5 * 3.5$
 
@@ -1333,7 +1333,7 @@ moments, they must have the same distribution.
     \E{(\E{X|Y} - \E{X})^2} = 0.5 * (0.5 - 2)^2 + 0.5 * (3.5 -2)^2 = 1.5^2$.
     $\Var{X} = \E{\Var{X|Y}} + \Var{\E{X|Y}} = \frac{1}{12} + 2.25 = 2.33$
     $\sigma_X = 1.53$
-\end{solution}
+\end{proof}
 
 \setcounter{exercise}{20}
 \begin{exercise}
@@ -1495,6 +1495,28 @@ expression collapses to $\E{X^2} - \E{X}^2 = \Var{X}$.
 
 \begin{definition}[Chebyshev's Inequality]
 \end{definition}
+
+\begin{exercise}
+Let $X \sim Exponential(\beta)$. Find $\P(|X - \mu_X| < k\sigma_X)$ for $k >
+1$. Compare this to the bound you get from Chebyshev's inequality.
+\end{exercise}
+
+\begin{exercise}
+    Notice $\P(|X - \mu_X| > k\sigma_X) = \P(|X - \beta| > k\beta) = 1 - \P(|X - \beta| < k\beta)$. Write the
+    central event $|X - \beta| < k\beta \iff \beta - k\beta < X < \beta +
+    k\beta$. If $k > 1$, then $\beta - k\beta$ lies outside our support so our
+    event simplifies to $\P(X < \beta + k\beta) = \P(X < \beta(1 + k)) =
+    \int_{x=0}^{\beta (1+k)} f_X(x) dx = -e^{1+k} + 1$. $\P(|X - \mu_X| >
+    k\sigma_X) = 1 - (-e^{1+k} + 1) = e^{1+k}$.
+
+    Chebyshev's bound is simply $\frac{1}{k^2}$.
+\end{exercise}
+
+\begin{note}
+Notice this bound goes like $e^{k}$, while the Chebyshev bound goes like
+$\frac{1}{k^2}$. For distributions with long exponential tails, this bound
+rapidly becomes quite poor.
+\end{note}
 
 \begin{definition}[Hoeffiding's Inequality]
 \end{definition}
