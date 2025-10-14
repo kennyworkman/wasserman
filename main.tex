@@ -1243,6 +1243,26 @@ moments, they must have the same distribution.
     of our expectation. $\E{X} = 2$
 \end{proof}
 
+\setcounter{exercise}{6}
+\begin{exercise}
+    Let $X$ be a continuous random variable where $\P(X < 0) = 0$ and the
+    expectation exists. Show $\E{X} = \int_{x=0}^{\infty} \P(X \geq x) dx$.
+\end{exercise}
+
+\begin{proof}
+    Observe $\int_{x=0}^{\infty} \P(X \geq x) = \int_{x=0}^{\infty} (1 - F(x))
+    dx$. This evaluates to $[(1-F(x))x]_{x=0}^{\infty} - \int_{x=0}^{\infty}
+    (-f_X(x))x dx$ using integration by parts. Observing that $\lim_{x \to
+        \infty} x\bigl( 1 - F_X(x) \bigr) = 0$, this expression simplifies to
+        $\int_{x=0}^\infty x f_X(x) dx = \E{X}$ as desired.
+\end{proof}
+
+\begin{note}
+    This is the tail-sum expression of expectation that will come in handy
+    later.
+\end{note}
+
+
 \setcounter{exercise}{11}
 \begin{exercise}
     Compute $\E{X}$ and $\Var{X}$ when $X$ is Poisson, Exponential.
@@ -1294,6 +1314,38 @@ moments, they must have the same distribution.
         \[\frac{1}{\beta}(2\beta^3) = 2\beta^2\]
         Then $\Var{X} = \E{X^2} - \E{X}^2 = 2\beta^2 - \beta^2 = \beta^2$ as
         desired.
+\end{proof}
+
+
+\setcounter{exercise}{12}
+\begin{exercise}
+    Suppose we generate a random variable in the following way. We flip a fair
+    coin. If heads, $X \sim Uniform(0, 1)$, and if tails, $X \sim Uniform(3,
+    4)$. Find the mean and standard deviation of $X$.
+\end{exercise}
+
+\begin{solution}
+    Let $Y \sim Bernoulli(0.5)$ represent the coin flip.
+    $\E{X} = \E{\E{X|Y}} = 0.5 * \E{X|Y=0} + 0.5 * \E{X|Y=1} = 0.5 * 0.5 + 0.5 * 3.5$
+
+    $\Var{X} = \E{\Var{X|Y}} + \Var{\E{X|Y}}$. $\E{\Var{X|Y}} = 0.5 *
+    \frac{1}{12} + 0.5 * \frac{1}{12} = \frac{1}{12}$. $\Var{\E{X|Y}} =
+    \E{(\E{X|Y} - \E{X})^2} = 0.5 * (0.5 - 2)^2 + 0.5 * (3.5 -2)^2 = 1.5^2$.
+    $\Var{X} = \E{\Var{X|Y}} + \Var{\E{X|Y}} = \frac{1}{12} + 2.25 = 2.33$
+    $\sigma_X = 1.53$
+\end{solution}
+
+\setcounter{exercise}{20}
+\begin{exercise}
+    Let $X,Y$ be random variables. Suppose $\E{Y|X} = X$. Show $Cov(X, Y) =
+    Var(X)$.
+\end{exercise}
+
+\begin{proof}
+$Cov(X, Y) = \E{XY} - \E{X}\E{Y}$. Recognize $\E{XY} = \E{\E{XY|X}}$.
+Evaluating the inner expectation $\E{XY|X} = X\E{Y|X} = X^2$. Then, $\E{XY}=
+\E{X^2}$. Similarly, $\E{X}\E{Y} = \E{X}\E{\E{Y|X}} = \E{X}\E{X}$. So the
+expression collapses to $\E{X^2} - \E{X}^2 = \Var{X}$.
 \end{proof}
 
 \setcounter{exercise}{22}
@@ -1439,6 +1491,12 @@ moments, they must have the same distribution.
 \begin{definition}[Markov's Inequality]
     For some nonnegative r.v. $X$ and $t > 0$:
     \[ \P(X \geq t) \leq \frac{\E{X}}{t} \]
+\end{definition}
+
+\begin{definition}[Chebyshev's Inequality]
+\end{definition}
+
+\begin{definition}[Hoeffiding's Inequality]
 \end{definition}
 
 \subsection{Inequalities for Expectation}
