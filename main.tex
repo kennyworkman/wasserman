@@ -1501,7 +1501,7 @@ Let $X \sim Exponential(\beta)$. Find $\P(|X - \mu_X| < k\sigma_X)$ for $k >
 1$. Compare this to the bound you get from Chebyshev's inequality.
 \end{exercise}
 
-\begin{exercise}
+\begin{proof}
     Notice $\P(|X - \mu_X| > k\sigma_X) = \P(|X - \beta| > k\beta) = 1 - \P(|X - \beta| < k\beta)$. Write the
     central event $|X - \beta| < k\beta \iff \beta - k\beta < X < \beta +
     k\beta$. If $k > 1$, then $\beta - k\beta$ lies outside our support so our
@@ -1510,13 +1510,44 @@ Let $X \sim Exponential(\beta)$. Find $\P(|X - \mu_X| < k\sigma_X)$ for $k >
     k\sigma_X) = 1 - (-e^{1+k} + 1) = e^{1+k}$.
 
     Chebyshev's bound is simply $\frac{1}{k^2}$.
-\end{exercise}
+\end{proof}
 
 \begin{note}
 Notice this bound goes like $e^{k}$, while the Chebyshev bound goes like
 $\frac{1}{k^2}$. For distributions with long exponential tails, this bound
 rapidly becomes quite poor.
 \end{note}
+
+\begin{exercise}
+    Let $X \sim Poisson(\lambda)$. Use Chebyshev's to show $\P(X \geq 2\lambda)
+    \leq \frac{1}{\lambda}$
+\end{exercise}
+
+\begin{proof}
+    $\P(|X - \lambda| \geq \lambda) \leq \frac{\lambda}{\lambda^2} = \P(X \geq
+    2\lambda) \leq \frac{1}{\lambda}$. (Notice $\{ |X - \lambda | \geq \lambda \}
+    \supset \{ X \geq 2\lambda \}$)
+\end{proof}
+
+\begin{exercise}
+    Let $X_1 \dots X_n \sim Bernoulli(p)$ and $\bar{X_n} =
+    n^{-1}\sum_{i=0}^{n}X_i$. Bound $\P(|\bar{X_n} - p| \geq \epsilon)$ using
+    Chebyshev's and Hoeffding's inequality. Show that Hoeffding's inequality
+    produces a tighter bound when $n$ is large.
+\end{exercise}
+
+\begin{proof}
+    By Chebyshev's (recall for i.i.d. $X_i$, $\E{n^{-1}\sum_{n=0}^{i} X_i} =
+    \E{X_i}$), $\P(|X_n - p| \geq \epsilon) \leq \frac{p(1-p)}{n\epsilon^2} \leq
+    \frac{1}{n4\epsilon^2}$, where the second bound comes from the fact that
+    $\frac{1}{4}$ is the largest value of $\Var{X}$ over $p$. We use the
+    Bernoulli presentation of Hoeffding inequality and arrive at $2e^{2*n\epsilon^2}$
+
+    Let $\epsilon=0.2$ and examine the bounds for $n=10, 100, 1000$. The
+    Chebyshev bound goes like $0.625, 0.0625, 0.00625$ while the Hoeffding goes
+    like $0.8, 0.00067, 3.6e-35$. Notice Chebyshev starts out stronger and
+    quickly becomes order(s) of magnitude weaker.
+\end{proof}
 
 \begin{definition}[Hoeffiding's Inequality]
 \end{definition}
