@@ -1552,6 +1552,24 @@ rapidly becomes quite poor.
 \begin{definition}[Hoeffiding's Inequality]
 \end{definition}
 
+\begin{exercise}
+    Prove Mill's inequality: $\P(|Z| > t) \leq
+    \sqrt{\frac{2}{\pi}}\frac{e^{-\frac{t^2}{2}}}{t}$
+\end{exercise}
+
+\begin{proof}
+    Observe $\P(|Z| > t) = 2\P(Z > t)$. We'll begin with one side. Let $\phi(x)
+    = \frac{1}{\sqrt{2\pi}} e^{\frac{x^2}{2}}$ be the PDF of $Z$. $\P(Z > t) =
+    \int_{x=t}^{\infty} \phi(x) dx$. Because $\frac{x}{t} > 1$ when $x > t$,
+    $\int_{x=t}^{\infty} \phi(x) dx \leq \int_{x=t}^{\infty} \frac{x}{t}
+    \phi(x) dx$. Notice $\phi'(x) = -x\phi(x)$. Then $\int_{x=t}^{\infty}
+    \frac{x}{t} \phi(x) dx = \frac{1}{t}[-\phi(x)]_{x=t}^{\infty} =
+    \frac{\phi(t)}{t}$.
+
+    Then $\P(|Z| > t) = 2\P(Z > t) \leq 2 \frac{\phi(t)}{t} =
+    \sqrt{\frac{2}{\pi}} \frac{1}{t} e^{\frac{-t^2}{2}}$ as desired.
+\end{proof}
+
 \subsection{Inequalities for Expectation}
 
 % https://chatgpt.com/c/689b6b5f-4d00-832e-b574-8f6572915d59
