@@ -1494,7 +1494,61 @@ expression collapses to $\E{X^2} - \E{X}^2 = \Var{X}$.
 \end{definition}
 
 \begin{definition}[Chebyshev's Inequality]
+    Let $\mu = \E{X}$ and $\sigma^2 = \Var{X}$, then
+    \[ \P(|X-\mu| \geq t) \leq \frac{\sigma^2}{t^2}\] 
+    and \[\P(|Z| \geq k) \leq \frac{1}{k^2}\] 
+    where $Z = \frac{X - \mu}{\sigma}$. In particular, $\P(Z \geq 2) \leq \frac{1}{4}$ and $\P(Z \geq 3) \leq \frac{1}{9}$
 \end{definition}
+
+\begin{proof}
+    $\frac{\E{(X - \mu)^2}}{t^2} \geq \P((X-\mu)^2 \geq t^2) = \P(|X-\mu| \geq
+    t)$. The second case comes from $t = k\sigma$: $\P(|X-\mu| \geq k\sigma)
+    \leq \frac{\sigma^2}{k^2\sigma^2}$. Then $\P(|Z| \geq k) \leq \frac{1}{k^2}$
+\end{proof}
+
+\begin{definition}[Hoeffding's Inequality]
+    Let $Y_1 \dots Y_n$ be independent observations s.t. $\E{Y_i} = 0$ and $a_i
+    \leq Y_i \leq b_i$. Let $\epsilon > 0$. For any $t > 0$, $\P((\sum_{i=0}^{n} Y_i)
+    \geq \epsilon) \leq e^{-t\epsilon}\prod_{i=0}^n e^{t^2\frac{(a_i-b_i)}{8}}$
+\end{definition}
+
+\begin{definition}[Bernoulli Presentation of Hoeffding's Inequality]
+    Let $X_1 \dots X_n \sim Bernoulli(p)$ with $\epsilon > 0$. Then:
+    \[ \P(|\bar{X_n} - p| \geq \epsilon) \leq 2e^{-2n\epsilon^2}\]
+\end{definition}
+
+\begin{proof}
+    Using Markov's bound, $\P(\sum_{i=0}^{n} Y_i \geq t\epsilon) =
+    \P(e^{\sum_{i=0}^{n} Y_i} \geq e^{t\epsilon}) \leq
+    \frac{\E{e^{\sum_{i=0}^{n} Y_i}}}{e^{t\epsilon}} =
+    e^{-te}\prod_{i=0}^{n}e^{tY_i}$.
+
+    Now consider $\E{e^{tY_i}}$. We know $a_i \leq Y_i \leq b_i$, so we can
+    express $Y_i$ as a convex combination $Y_i = (1-\alpha)a_i + \alpha b_i$
+    where $\alpha = \frac{Y_i - a_i}{b_i - a_i}$. Because $e^x$ is a convex
+    function, $e^{tY_i} \leq (1-\alpha)e^{t a_i} + \alpha e^{t b_i}$. Because
+    $\E{Y_i} = 0$, $\E{\alpha} = \frac{-a_i}{b_i - a_i}$. Indeed, $\E{e^{tY_i}}
+    \leq \E{(1-\alpha)e^{t a_i} + \alpha e^{t b_i}} = \frac{b_ie^{a_i} - a_ie^{b_i}}{b_i - a_i} = e^{g(u)}$ for some $u, g$.
+
+    We will make use of the exact form of Taylor's theorem: if g is a smooth
+    function then there is a number $\xi \in (0, u)$ such that $g(u) = g(0) +
+    ug'(0) + \frac{u^2}{2}g''(\xi)$. 
+
+    Some algebra is needed to $\frac{b_ie^{a_i} - a_ie^{b_i}}{b_i - a_i} = e^{g(u)}$
+\end{proof}
+
+\begin{note}
+    Hoeffding's inequality gives us a convenient way of constructing confidence
+    intervals. %TODO
+\end{note}
+
+\begin{definition}[Mill's Inequality]
+    Let $Z \sim Normal(0, 1)$. For $t > 0$, $\P(|Z| \geq t) \leq
+    \sqrt{\frac{2}{\pi}} \frac{e^{\frac{-t^2}{2}}}{t}$
+\end{definition}
+
+This result comes from another manipulation of the Markov's bound. We work this
+out in detail in the exercises.
 
 \begin{exercise}
 Let $X \sim Exponential(\beta)$. Find $\P(|X - \mu_X| < k\sigma_X)$ for $k >
@@ -1549,8 +1603,36 @@ rapidly becomes quite poor.
     quickly becomes order(s) of magnitude weaker.
 \end{proof}
 
-\begin{definition}[Hoeffiding's Inequality]
-\end{definition}
+\begin{exercise}
+    Let $X_1 \dots X_n \sim Bernoulli(p)$. Fix $\alpha > 0$. Define
+    $\epsilon_n = \sqrt{\frac{1}{2n}log(\frac{2}{\alpha})}$, $\hat{p} = n^{-1}
+    \sum_{i=0}^n X_i$, and $C_n = (\hat{p}-\epsilon, \hat{p}+\epsilon)$.
+    \begin{itemize}
+        \item{Use Hoeffding's to show $\P(C_n \text{ contains } p) \geq 1 -
+            \alpha$}
+        \item{Fix $\alpha=0.05$ and $p=0.4$. Conduct a simulation study with a
+            computer to see how often the interval contains p (called coverage) for different
+        values of $n$ between 1 and 10000. Plot the coverage as a function of
+    n.}
+        \item{Plot the length of the interval versus n. Suppose we want the
+            interval to be less than 0.05. How large should n be?}
+    \end{itemize}
+\end{exercise}
+
+\begin{proof}
+    \begin{itemize}
+        \item{Using the Bernoulli presentation of Hoeffding's given,
+            $\P(|\hat{X_n} - p| \geq \epsilon) \leq 2e^{-2n\epsilon^2}$.
+        Equivalently, $\P(|\hat{X_n} - p| \leq \epsilon) \geq 1 -
+        2e^{-2n\epsilon^2}$. Notice $\hat{p_n} = \bar{X_n}$ from this original
+        definition. Plugging in $\epsilon_n$, we have $\P(|\hat{p_n} - p| \leq
+        \epsilon_n) \geq 1 - \alpha$} which is the same as saying $\P(C_n \text{
+        contains } p) \geq 1 - \alpha$ as desired.
+    \item{%TODO}
+    \item{The interval shrinks roughly like $\sqrt{n}$.
+        $\sqrt{\frac{log(\frac{2}{\alpha})}{2n}} \leq 0.025$ then $n \geq 2960$}
+    \end{itemize}
+\end{proof}
 
 \begin{exercise}
     Prove Mill's inequality: $\P(|Z| > t) \leq
