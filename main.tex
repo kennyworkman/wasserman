@@ -1626,9 +1626,8 @@ rapidly becomes quite poor.
         Equivalently, $\P(|\hat{X_n} - p| \leq \epsilon) \geq 1 -
         2e^{-2n\epsilon^2}$. Notice $\hat{p_n} = \bar{X_n}$ from this original
         definition. Plugging in $\epsilon_n$, we have $\P(|\hat{p_n} - p| \leq
-        \epsilon_n) \geq 1 - \alpha$} which is the same as saying $\P(C_n \text{
-        contains } p) \geq 1 - \alpha$ as desired.
-    \item{%TODO}
+        \epsilon_n) \geq 1 - \alpha$} which is the same as saying $\P(C_n
+        \text{ contains } p) \geq 1 - \alpha$ as desired.$  \item{%TODO}
     \item{The interval shrinks roughly like $\sqrt{n}$.
         $\sqrt{\frac{log(\frac{2}{\alpha})}{2n}} \leq 0.025$ then $n \geq 2960$}
     \end{itemize}
@@ -1656,7 +1655,34 @@ rapidly becomes quite poor.
 
 % https://chatgpt.com/c/689b6b5f-4d00-832e-b574-8f6572915d59
 
-\subsection{Appendix}
+\section{Convergence}
+
+\subsection{Types of Convergence}
+
+\begin{proof}
+
+Now we prove (b). Fix $\epsilon > 0$ and let $x$ be a continuity point of $F$. $F_n(x) =
+\P(X_n \leq x) = \P(X_n \leq x, X \leq x + \epsilon) + \P(X_n \leq x, X \geq x
++ \epsilon) \leq \P(X \leq x + \epsilon) + \P(|X_n - X| \geq \epsilon) \leq
+F(x+\epsilon) + \P(|X - X_n| \geq \epsilon)$
+
+Similarly, $F(x-\epsilon) = \P(X \leq x - \epsilon, X_n \leq x) + \P(X \leq x -
+\epsilon, X_n \geq x) \leq F_n(x) + \P(|X-X_n| \geq \epsilon)$.
+
+We use these bounds to construct the inequality $F(x-\epsilon) - \P(|X-X_n|\geq
+\epsilon)\leq F_n(x) \leq F(x) + \P(|X-X_n|\geq \epsilon)$. Take the limit as
+$n$ goes to $\infty$. Notice that $F_n(x)$ is a sequence with no guarantees of
+convergence, so we have to account for the largest and smallest elements. By our assumption $\P(|X-X_n|\geq \epsilon) \xrightarrow{} 0$ as $n \xrightarrow{} \infty$.
+
+$F(x-\epsilon) \leq \lim \inf F_n(x) \leq \lim \sup F_n(x) \leq F(x+\epsilon)$
+
+Now take the limit as $\epsilon \xrightarrow 0$ (this statement holds for
+arbitrary $\epsilon > 0$). $F(x^-) \leq \lim \inf F_n(x) \leq \lim \sup F_n(x)
+\leq F(x^+)$. Using continuinty of $F$ at $x$, $F(x^-) = F(x^+)$ and $F_n(x) =
+F(x)$ as desired.
+\end{proof}
+
+\section{Appendix}
 
 %% TODO: Taylor
 
