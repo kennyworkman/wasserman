@@ -1682,8 +1682,36 @@ arbitrary $\epsilon > 0$). $F(x^-) \leq \lim \inf F_n(x) \leq \lim \sup F_n(x)
 F(x)$ as desired.
 \end{proof}
 
+\begin{note}[Convergence in probability does not imply convergence in quadratic mean]
+    Let $U \sim Uniform(0, 1)$ and $X_n = \sqrt{n}I_{(0, \frac{1}{n})}(U)$.
+    First see $X_n \xrightarrow{P} 0$. Indeed as $n$ grows sufficiently large, for
+    arbitrary $\epsilon$, $\P(|X_n| \geq \epsilon) = \P(0 \geq U < n) = n
+    \xrightarrow{} 0$. However, $\E{X_n^2} = \int_{u=0}^{\frac{1}{n}} n du =
+    1$.
+\end{note}
+
+\begin{note}[Convergence in distribution does not imply convergence in probability]
+    Let $X \sim Normal(0, 1)$. For each $n$, let $X_n = -X$. $F_n(x) = F(x)$
+    for any $x$. But $\P(|X - X_n| \geq \epsilon) = \P(|2X| \geq \epsilon) = \P(|X|
+    \geq \frac{\epsilon}{2}) \neq 0$.  Indeed the symmetrical shape of the
+    Gaussian preserves the CDF but any given values are negatives of each other
+    and will never converge.
+\end{note}
+
 \section{Appendix}
 
-%% TODO: Taylor
+\subsection{The Law of Large Numbers}
+
+A crowned jewel of probability. The sample mean approaches the expectation of
+the underlying distribution.
+
+\begin{definition}
+    Let $X_1 \dots X_n$ be i.i.d. with $\E{X_i} = \mu$ and $\Var{X_i} =
+    \sigma^2$. Let $\bar{X_n} = n^{-1}\sum_{i=0}^n X_i$. Then $\bar{X_n}
+    \xrightarrow{P} \mu$.
+\end{definition}
+
+The sample mean is a \textbf{random variable} so it will never numerically
+equal the expectation. It will cluster closer and closer to it.
 
 \end{document}
