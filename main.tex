@@ -1698,8 +1698,6 @@ F(x)$ as desired.
     and will never converge.
 \end{note}
 
-\section{Appendix}
-
 \subsection{The Law of Large Numbers}
 
 A crowned jewel of probability. The sample mean approaches the expectation of
@@ -1713,5 +1711,33 @@ the underlying distribution.
 
 The sample mean is a \textbf{random variable} so it will never numerically
 equal the expectation. It will cluster closer and closer to it.
+
+\subsection{The Central Limit Theorem}
+
+While the LLN tells us the sample mean clusters around the true mean, it does
+not give us tools to approximate statements about probability.
+
+\begin{definition}[CLT]
+    Let $X_1 \dots X_n$ be i.i.d. with $\E{X_i} = \mu$ and $\Var{X_i} =
+    \sigma^2$. Let $\bar{X_n} = n^{-1}\sum_{i=0}^n X_i$. Then $Z_n =
+    \frac{\sqrt{n}(\bar{X_n}-\mu)}{\sigma} \xrightarrow{D} N(0, 1)$
+
+    In other words, $\lim_{n \xrightarrow{} \infty} \P(Z_n \leq z) = \P(Z \leq z) = \phi(z)$
+\end{definition}
+
+Note we use this to approximate \textbf{probability statements} not the
+distribution $\bar{X_n}$ itself. 
+
+These approximations are not perfect and indeed we can bound the error:
+
+\begin{definition}[The Berry-Esseen Inequality]
+    $sup_x |\P(Z_n \leq x) - \phi(x)| \leq \frac{37}{4}\frac{\E{|X_i-\mu|^3}}{\sqrt{n}\sigma^3}$
+\end{definition}
+
+Where the $sup$ bounds the difference across all possible $x$ in the domain.
+
+\subsection{Delta Method}
+
+This is like the CLT for functions of the sample mean.
 
 \end{document}
