@@ -1626,8 +1626,8 @@ rapidly becomes quite poor.
         Equivalently, $\P(|\hat{X_n} - p| \leq \epsilon) \geq 1 -
         2e^{-2n\epsilon^2}$. Notice $\hat{p_n} = \bar{X_n}$ from this original
         definition. Plugging in $\epsilon_n$, we have $\P(|\hat{p_n} - p| \leq
-        \epsilon_n) \geq 1 - \alpha$} which is the same as saying $\P(C_n
-        \text{ contains } p) \geq 1 - \alpha$ as desired.$  \item{%TODO}
+        \epsilon_n) \geq 1 - \alpha$ which is the same as saying $\P(C_n
+    \text{ contains } p) \geq 1 - \alpha$ as desired.}
     \item{The interval shrinks roughly like $\sqrt{n}$.
         $\sqrt{\frac{log(\frac{2}{\alpha})}{2n}} \leq 0.025$ then $n \geq 2960$}
     \end{itemize}
@@ -1739,5 +1739,65 @@ Where the $sup$ bounds the difference across all possible $x$ in the domain.
 \subsection{Delta Method}
 
 This is like the CLT for functions of the sample mean.
+
+\begin{exercise}
+    Let $X_1 \dots X_n$ be i.i.d. with $E{X} = \mu$ and $\Var{X} = \sigma^2$.
+    Let $S_n = \frac{1}{1-n}\sum_{i=1}^n(X_i - \bar{X_n})$
+    \begin{itemize}
+        \item{Show $\E{S_n} = \sigma^2$}
+    \end{itemize}
+\end{exercise}
+
+\begin{proof}
+    \begin{itemize}
+        \item{Recognize $\sum_{i=1}^n (X_i - \bar{X_n})^2 = \sum_{i=1}^n (X_i^2
+            - 2 X_i\bar{X_n} + \bar{X_n}^2) = \sum_{i=1}^n (X_i^2) - 2 n
+        \bar{X_n} \bar{X_n} + n\bar{X_n}^2 = \sum_{i=1}^n (X_i^2) - n
+    \bar{X_n}^2 = nX_i^2 - n\bar{X_n}^2$. Our original expectation simplifies
+like $\E{\frac{1}{n-1}\sum_{i=1}^n(X_i-\bar{X_n})^2} = \frac{1}{n-1}\E{nX_i^2} -
+\E{n\bar{X_n}^2} = \frac{1}{n-1}(n(\sigma^2-\mu^2) - n(\frac{\sigma^2}{n} -
+\mu^2)) = \sigma^2$}
+        \item{}
+    \end{itemize}
+\end{proof}
+
+\begin{exercise}
+    Let $X_1 \dots X_n$ be a sequence. Show $X_n \xrightarrow{QM} b$ if and
+    only if $\E{X_n} \xrightarrow{} b$ and $\Var{X_n} \xrightarrow{} 0$
+\end{exercise}
+
+\begin{proof}
+    The key identity is $\E{(X_n - b)^2} = \E{X_n^2} - (\E{X_n}^2 + \E{X_n}^2)
+    -2\E{X_n}b + b^2 = \Var{X_n} + (\E{X_n}-b)^2$. The reverse implication
+    follows immediately. To see the forward argument, notice $\Var{X_n} \leq
+    \E{(X_n - b)^2} \xrightarrow{} 0$
+    and $(\E{X_n}-b)^2 \leq \E{(X_n - b)^2} \xrightarrow{} 0$. Then $\Var{X_n}
+    \xrightarrow{} 0$ and $\E{X_n} \xrightarrow{} b$.
+\end{proof}
+
+\begin{exercise}
+    Let $X_1 \dots X_n$ be i.i.d. and let $\mu = \E{X_1}$. Suppose the variance
+    is finite. Show $\bar{X_n} \xrightarrow{QM} \mu$
+\end{exercise}
+
+\begin{proof}
+    Expand $\E{(\bar{X_n}-\mu)^2} = \Var{X_n} + \E{\bar{X_n}^2}
+    -2\mu\E{\bar{X_n}} + \mu^2 = \frac{\sigma^2}{n} \xrightarrow{} 0$
+\end{proof}
+
+\begin{exercise}
+    Let $X_1, X_2 \dots$ be a sequence of r.v.s such that $\P(X_n =
+    \frac{1}{n}) = 1 - \frac{1}{n^2}$ and $\P(X_n = n) = \frac{1}{n^2}$. Does
+    $X_n$ converge in probability? Does $X_n$ converge in quadratic mean?
+\end{exercise}
+
+\begin{proof}
+    Intuitively $X_n$ approaches 0 with increasing probability. Using Markov's, $\P(|X_n - 0| >
+    \epsilon) \leq \frac{\E{X_n}}{\epsilon}$ where $\E{X_n} = \frac{1}{n}(1 - \frac{1}{n^2}) + n(\frac{1}{n^2}) \xrightarrow{} 0$. We can conclude $X_n
+    \xrightarrow{P} 0$.
+    However, $\E{(X_n-0)^2} = \frac{1}{n^2}(1 - \frac{1}{n^2}) +
+    n^2(\frac{1}{n^2}) \xrightarrow{} 1$. So $X_n$ does not converge in
+    quadratic mean.
+\end{proof}
 
 \end{document}
