@@ -1800,4 +1800,32 @@ like $\E{\frac{1}{n-1}\sum_{i=1}^n(X_i-\bar{X_n})^2} = \frac{1}{n-1}\E{nX_i^2} -
     quadratic mean.
 \end{proof}
 
+\begin{exercise}
+    Let $X_1 \dots X_n$ be i.i.d. $Bernoulli(p)$. Show
+    $\frac{1}{n}\sum_{i=0}^nX_i^2$ converges in probability and quadratic mean
+    to $p$.
+\end{exercise}
+
+\begin{proof}
+    $\E{(\frac{1}{n}\sum_{i=0}^nX_i)^2 - 2p\frac{1}{n}\sum_{i=0}^nX_i^2 + p^2}
+    = \E{(\frac{1}{n}\sum_{i=0}^nX_i)^2} -2p^2 + p^2$. Notice
+    $\E{(\frac{1}{n}\sum_{i=0}^nX_i)^2}$ has $n$ terms of expectation $p$ (the
+    diagonals) and $n^2-n$ terms of expectation $p^2$. Then
+    $\E{(\frac{1}{n}\sum_{i=0}^nX_i)^2} = \frac{1}{n^2}((n^2-n)p^2 + np)$. The
+    entire expectation is then $\frac{1}{n^2}((n^2-n)p^2 + np) - p^2 =
+    \frac{1}{n}(p^2-p) \xrightarrow{} 0$.
+    Because convergence in qm implies convergence in probability, this sum also
+    converges in probability.
+\end{proof}
+
+\begin{exercise}
+    Assume average height of men is 68 inches and standard deviation 2.6 inches.
+    Draw 100 men at random. Find the approximate probability the average height will be at
+    least 68 inches.
+\end{exercise}
+
+\begin{proof}
+    By the CLT, we know $\frac{\sqrt{n}(X_n-\mu)}{\sigma} \xrightarrow{D} Z$ so $\P(\bar{X_n} \geq 68) = \P(Z \geq 0)$. Indeed $\P(Z \geq 0) = 1 - \P(Z \leq 0) = \frac{1}{2}$
+\end{proof}
+
 \end{document}
