@@ -1800,4 +1800,64 @@ like $\E{\frac{1}{n-1}\sum_{i=1}^n(X_i-\bar{X_n})^2} = \frac{1}{n-1}\E{nX_i^2} -
     quadratic mean.
 \end{proof}
 
+\begin{exercise}
+    Let $X_1, X_2 \dots$ be a sequence where $X_n \sim Poisson(\frac{1}{n})$.
+    Show $X_n \xrightarrow{P} 0$. If $Y_n = nX_n$, show $Y_n \xrightarrow{P} 0$
+\end{exercise}
+
+\begin{proof}
+    As $\epsilon \xrightarrow{} 0$, $\P(|X_n| \geq \epsilon)$ is equivalent to
+    $\P(X_n > 0) = 1 - e^{-\frac{1}{n}} \xrightarrow{} 0$ because  $X_n \in
+    \{0, 1, \dots \}$. Similarly, for sufficiently large $n$, $\P(nX_n
+    > \epsilon) = \P(X_n > \frac{\epsilon}{n}) = \P(X_n > 0)$.
+\end{proof}
+
+\begin{exercise}
+    Suppose we have a computer program consisting of 100 pages of code where
+    the number of errors on each page represented by independent $X_i \sim
+    Poisson(1)$. Let $Y = \sum_{i=1}^100 X)i$. Approximate $\P(Y < 90)$ using
+    the CLT.
+\end{exercise}
+
+\begin{proof}
+    $\P(Y < 90) = \P(Z < \frac{10(\frac{90}{100} - 1)}{1}) = \Phi(-1) \approx 0.16$.
+\end{proof}
+
+\section{Models, Statistical Inference and Learning}
+
+\subsection{Introduction}
+
+Statistical inference is the process of using data to infer the distribution
+that generated the data. A typical question is:
+
+\[ \text{Given a sample }X_1 \dots X_n \sim F\text{, how do we infer }F\text{ ?} \]
+
+\subsection{Parametric and Nonparametric Models}
+
+\subsection{Fundamental Concepts in Inference}
+
+Many inferential problems are one of three types: point estimation, confidence
+sets or hypothesis testing.
+
+\begin{definition}
+    The bias of an estimator is defined by $bias(\hat{\theta}_n) = \E{\hat{\theta}_n} - \theta$
+\end{definition}
+
+We say that $\hat{\theta}_n$ is \textbf{unbiased} if $bias(\hat{\theta}_n) = 0$.
+
+\begin{definition}
+    An estimator $\hat{\theta}_n$ of a parameter $\theta$ is \textbf{consistent} if
+    $\hat{\theta}_n \xrightarrow{P} \theta$.
+\end{definition}
+
+\begin{definition}
+    The distribution of $\hat{\theta}_n$ is called the \textbf{sampling distribution}.
+    The \textbf{standard error} of $\hat{\theta}_n$ is defined as $\sqrt{\Var{\hat{\theta}_n}}$.
+\end{definition}
+
+Intuitively the bias is a good measure of the mean of our estimator, but does
+not rule out things like long tails. Asymptotically, consistency is a stronger
+condition and lets us know if the entire distribution of the estimator clusters
+around the parameter instead of just the mean.
+
 \end{document}
