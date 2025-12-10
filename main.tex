@@ -1324,7 +1324,7 @@ moments, they must have the same distribution.
     4)$. Find the mean and standard deviation of $X$.
 \end{exercise}
 
-\begin{solution}
+\begin{proof}
     Let $Y \sim Bernoulli(0.5)$ represent the coin flip.
     $\E{X} = \E{\E{X|Y}} = 0.5 * \E{X|Y=0} + 0.5 * \E{X|Y=1} = 0.5 * 0.5 + 0.5 * 3.5$
 
@@ -1333,7 +1333,7 @@ moments, they must have the same distribution.
     \E{(\E{X|Y} - \E{X})^2} = 0.5 * (0.5 - 2)^2 + 0.5 * (3.5 -2)^2 = 1.5^2$.
     $\Var{X} = \E{\Var{X|Y}} + \Var{\E{X|Y}} = \frac{1}{12} + 2.25 = 2.33$
     $\sigma_X = 1.53$
-\end{solution}
+\end{proof}
 
 \setcounter{exercise}{20}
 \begin{exercise}
@@ -1494,17 +1494,338 @@ expression collapses to $\E{X^2} - \E{X}^2 = \Var{X}$.
 \end{definition}
 
 \begin{definition}[Chebyshev's Inequality]
+    Let $\mu = \E{X}$ and $\sigma^2 = \Var{X}$, then
+    \[ \P(|X-\mu| \geq t) \leq \frac{\sigma^2}{t^2}\] 
+    and \[\P(|Z| \geq k) \leq \frac{1}{k^2}\] 
+    where $Z = \frac{X - \mu}{\sigma}$. In particular, $\P(Z \geq 2) \leq \frac{1}{4}$ and $\P(Z \geq 3) \leq \frac{1}{9}$
 \end{definition}
 
-\begin{definition}[Hoeffiding's Inequality]
+\begin{proof}
+    $\frac{\E{(X - \mu)^2}}{t^2} \geq \P((X-\mu)^2 \geq t^2) = \P(|X-\mu| \geq
+    t)$. The second case comes from $t = k\sigma$: $\P(|X-\mu| \geq k\sigma)
+    \leq \frac{\sigma^2}{k^2\sigma^2}$. Then $\P(|Z| \geq k) \leq \frac{1}{k^2}$
+\end{proof}
+
+\begin{definition}[Hoeffding's Inequality]
+    Let $Y_1 \dots Y_n$ be independent observations s.t. $\E{Y_i} = 0$ and $a_i
+    \leq Y_i \leq b_i$. Let $\epsilon > 0$. For any $t > 0$, $\P((\sum_{i=0}^{n} Y_i)
+    \geq \epsilon) \leq e^{-t\epsilon}\prod_{i=0}^n e^{t^2\frac{(a_i-b_i)}{8}}$
 \end{definition}
+
+\begin{definition}[Bernoulli Presentation of Hoeffding's Inequality]
+    Let $X_1 \dots X_n \sim Bernoulli(p)$ with $\epsilon > 0$. Then:
+    \[ \P(|\bar{X_n} - p| \geq \epsilon) \leq 2e^{-2n\epsilon^2}\]
+\end{definition}
+
+\begin{proof}
+    Using Markov's bound, $\P(\sum_{i=0}^{n} Y_i \geq t\epsilon) =
+    \P(e^{\sum_{i=0}^{n} Y_i} \geq e^{t\epsilon}) \leq
+    \frac{\E{e^{\sum_{i=0}^{n} Y_i}}}{e^{t\epsilon}} =
+    e^{-te}\prod_{i=0}^{n}e^{tY_i}$.
+
+    Now consider $\E{e^{tY_i}}$. We know $a_i \leq Y_i \leq b_i$, so we can
+    express $Y_i$ as a convex combination $Y_i = (1-\alpha)a_i + \alpha b_i$
+    where $\alpha = \frac{Y_i - a_i}{b_i - a_i}$. Because $e^x$ is a convex
+    function, $e^{tY_i} \leq (1-\alpha)e^{t a_i} + \alpha e^{t b_i}$. Because
+    $\E{Y_i} = 0$, $\E{\alpha} = \frac{-a_i}{b_i - a_i}$. Indeed, $\E{e^{tY_i}}
+    \leq \E{(1-\alpha)e^{t a_i} + \alpha e^{t b_i}} = \frac{b_ie^{a_i} - a_ie^{b_i}}{b_i - a_i} = e^{g(u)}$ for some $u, g$.
+
+    We will make use of the exact form of Taylor's theorem: if g is a smooth
+    function then there is a number $\xi \in (0, u)$ such that $g(u) = g(0) +
+    ug'(0) + \frac{u^2}{2}g''(\xi)$. 
+
+    Some algebra is needed to $\frac{b_ie^{a_i} - a_ie^{b_i}}{b_i - a_i} = e^{g(u)}$
+\end{proof}
+
+\begin{note}
+    Hoeffding's inequality gives us a convenient way of constructing confidence
+    intervals. %TODO
+\end{note}
+
+\begin{definition}[Mill's Inequality]
+    Let $Z \sim Normal(0, 1)$. For $t > 0$, $\P(|Z| \geq t) \leq
+    \sqrt{\frac{2}{\pi}} \frac{e^{\frac{-t^2}{2}}}{t}$
+\end{definition}
+
+This result comes from another manipulation of the Markov's bound. We work this
+out in detail in the exercises.
+
+\begin{exercise}
+Let $X \sim Exponential(\beta)$. Find $\P(|X - \mu_X| < k\sigma_X)$ for $k >
+1$. Compare this to the bound you get from Chebyshev's inequality.
+\end{exercise}
+
+\begin{proof}
+    Notice $\P(|X - \mu_X| > k\sigma_X) = \P(|X - \beta| > k\beta) = 1 - \P(|X - \beta| < k\beta)$. Write the
+    central event $|X - \beta| < k\beta \iff \beta - k\beta < X < \beta +
+    k\beta$. If $k > 1$, then $\beta - k\beta$ lies outside our support so our
+    event simplifies to $\P(X < \beta + k\beta) = \P(X < \beta(1 + k)) =
+    \int_{x=0}^{\beta (1+k)} f_X(x) dx = -e^{1+k} + 1$. $\P(|X - \mu_X| >
+    k\sigma_X) = 1 - (-e^{1+k} + 1) = e^{1+k}$.
+
+    Chebyshev's bound is simply $\frac{1}{k^2}$.
+\end{proof}
+
+\begin{note}
+Notice this bound goes like $e^{k}$, while the Chebyshev bound goes like
+$\frac{1}{k^2}$. For distributions with long exponential tails, this bound
+rapidly becomes quite poor.
+\end{note}
+
+\begin{exercise}
+    Let $X \sim Poisson(\lambda)$. Use Chebyshev's to show $\P(X \geq 2\lambda)
+    \leq \frac{1}{\lambda}$
+\end{exercise}
+
+\begin{proof}
+    $\P(|X - \lambda| \geq \lambda) \leq \frac{\lambda}{\lambda^2} = \P(X \geq
+    2\lambda) \leq \frac{1}{\lambda}$. (Notice $\{ |X - \lambda | \geq \lambda \}
+    \supset \{ X \geq 2\lambda \}$)
+\end{proof}
+
+\begin{exercise}
+    Let $X_1 \dots X_n \sim Bernoulli(p)$ and $\bar{X_n} =
+    n^{-1}\sum_{i=0}^{n}X_i$. Bound $\P(|\bar{X_n} - p| \geq \epsilon)$ using
+    Chebyshev's and Hoeffding's inequality. Show that Hoeffding's inequality
+    produces a tighter bound when $n$ is large.
+\end{exercise}
+
+\begin{proof}
+    By Chebyshev's (recall for i.i.d. $X_i$, $\E{n^{-1}\sum_{n=0}^{i} X_i} =
+    \E{X_i}$), $\P(|X_n - p| \geq \epsilon) \leq \frac{p(1-p)}{n\epsilon^2} \leq
+    \frac{1}{n4\epsilon^2}$, where the second bound comes from the fact that
+    $\frac{1}{4}$ is the largest value of $\Var{X}$ over $p$. We use the
+    Bernoulli presentation of Hoeffding inequality and arrive at $2e^{2*n\epsilon^2}$
+
+    Let $\epsilon=0.2$ and examine the bounds for $n=10, 100, 1000$. The
+    Chebyshev bound goes like $0.625, 0.0625, 0.00625$ while the Hoeffding goes
+    like $0.8, 0.00067, 3.6e-35$. Notice Chebyshev starts out stronger and
+    quickly becomes order(s) of magnitude weaker.
+\end{proof}
+
+\begin{exercise}
+    Let $X_1 \dots X_n \sim Bernoulli(p)$. Fix $\alpha > 0$. Define
+    $\epsilon_n = \sqrt{\frac{1}{2n}log(\frac{2}{\alpha})}$, $\hat{p} = n^{-1}
+    \sum_{i=0}^n X_i$, and $C_n = (\hat{p}-\epsilon, \hat{p}+\epsilon)$.
+    \begin{itemize}
+        \item{Use Hoeffding's to show $\P(C_n \text{ contains } p) \geq 1 -
+            \alpha$}
+        \item{Fix $\alpha=0.05$ and $p=0.4$. Conduct a simulation study with a
+            computer to see how often the interval contains p (called coverage) for different
+        values of $n$ between 1 and 10000. Plot the coverage as a function of
+    n.}
+        \item{Plot the length of the interval versus n. Suppose we want the
+            interval to be less than 0.05. How large should n be?}
+    \end{itemize}
+\end{exercise}
+
+\begin{proof}
+    \begin{itemize}
+        \item{Using the Bernoulli presentation of Hoeffding's given,
+            $\P(|\hat{X_n} - p| \geq \epsilon) \leq 2e^{-2n\epsilon^2}$.
+        Equivalently, $\P(|\hat{X_n} - p| \leq \epsilon) \geq 1 -
+        2e^{-2n\epsilon^2}$. Notice $\hat{p_n} = \bar{X_n}$ from this original
+        definition. Plugging in $\epsilon_n$, we have $\P(|\hat{p_n} - p| \leq
+        \epsilon_n) \geq 1 - \alpha$ which is the same as saying $\P(C_n
+    \text{ contains } p) \geq 1 - \alpha$ as desired.}
+    \item{The interval shrinks roughly like $\sqrt{n}$.
+        $\sqrt{\frac{log(\frac{2}{\alpha})}{2n}} \leq 0.025$ then $n \geq 2960$}
+    \end{itemize}
+\end{proof}
+
+\begin{exercise}
+    Prove Mill's inequality: $\P(|Z| > t) \leq
+    \sqrt{\frac{2}{\pi}}\frac{e^{-\frac{t^2}{2}}}{t}$
+\end{exercise}
+
+\begin{proof}
+    Observe $\P(|Z| > t) = 2\P(Z > t)$. We'll begin with one side. Let $\phi(x)
+    = \frac{1}{\sqrt{2\pi}} e^{\frac{x^2}{2}}$ be the PDF of $Z$. $\P(Z > t) =
+    \int_{x=t}^{\infty} \phi(x) dx$. Because $\frac{x}{t} > 1$ when $x > t$,
+    $\int_{x=t}^{\infty} \phi(x) dx \leq \int_{x=t}^{\infty} \frac{x}{t}
+    \phi(x) dx$. Notice $\phi'(x) = -x\phi(x)$. Then $\int_{x=t}^{\infty}
+    \frac{x}{t} \phi(x) dx = \frac{1}{t}[-\phi(x)]_{x=t}^{\infty} =
+    \frac{\phi(t)}{t}$.
+
+    Then $\P(|Z| > t) = 2\P(Z > t) \leq 2 \frac{\phi(t)}{t} =
+    \sqrt{\frac{2}{\pi}} \frac{1}{t} e^{\frac{-t^2}{2}}$ as desired.
+\end{proof}
 
 \subsection{Inequalities for Expectation}
 
 % https://chatgpt.com/c/689b6b5f-4d00-832e-b574-8f6572915d59
 
-\subsection{Appendix}
+\section{Convergence}
 
-%% TODO: Taylor
+\subsection{Types of Convergence}
+
+\begin{proof}
+
+Now we prove (b). Fix $\epsilon > 0$ and let $x$ be a continuity point of $F$. $F_n(x) =
+\P(X_n \leq x) = \P(X_n \leq x, X \leq x + \epsilon) + \P(X_n \leq x, X \geq x
++ \epsilon) \leq \P(X \leq x + \epsilon) + \P(|X_n - X| \geq \epsilon) \leq
+F(x+\epsilon) + \P(|X - X_n| \geq \epsilon)$
+
+Similarly, $F(x-\epsilon) = \P(X \leq x - \epsilon, X_n \leq x) + \P(X \leq x -
+\epsilon, X_n \geq x) \leq F_n(x) + \P(|X-X_n| \geq \epsilon)$.
+
+We use these bounds to construct the inequality $F(x-\epsilon) - \P(|X-X_n|\geq
+\epsilon)\leq F_n(x) \leq F(x) + \P(|X-X_n|\geq \epsilon)$. Take the limit as
+$n$ goes to $\infty$. Notice that $F_n(x)$ is a sequence with no guarantees of
+convergence, so we have to account for the largest and smallest elements. By our assumption $\P(|X-X_n|\geq \epsilon) \xrightarrow{} 0$ as $n \xrightarrow{} \infty$.
+
+$F(x-\epsilon) \leq \lim \inf F_n(x) \leq \lim \sup F_n(x) \leq F(x+\epsilon)$
+
+Now take the limit as $\epsilon \xrightarrow 0$ (this statement holds for
+arbitrary $\epsilon > 0$). $F(x^-) \leq \lim \inf F_n(x) \leq \lim \sup F_n(x)
+\leq F(x^+)$. Using continuinty of $F$ at $x$, $F(x^-) = F(x^+)$ and $F_n(x) =
+F(x)$ as desired.
+\end{proof}
+
+\begin{note}[Convergence in probability does not imply convergence in quadratic mean]
+    Let $U \sim Uniform(0, 1)$ and $X_n = \sqrt{n}I_{(0, \frac{1}{n})}(U)$.
+    First see $X_n \xrightarrow{P} 0$. Indeed as $n$ grows sufficiently large, for
+    arbitrary $\epsilon$, $\P(|X_n| \geq \epsilon) = \P(0 \geq U < n) = n
+    \xrightarrow{} 0$. However, $\E{X_n^2} = \int_{u=0}^{\frac{1}{n}} n du =
+    1$.
+\end{note}
+
+\begin{note}[Convergence in distribution does not imply convergence in probability]
+    Let $X \sim Normal(0, 1)$. For each $n$, let $X_n = -X$. $F_n(x) = F(x)$
+    for any $x$. But $\P(|X - X_n| \geq \epsilon) = \P(|2X| \geq \epsilon) = \P(|X|
+    \geq \frac{\epsilon}{2}) \neq 0$.  Indeed the symmetrical shape of the
+    Gaussian preserves the CDF but any given values are negatives of each other
+    and will never converge.
+\end{note}
+
+\subsection{The Law of Large Numbers}
+
+A crowned jewel of probability. The sample mean approaches the expectation of
+the underlying distribution.
+
+\begin{definition}
+    Let $X_1 \dots X_n$ be i.i.d. with $\E{X_i} = \mu$ and $\Var{X_i} =
+    \sigma^2$. Let $\bar{X_n} = n^{-1}\sum_{i=0}^n X_i$. Then $\bar{X_n}
+    \xrightarrow{P} \mu$.
+\end{definition}
+
+The sample mean is a \textbf{random variable} so it will never numerically
+equal the expectation. It will cluster closer and closer to it.
+
+\subsection{The Central Limit Theorem}
+
+While the LLN tells us the sample mean clusters around the true mean, it does
+not give us tools to approximate statements about probability.
+
+\begin{definition}[CLT]
+    Let $X_1 \dots X_n$ be i.i.d. with $\E{X_i} = \mu$ and $\Var{X_i} =
+    \sigma^2$. Let $\bar{X_n} = n^{-1}\sum_{i=0}^n X_i$. Then $Z_n =
+    \frac{\sqrt{n}(\bar{X_n}-\mu)}{\sigma} \xrightarrow{D} N(0, 1)$
+
+    In other words, $\lim_{n \xrightarrow{} \infty} \P(Z_n \leq z) = \P(Z \leq z) = \phi(z)$
+\end{definition}
+
+Note we use this to approximate \textbf{probability statements} not the
+distribution $\bar{X_n}$ itself. 
+
+These approximations are not perfect and indeed we can bound the error:
+
+\begin{definition}[The Berry-Esseen Inequality]
+    $sup_x |\P(Z_n \leq x) - \phi(x)| \leq \frac{37}{4}\frac{\E{|X_i-\mu|^3}}{\sqrt{n}\sigma^3}$
+\end{definition}
+
+Where the $sup$ bounds the difference across all possible $x$ in the domain.
+
+\subsection{Delta Method}
+
+This is like the CLT for functions of the sample mean.
+
+\begin{exercise}
+    Let $X_1 \dots X_n$ be i.i.d. with $E{X} = \mu$ and $\Var{X} = \sigma^2$.
+    Let $S_n = \frac{1}{1-n}\sum_{i=1}^n(X_i - \bar{X_n})$
+    \begin{itemize}
+        \item{Show $\E{S_n} = \sigma^2$}
+    \end{itemize}
+\end{exercise}
+
+\begin{proof}
+    \begin{itemize}
+        \item{Recognize $\sum_{i=1}^n (X_i - \bar{X_n})^2 = \sum_{i=1}^n (X_i^2
+            - 2 X_i\bar{X_n} + \bar{X_n}^2) = \sum_{i=1}^n (X_i^2) - 2 n
+        \bar{X_n} \bar{X_n} + n\bar{X_n}^2 = \sum_{i=1}^n (X_i^2) - n
+    \bar{X_n}^2 = nX_i^2 - n\bar{X_n}^2$. Our original expectation simplifies
+like $\E{\frac{1}{n-1}\sum_{i=1}^n(X_i-\bar{X_n})^2} = \frac{1}{n-1}\E{nX_i^2} -
+\E{n\bar{X_n}^2} = \frac{1}{n-1}(n(\sigma^2-\mu^2) - n(\frac{\sigma^2}{n} -
+\mu^2)) = \sigma^2$}
+        \item{}
+    \end{itemize}
+\end{proof}
+
+\begin{exercise}
+    Let $X_1 \dots X_n$ be a sequence. Show $X_n \xrightarrow{QM} b$ if and
+    only if $\E{X_n} \xrightarrow{} b$ and $\Var{X_n} \xrightarrow{} 0$
+\end{exercise}
+
+\begin{proof}
+    The key identity is $\E{(X_n - b)^2} = \E{X_n^2} - (\E{X_n}^2 + \E{X_n}^2)
+    -2\E{X_n}b + b^2 = \Var{X_n} + (\E{X_n}-b)^2$. The reverse implication
+    follows immediately. To see the forward argument, notice $\Var{X_n} \leq
+    \E{(X_n - b)^2} \xrightarrow{} 0$
+    and $(\E{X_n}-b)^2 \leq \E{(X_n - b)^2} \xrightarrow{} 0$. Then $\Var{X_n}
+    \xrightarrow{} 0$ and $\E{X_n} \xrightarrow{} b$.
+\end{proof}
+
+\begin{exercise}
+    Let $X_1 \dots X_n$ be i.i.d. and let $\mu = \E{X_1}$. Suppose the variance
+    is finite. Show $\bar{X_n} \xrightarrow{QM} \mu$
+\end{exercise}
+
+\begin{proof}
+    Expand $\E{(\bar{X_n}-\mu)^2} = \Var{X_n} + \E{\bar{X_n}^2}
+    -2\mu\E{\bar{X_n}} + \mu^2 = \frac{\sigma^2}{n} \xrightarrow{} 0$
+\end{proof}
+
+\begin{exercise}
+    Let $X_1, X_2 \dots$ be a sequence of r.v.s such that $\P(X_n =
+    \frac{1}{n}) = 1 - \frac{1}{n^2}$ and $\P(X_n = n) = \frac{1}{n^2}$. Does
+    $X_n$ converge in probability? Does $X_n$ converge in quadratic mean?
+\end{exercise}
+
+\begin{proof}
+    Intuitively $X_n$ approaches 0 with increasing probability. Using Markov's, $\P(|X_n - 0| >
+    \epsilon) \leq \frac{\E{X_n}}{\epsilon}$ where $\E{X_n} = \frac{1}{n}(1 - \frac{1}{n^2}) + n(\frac{1}{n^2}) \xrightarrow{} 0$. We can conclude $X_n
+    \xrightarrow{P} 0$.
+    However, $\E{(X_n-0)^2} = \frac{1}{n^2}(1 - \frac{1}{n^2}) +
+    n^2(\frac{1}{n^2}) \xrightarrow{} 1$. So $X_n$ does not converge in
+    quadratic mean.
+\end{proof}
+
+\begin{exercise}
+    Let $X_1 \dots X_n$ be i.i.d. $Bernoulli(p)$. Show
+    $\frac{1}{n}\sum_{i=0}^nX_i^2$ converges in probability and quadratic mean
+    to $p$.
+\end{exercise}
+
+\begin{proof}
+    $\E{(\frac{1}{n}\sum_{i=0}^nX_i)^2 - 2p\frac{1}{n}\sum_{i=0}^nX_i^2 + p^2}
+    = \E{(\frac{1}{n}\sum_{i=0}^nX_i)^2} -2p^2 + p^2$. Notice
+    $\E{(\frac{1}{n}\sum_{i=0}^nX_i)^2}$ has $n$ terms of expectation $p$ (the
+    diagonals) and $n^2-n$ terms of expectation $p^2$. Then
+    $\E{(\frac{1}{n}\sum_{i=0}^nX_i)^2} = \frac{1}{n^2}((n^2-n)p^2 + np)$. The
+    entire expectation is then $\frac{1}{n^2}((n^2-n)p^2 + np) - p^2 =
+    \frac{1}{n}(p^2-p) \xrightarrow{} 0$.
+    Because convergence in qm implies convergence in probability, this sum also
+    converges in probability.
+\end{proof}
+
+\begin{exercise}
+    Assume average height of men is 68 inches and standard deviation 2.6 inches.
+    Draw 100 men at random. Find the approximate probability the average height will be at
+    least 68 inches.
+\end{exercise}
+
+\begin{proof}
+    By the CLT, we know $\frac{\sqrt{n}(X_n-\mu)}{\sigma} \xrightarrow{D} Z$ so $\P(\bar{X_n} \geq 68) = \P(Z \geq 0)$. Indeed $\P(Z \geq 0) = 1 - \P(Z \leq 0) = \frac{1}{2}$
+\end{proof}
 
 \end{document}
