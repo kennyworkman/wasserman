@@ -1828,4 +1828,92 @@ like $\E{\frac{1}{n-1}\sum_{i=1}^n(X_i-\bar{X_n})^2} = \frac{1}{n-1}\E{nX_i^2} -
     By the CLT, we know $\frac{\sqrt{n}(X_n-\mu)}{\sigma} \xrightarrow{D} Z$ so $\P(\bar{X_n} \geq 68) = \P(Z \geq 0)$. Indeed $\P(Z \geq 0) = 1 - \P(Z \leq 0) = \frac{1}{2}$
 \end{proof}
 
+\section{Models, Statistical Inference and Learning}
+
+\subsection{Introduction}
+
+Statistical inference is the process of using data to infer the distribution
+that generated the data. A typical question is:
+
+\[ \text{Given a sample }X_1 \dots X_n \sim F\text{, how do we infer }F\text{ ?} \]
+
+\subsection{Parametric and Nonparametric Models}
+
+\subsection{Fundamental Concepts in Inference}
+
+Many inferential problems are one of three types: point estimation, confidence
+sets or hypothesis testing.
+
+\begin{definition}
+    The bias of an estimator is defined by $bias(\hat{\theta}_n) = \E{\hat{\theta}_n} - \theta$
+\end{definition}
+
+We say that $\hat{\theta}_n$ is \textbf{unbiased} if $bias(\hat{\theta}_n) = 0$.
+
+\begin{definition}
+    An estimator $\hat{\theta}_n$ of a parameter $\theta$ is \textbf{consistent} if
+    $\hat{\theta}_n \xrightarrow{P} \theta$.
+\end{definition}
+
+\begin{definition}
+    The distribution of $\hat{\theta}_n$ is called the \textbf{sampling distribution}.
+    The \textbf{standard error} of $\hat{\theta}_n$ is defined as $\sqrt{\Var{\hat{\theta}_n}}$.
+\end{definition}
+
+Intuitively the bias is a good measure of the mean of our estimator, but does
+not rule out things like long tails. Asymptotically, consistency is a stronger
+condition and lets us know if the entire distribution of the estimator clusters
+around the parameter instead of just the mean.
+
+\begin{theorem}
+    $\operatorname{MSE}(\hat{\theta}) = \Var{\hat{\theta}} + \operatorname{bias}^2({\hat{\theta}})$
+\end{theorem}
+
+\begin{proof}
+    $\E{(\hat{\theta} - \theta)^2} = \E{(\hat{\theta} - \bar{\hat{\theta}} +
+    \bar{\hat{\theta}} - \theta)^2} = \E{(\hat{\theta} - \bar{\hat{\theta}})^2}
+    + \E{2(\hat{\theta} - \bar{\hat{\theta}})(\bar{\hat{\theta}} - \theta)}
+    + \E{(\bar{\hat{\theta}} - \theta)^2}$. The middle terms drop out
+    ($\E{\hat{\theta} - \bar{\hat{\theta}}}) = 0$) and we
+    are left with $\Var{\hat{\theta}} + \operatorname{bias}^2(\hat{\theta})$
+\end{proof}
+
+\begin{definition}
+    A \textbf{$1-\alpha$ confidence interval} for a parameter $\theta$ is some interval
+    $C_n = (a, b)$ where $a = a(X_1 \dots X_n)$ and $b = b(X_1 \dots X_n)$ are
+    functions of the data such that $\P(\theta \in C) \geq 1-\alpha$.
+\end{definition}
+
+\begin{exercise}
+    Let $X_1 \dots X_n \sim Poisson(\lambda)$ and $\hat{\lambda} = n^{-1}\sum_{i=1}^n
+    X_i$. Find the bias, se and MSE of the estimator.
+\end{exercise}
+
+\begin{proof}
+    $\operatorname{bias}^2(\hat{\lambda}) = \E{\hat{\lambda}} - \lambda = 0$.
+    $\operatorname{se}(\hat{\lambda}) = \sqrt{\frac{\lambda}{n}}$.
+
+    We will compute the MSE directly for practice rather than using the
+    decomposition of bias and variance. $\operatorname{MSE}(\hat{\lambda}) =
+    \E{(\hat{\lambda} - \lambda)^2} = \E{\hat{\lambda}^2} -
+    2\E{\hat{\lambda}}\E{\lambda} + \E{\lambda^2} = \frac{\lambda}{n} +
+    \lambda^2 - 2\lambda^2 + \lambda^2 = \frac{\lambda}{n}$.
+\end{proof}
+
+\begin{exercise}
+    Let $X_1 \dots X_n \sim Uniform(\theta)$ and $\hat{\theta} = max\{X_1 \dots
+    X_n\}$. Find the bias, se and MSE of the estimator.
+\end{exercise}
+
+\begin{proof}
+    Let $M = max\{X_1 \dots X_n\}$. The CDF for $M$ is $\P(M \leq x) =
+    (\frac{x}{\theta})^n$. The density is then $n\frac{x^{n-1}}{\theta^n}$.
+    $\E{M} = \int_{x=0}^{\theta} n \frac{x^{n}}{\theta^n} dx =
+    [\frac{1}{\theta^n}\frac{n}{n+1}x^{n+1}]_{x=0}^{\theta} = \frac{n}{n+1}\theta$
+
+    $\operatorname{bias}^2(\hat{\theta}) = -\frac{1}{n+1}\theta$
+\end{proof}
+
+\section{Estimating the CDF and Statistical Functionals}
+
 \end{document}
