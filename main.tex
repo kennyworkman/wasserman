@@ -1910,10 +1910,53 @@ around the parameter instead of just the mean.
     (\frac{x}{\theta})^n$. The density is then $n\frac{x^{n-1}}{\theta^n}$.
     $\E{M} = \int_{x=0}^{\theta} n \frac{x^{n}}{\theta^n} dx =
     [\frac{1}{\theta^n}\frac{n}{n+1}x^{n+1}]_{x=0}^{\theta} = \frac{n}{n+1}\theta$
-
     $\operatorname{bias}^2(\hat{\theta}) = -\frac{1}{n+1}\theta$
 \end{proof}
 
 \section{Estimating the CDF and Statistical Functionals}
 
+\begin{definition}
+    Consider i.i.d. $X_1 \dots X_n \sim F$. The empirical distribution function
+    $\hat{F_n}$ is defined $\hat{F_n}(x) = n^{-1}\sum_{i=1}^n I(X_i \leq x)$
+\end{definition}
+
+\begin{theorem}
+    For any fixed value $x$,
+
+    $\E{\hat{F_n(x)}} = F(x)$
+
+    $\Var{\hat{F_n(x)}} = n^{-1}(1-F(x))F(x)$
+
+    $\operatorname{MSE}{\hat{F_n(x)}} = n^{-1}(1-F(x))F(x)$
+
+    $\hat{F_n(x)} \xrightarrow{P} F(x)$
+\end{theorem}
+
+Recognize for fixed $x$, the value of the empirical distribution function can be treated as a sample mean
+of i.i.d. Bernoulli ($p = \P(X_i \leq x)$). These are all quite straightforward to prove directly.
+
+
+\begin{note}
+We recall that Hoeffding's inequality was introduced to give a tight
+bound on the sample mean of i.i.d. Bernoulli:
+
+\[\P(|\bar{X_n} - p| \geq \epsilon) \leq 2e^{-2n\epsilon^2}\]
+
+Recall, when $\epsilon = \sqrt{\frac{1}{2n}\log{\frac{2}{\alpha}}}$, the bound
+is exactly $\alpha$. This provides the $1-\alpha$ confidence interval we
+desire.
+
+The inequality we introduce next uses this same idea.
+\end{note}
+
+\begin{definition}[Dvoretzky-Kiefer-Wolfowitz (DKW) Inequality]
+    Let $X_1 \dots X_n \sim F$. Then for any $\epsilon > 0$,
+    \[\P(\sup_x|F(x)-\hat{F_n(x)}| \geq \epsilon) \leq 2e^{-2n\epsilon^2}\]
+\end{definition}
+
+\begin{definition}[Nonparametric $1-\alpha$ Confidence Band for $F$]
+    %TODO
+\end{definition}
+
+The supremum guarantees this holds even for the largest value of $F$.
 \end{document}
