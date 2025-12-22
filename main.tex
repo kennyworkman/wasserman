@@ -1538,8 +1538,26 @@ expression collapses to $\E{X^2} - \E{X}^2 = \Var{X}$.
 \end{proof}
 
 \begin{note}
-    Hoeffding's inequality gives us a convenient way of constructing confidence
-    intervals. %TODO
+    Our bounds, like Hoeffding's, are statements about tail probabilities $\P(|\hat{\mu} -
+    \mu| \geq \epsilon) \leq \alpha$. But confidence intervals require a
+    something more like '$\mu$ must lie within the $\epsilon$ neighborhood of
+    $\hat{\mu}$'.
+
+    In general, recognize:
+    \[\P(|\hat{\mu} - \mu| \geq \epsilon) \leq \alpha\]
+    \[= \P(|\hat{\mu} - \mu| < \epsilon) > \alpha\]
+    \[= \P(\mu \in (\hat{\mu} - \epsilon, \hat{\mu} + \epsilon)) > \alpha\]
+
+    Immediately recognize the placement of terms to recover this statement
+    about containment in an interval to avoid getting lost in the algebra.
+    Reason about these statements geometrically.
+\end{note}
+
+\begin{note}
+    Hoeffding's provides an easy way to obtain confidence intervals.  Let
+    $\epsilon_n = \sqrt{\frac{1}{2n}\log{\frac{2}{\alpha}}}$, then
+    \[\P(|\bar{X_n} - p| \geq \epsilon_n) \leq \alpha\]
+    Which is exactly \[\P(p \in (\bar{X_n}-\epsilon_n, \bar{X_n}+\epsilon_n)) \geq \alpha\]
 \end{note}
 
 \begin{definition}[Mill's Inequality]
@@ -1932,9 +1950,30 @@ around the parameter instead of just the mean.
     $\hat{F_n(x)} \xrightarrow{P} F(x)$
 \end{theorem}
 
-Recognize for fixed $x$, the value of the empirical distribution function can be treated as a sample mean
-of i.i.d. Bernoulli ($p = \P(X_i \leq x)$). These are all quite straightforward to prove directly.
+\begin{proof}
+    $\E{\hat{F_n(x)}} = n^{-1}n\E{F_n(x)} = F(x)$. We can see $\E{F_n(x)} =
+    F(x)$ by computing expectation of the indicator directly, where $\E{F_n(x)}
+    = \P(X_i \leq x) = F(x)$ or by treating $F_n(x)$ as a coin flip with
+    probability of heads of $F(x)$.
 
+    $\Var{\hat{F_n(x)}} = n^{-2}n\Var{F_n(x)} = n^{-1}(1-F(x))F(x)$ where
+    $\Var{\hat{F_n(x)}} = (1-F(x))F(x)$ similarly because $\hat{F_n(x)}$ can be
+    thought of as Bernoulli.
+
+    $\operatorname{MSE}{\hat{F_n(x)}} = \E{(\hat{F_n(x)} - F(x))^2} =
+    \Var{\hat{F_n(x)}}$.
+
+    $\hat{F_n(x)} \xrightarrow{MSE} F(x) \implies \hat{F_n(x)} \xrightarrow{P}
+    F(x)$ by basic properties of convergence
+\end{proof}
+
+Recognize for fixed $x$, the value of the empirical distribution function can be treated as a sample mean
+of i.i.d. Bernoulli ($p = \P(X_i \leq x)$). The above proof shows this idea in action.
+
+\begin{definition}[Dvoretzky-Kiefer-Wolfowitz (DKW) Inequality]
+    Let $X_1 \dots X_n \sim F$. Then for any $\epsilon > 0$,
+    \[\P(\sup_x|F(x)-\hat{F_n(x)}| \geq \epsilon) \leq 2e^{-2n\epsilon^2}\]
+\end{definition}
 
 \begin{note}
 We recall that Hoeffding's inequality was introduced to give a tight
@@ -1948,11 +1987,6 @@ desire.
 
 The inequality we introduce next uses this same idea.
 \end{note}
-
-\begin{definition}[Dvoretzky-Kiefer-Wolfowitz (DKW) Inequality]
-    Let $X_1 \dots X_n \sim F$. Then for any $\epsilon > 0$,
-    \[\P(\sup_x|F(x)-\hat{F_n(x)}| \geq \epsilon) \leq 2e^{-2n\epsilon^2}\]
-\end{definition}
 
 \begin{definition}[Nonparametric $1-\alpha$ Confidence Band for $F$]
     %TODO
@@ -1983,7 +2017,7 @@ The supremum guarantees this holds even for the largest value of $F$.
     estimate is then
     value $\operatorname{\hat{se}}{\hat{\theta_n}} =
     \frac{n^{-1}\sum_{i=1}^n(X_i - \bar{X_n})^2 + m^{-1}\sum_{i=1}^m(Y_i -
-    \bar{Y_m})^2}{\sqr{n}}$.
+    \bar{Y_m})^2}{\sqrt{n}}$.
 \end{proof}
 
 \end{document}
