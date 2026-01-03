@@ -1996,28 +1996,30 @@ The supremum guarantees this holds even for the largest value of $F$.
 
 \begin{exercise}
     Let $X_1 \dots X_n \sim Bernoulli(p)$ and $Y_1 \dots Y_m \sim
-    Bernoulli(q)$. Find the estimator, estimated SE and 95 percent CI for $p$ and $p-q$.
+    Bernoulli(q)$. Find the estimator, estimated SE and approximate 95 percent CI for $p$ and $p-q$.
 \end{exercise}
 
 \begin{proof}
-    Because $\E{X_i} = p$, the plug-in estimator $\hat{p_n}$ is appropriate.
-    $\hat{p_n} = \bar{X_n}$ with standard error $\sqrt{\frac{\sigma}{n}}$.
-    Using the plug-in estimator $n^{-1}\sum_{i=1}^n(X_i - \bar{X_n})^2$ for
-    $\sigma$, our estimated standard error is
-    $\operatorname{\hat{se}}{(\hat{p_n})} = \frac{n^{-1}\sum_{i=1}^n(X_i -
-    \bar{X_n})^2}{\sqrt{n}}$.
-    Our 95 percent confidence interval is then
-    $(\bar{X_n}-\frac{n^{-1}\sum_{i=1}^n(X_i - \bar{X_n})^2}{\sqrt{n}},
-    \bar{X_n}+\frac{n^{-1}\sum_{i=1}^n(X_i - \bar{X_n})^2}{\sqrt{n}})$.
+    We start with $p$. Our estimator is exactly the plug-in estimator for the
+    mean: $\hat{p}_n = n^{-1}\sum_{i=1}^n X_i$. The
+    $\operatorname{SE}({\hat{p}_n}) = \frac{\sqrt{\sigma}}{n}$. Then our
+    estimated standard error is $\operatorname{\hat{SE}}({\hat{p}_n}) =
+    \frac{\sqrt{\hat{\sigma}_n}}{n}$. We can use the plug-in estimator for the
+    variance of $\hat{p}_n$ to estimate $\hat{\sigma}_n$. This estimator is $n^{-1}\sum_{i=1}^n (X_i - \bar{X}_n)^2$. The estimated error is then $\operatorname{\hat{SE}}({\hat{p}_n}) = \frac{\sqrt{n^{-1}\sum_{i=1}^n (X_i - \bar{X}_n)^2}}{n}$. To find the CI, we recognize $\hat{p}_n \sim Normal(p, \operatorname{SE}({\hat{p}_n}))$
+    as $n$ grows large by C.L.T. Let $z_{95} = \Phi^{-1}(95)$, then
+    $(\frac{\hat{p}_n - p}{\sqrt{\operatorname{\hat{SE}}({\hat{p}_n})}} - z_{95},
+    \frac{\hat{p}_n - p}{\sqrt{\operatorname{\hat{SE}}({\hat{p}_n})}} + z_{95})$ is
+    our approximate 90 percent confidence interval.
 
-    For $\theta = p - q$, $\hat{\theta} = \hat{p_n} - \hat{q_m} = \bar{X_n} -
-    \bar{Y_m}$. $\operatorname{se}{\hat{\theta}} =
-    \sqrt{\Var{\hat{\theta}}} = \sqrt{\Var{\hat{p_n} - \hat{q_m}}} =
-    \frac{\operatorname{se}{p_n} + \operatorname{se}{q_m}}{\sqrt{n}}$. Our
-    estimate is then
-    value $\operatorname{\hat{se}}{\hat{\theta_n}} =
-    \frac{n^{-1}\sum_{i=1}^n(X_i - \bar{X_n})^2 + m^{-1}\sum_{i=1}^m(Y_i -
-    \bar{Y_m})^2}{\sqrt{n}}$.
+    Now let $\theta = p - q$. $\hat{\theta}_n = n^{-1}\sum_{i=1}^n X_i -
+    m^{-1}\sum_{j=1}^m Y_j$. $\operatorname{\hat{SE}}({\hat{\theta}_n}) =
+    \frac{\sqrt{n^{-1}\sum_{i=1}^n (X_i - \bar{X}_n)^2}}{n} +
+    \frac{\sqrt{m^{-1}\sum_{j=1}^m (Y_i - \bar{Y}_m)^2}}{m}$. $\hat{\theta}_n$
+    is similarly distributed over $Normal(\theta,
+    \operatorname{\hat{SE}}(\hat{\theta}_n))$
+    $(\frac{\hat{\theta}_n - \theta}{\sqrt{\operatorname{\hat{SE}}({\hat{\theta}_n})}} - z_{95},
+    \frac{\hat{\theta}_n - \theta}{\sqrt{\operatorname{\hat{SE}}({\hat{\theta}_n})}} + z_{95})$ is
+    our approximate 90 percent confidence interval.
 \end{proof}
 
 \end{document}
