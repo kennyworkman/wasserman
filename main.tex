@@ -1746,6 +1746,19 @@ not give us tools to approximate statements about probability.
 Note we use this to approximate \textbf{probability statements} not the
 distribution $\bar{X_n}$ itself. 
 
+\begin{note}
+    By scaling/shifting $Z$, the CLT really gives us a family of limiting
+    distributions. We often refer to $\sqrt{n}(\bar{X}_n - \mu)$ as the
+    'canonical scaling'. This is because it leads to a non-degenerate limit,
+    approximated by $N(0, \sigma^2$ where neither mean or variance depend on
+    $n$.
+
+    Another way of thinking about this 'canonical' member is as result of the
+    minimal number of steps needed to 'remove the dependence on $n$' from both
+    mean and variance. If one scales by $\sqrt{n}$, the mean is now
+    $\sqrt{n}\mu$. If one shifts by $\mu$, the $n$ remains in the variance.
+\end{note}
+
 These approximations are not perfect and indeed we can bound the error:
 
 \begin{definition}[The Berry-Esseen Inequality]
@@ -2020,6 +2033,64 @@ The supremum guarantees this holds even for the largest value of $F$.
     $(\frac{\hat{\theta}_n - \theta}{\sqrt{\operatorname{\hat{SE}}({\hat{\theta}_n})}} - z_{95},
     \frac{\hat{\theta}_n - \theta}{\sqrt{\operatorname{\hat{SE}}({\hat{\theta}_n})}} + z_{95})$ is
     our approximate 90 percent confidence interval.
+\end{proof}
+
+\begin{exercise}
+    Let $X_1 \dots X_n \sim F$ and $\hat{F}_n$ be the empirical distribution
+    function. For fixed $x$, use the CLT to find the limiting distribution
+    of $\hat{F}_n(x)$
+\end{exercise}
+
+\begin{proof}
+    For fixed $x$, let $Y_i = I(X_i \leq x)$ so $\hat{F}_n(x) = \bar{Y}_n$.
+    Then, by CLT, $\bar{Y}_n \approx N(\mu, \frac{\sigma^2}{n})$ where $\mu
+    = \P(X_i \leq x)$ and $\sigma^2 = \P(X_i \leq x)(1 - \P(X_i \leq
+    x))$. This approximation of $\hat{F}_n(x)$ is
+    $N(\P(X_i \leq x),\frac{\P(X_i \leq x)(1 - \P(X_i \leq x))}{n})$. We can
+    center and scale to find a limiting distribution that is not degenerate
+    (mean and variance are independent of $n$): $\sqrt{n}(\hat{F}_n(x) -
+    F(x)) \xrightarrow{d}{} N(0, F(x)(1 - F(x))$.
+\end{proof}
+
+\begin{proof}
+    Let $x$ and $y$ be distinct points. Find $\Cov{\hat{F}_n(x), \hat{F}_n(y)}$.
+\end{proof}
+
+\begin{exercise}
+    $\Cov{\hat{F}_n(x), \hat{F}_n(y)} = \Cov{n^{-1}\sum_{i=1}^n 1(X_i \leq x),
+    n^{-1}\sum_{j=1}^n 1(X_j \leq y)}$ Because covariance is bilinear, this is
+    $n^{-2}\sum_{i=1}^n\sum_{j=1}^n\Cov{1(X_i \leq x), 1(X_j \leq y)}$. When $i
+    \neq j$, the indicators are independent so the covariance drops out. We are
+    left with the diagonals: $n^{-2}n\Cov{1(X_1\leq x), 1(X_1\leq y)}$.
+    $\Cov{1(X_1\leq x), 1(X_1\leq y)} = \E{1(X_1\leq x)1(X_1\leq y)} - F(x)F(y)
+    = \P(X_1 \leq \min\{x,y\})) - F(x)F(y) = F(\min\{x, y\})-F(x)F(y)$. Our final
+    answer is then $n^{-1}(F(\min\{x, y\})-F(x)F(y))$.
+\end{exercise}
+
+\begin{exercise}
+    Let $X_1 \dots X_n \sim F$ and $\hat{F}_n$ be the empirical distribution
+    function. Let $a < b$ be fixed numbers and define $\theta = T(F) = F(b) -
+    F(a)$. Let $\hat{\theta} = T(\hat{F}_n) = \hat{F}_n(b) - \hat{F}_n(a)$.
+    Find the estimated standard error of $\hat{\theta}$ and an expression for
+    an approximate $1-\alpha$ confidence interval for $\theta$.
+\end{exercise}
+
+\begin{proof}
+    $\operatorname{SE}({\hat{\theta}}) = \sqrt{\Var{\hat{F}_n(b) -
+    \hat{F}_n(a)}} = \sqrt{\Var{\hat{F}_n(b)} + \Var{\hat{F}_n(a)}}$. Because
+    $\Var{\hat{F}_n(b)} = \frac{F(b)(1-F(b))}{n}$,
+    $\operatorname{SE}({\hat{\theta}}) = \sqrt{\frac{F(b)(1-F(b)) + F(a)(1-F(a))}{n}}$. A good estimator for $F(x)$ is the empirical
+    distribution function, so $\operatorname{\hat{SE}}({\hat{\theta}}) =
+    \sqrt{\frac{\hat{F}_n(b)(1-\hat{F}_n(b)) +
+    \hat{F}_n(a)(1-\hat{F}_n(a))}{n}}$.
+
+    We can use DKW, which gives us a confidence interval $\P(\hat{F}_n(x) -
+    \epsilon \leq F(x) \leq \hat{F}_n(x) + \epsilon) \leq 2e^{2n\sigma^2}$ for
+    fixed $x$, to compute an expanded confidence interval for our difference
+    $\hat{F}_n(b) - \hat{F}_n(a)$. This approximate confidence interval is
+    $\P((\hat{F}_n(b) - \epsilon) - (\hat{F}_n(a) - \epsilon) \leq \theta
+    \leq (\hat{F}_n(b) + \epsilon) - (\hat{F}_n(a) + \epsilon) \leq F(b))$
+    https://chatgpt.com/c/695ae21c-5214-832c-9429-2b06dcdf263d
 \end{proof}
 
 \end{document}
