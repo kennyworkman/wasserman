@@ -2076,21 +2076,52 @@ The supremum guarantees this holds even for the largest value of $F$.
 \end{exercise}
 
 \begin{proof}
-    $\operatorname{SE}({\hat{\theta}}) = \sqrt{\Var{\hat{F}_n(b) -
-    \hat{F}_n(a)}} = \sqrt{\Var{\hat{F}_n(b)} + \Var{\hat{F}_n(a)}}$. Because
-    $\Var{\hat{F}_n(b)} = \frac{F(b)(1-F(b))}{n}$,
-    $\operatorname{SE}({\hat{\theta}}) = \sqrt{\frac{F(b)(1-F(b)) + F(a)(1-F(a))}{n}}$. A good estimator for $F(x)$ is the empirical
-    distribution function, so $\operatorname{\hat{SE}}({\hat{\theta}}) =
-    \sqrt{\frac{\hat{F}_n(b)(1-\hat{F}_n(b)) +
-    \hat{F}_n(a)(1-\hat{F}_n(a))}{n}}$.
+    First, recognize $\hat{\theta} = \hat{F}_n(b) - \hat{F}_n(a)$ can be
+    rewritten as a sample mean of Bernoulli, $Y_i = 1(X_i \leq b) - 1(X_i \leq
+    a)$ where $\E{Y_i} = \theta$. Then $\hat{\theta} = \bar{Y}_n$ and
+    $\operatorname{SE}{(\hat{\theta})} = \sqrt{\frac{\theta(1-\theta)}{n}}$.
+    $\theta$ is unknown so our approximate error is
+    $\operatorname{\hat{SE}}{(\hat{\theta})} =
+    \sqrt{\frac{\hat{\theta}(1-\hat{\theta})}{n}}$.
 
-    We can use DKW, which gives us a confidence interval $\P(\hat{F}_n(x) -
-    \epsilon \leq F(x) \leq \hat{F}_n(x) + \epsilon) \leq 2e^{2n\sigma^2}$ for
-    fixed $x$, to compute an expanded confidence interval for our difference
-    $\hat{F}_n(b) - \hat{F}_n(a)$. This approximate confidence interval is
-    $\P((\hat{F}_n(b) - \epsilon) - (\hat{F}_n(a) - \epsilon) \leq \theta
-    \leq (\hat{F}_n(b) + \epsilon) - (\hat{F}_n(a) + \epsilon) \leq F(b))$
-    https://chatgpt.com/c/695ae21c-5214-832c-9429-2b06dcdf263d
+    To find our confidence intervals, recognize $\bar{Y_n} \xrightarrow{d}
+    N(\theta, \frac{\theta(1-\theta)}{n})$ by CLT. Then,
+    $\frac{\sqrt{n}\bar{Y_n}-\theta}{\sqrt{\theta(1-\theta)}} \xrightarrow{d} N(0,
+    1)$. Thus $\P(|\frac{\sqrt{n}\bar{Y_n}-\theta}{\sqrt{\theta(1-\theta)}}|
+    \leq z_{1-\frac{\alpha}{2}}) \approx 1-\alpha$. Moving terms
+    around: 
+    $\P(|\hat{\theta}-\theta| \leq
+    \sqrt{\frac{\theta(1-\theta)}{n}}z_{1-\frac{\alpha}{2}}) \approx
+    1-\alpha$.
+\end{proof}
+
+\begin{exercise}
+    Using the earthquake magnitude data provided, estimate $F(x)$ then compute
+    and plot the 95 percent confidence interval for $F$. Then compute an
+    approximate 95 percent CI for $F(4.9) - F(4.3)$.
+\end{exercise}
+
+\begin{proof}
+    Using the DKW inequality, the 95\% confidence band is
+    \[
+        L(x) = \hat{F}_n(x) - \epsilon_n, \quad U(x) = \hat{F}_n(x) + \epsilon_n
+    \]
+    where $\epsilon_n = \sqrt{\frac{1}{2n}\log\frac{2}{\alpha}}$ with $\alpha = 0.05$.
+    See \cref{fig:7.7}.
+
+    For $\theta = F(4.9) - F(4.3)$, we use the plug-in estimate
+    $\hat{\theta} = \hat{F}_n(4.9) - \hat{F}_n(4.3)$ with Wald interval
+    \[
+        \hat{\theta} \pm z_{1-\alpha/2} \sqrt{\frac{\hat{\theta}(1-\hat{\theta})}{n}}
+    \]
+    giving the 95\% CI $[0.495, 0.557]$. See \texttt{code/7.7.py} for implementation.
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.8\textwidth]{code/7.7.pdf}
+        \caption{95\% confidence band for earthquake magnitude CDF}
+        \label{fig:7.7}
+    \end{figure}
 \end{proof}
 
 \end{document}
