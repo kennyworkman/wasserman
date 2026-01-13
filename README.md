@@ -48,3 +48,21 @@ Notes and solutions from Larry Wasserman's All of Statistics.
 - The Law of Large Numbers
 - The Central Limit Theorem
 - The Delta Method
+
+## Models, Statistical Inference and Learning
+
+- Parametric and Nonparametric Methods
+- Fundamental Concepts in Inference
+
+## Estimating the CDF and Statistical Functionals
+
+- The Empirical Distribution Function
+- Statistical Functionals
+
+## The Boostrap
+
+- Simulation
+- Bootstrap Estimation of Variance
+- Bootstrap Confidence Intervals
+
+Send corrections to kenny@latch.bio
