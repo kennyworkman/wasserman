@@ -2124,4 +2124,31 @@ The supremum guarantees this holds even for the largest value of $F$.
     \end{figure}
 \end{proof}
 
+\section{The Bootstrap}
+
+\subsection{Simulation}
+
+\subsection{Bootstrap Variance Estimation}
+
+\subsection{Bootstrap Confidence Intervals}
+
+\begin{definition}[Pivot Intervals]
+    Let $\theta = T(F)$ and $\hat{\theta}_n = T(\hat{F}_n)$. We define our
+    \textbf{pivot} as $R = \hat{\theta}_n - \theta$.
+
+    Let $H(r) = \P(R \leq r)$ be the CDF of the pivot. Because $H$ is a
+    function of $F$, we compute a bootstrap estimation $\hat{H}(r) =
+    B^{-1}\sum_{i=1}^B 1(R^*_{n,b} \leq r)$
+
+    Where $R^*_{n,b} = \hat{\theta}^*_{n,b} - \hat{\theta}_n$.
+    Denote $R^*_{\beta}$ as the $\beta$ sample quantile of $(R^*_{n,i} \dots
+    R^*_{n,b})$ and $\hat{\theta}^*_{\beta}$ as the $\beta$ sample quantile of
+    $(\theta^*_{n,i} \dots \theta^*_{n,b})$. Notice $R^*_{\beta} =
+    \hat{\theta}^*_{\beta} - \hat{\theta}$.
+
+    Our confidence interval is then
+    $(2\hat{\theta}-\hat{\theta}^*_{1-\frac{\alpha}{2}},
+    2\hat{\theta}-\hat{\theta}^*_{\frac{\alpha}{2}})$.
+\end{definition}
+
 \end{document}
