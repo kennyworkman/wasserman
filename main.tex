@@ -2151,4 +2151,20 @@ The supremum guarantees this holds even for the largest value of $F$.
     2\hat{\theta}-\hat{\theta}^*_{\frac{\alpha}{2}})$.
 \end{definition}
 
+\begin{note}
+    The bootstrap is a method of estimating the expectation of any function of
+    a statistic, $\E{g(T_n)}$, not just the variance. It is implied in the
+    definition of pivot intervals that the CDF can be rewritten in this way.
+
+    Arriving at the bootstrap replicate $R^*_{n,b} = \hat{\theta}^*_{n,b} -
+    \hat{\theta}$ from $R_n = \hat{\theta}_n - \theta$ is not obvious
+    following Wasserman's two step procedure - construct the plug-in and then
+    compute the bootstrap from the plug-in - as it is easy to arrive at
+    circular logic. It seeems arriving at two different plug-in terms for both
+    $\hat{\theta}_n$ and  $\theta$ almost certainly involves knowledge of the 
+    bootstrap process before we are allowed to start. And if this is not the
+    case, naive application of the plugin produces a degenerate ${R_n}_{\hat{F}_n} =
+    \hat{\theta}_n - \hat{\theta}_n = 0$.
+\end{note}
+
 \end{document}
