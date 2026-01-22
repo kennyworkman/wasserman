@@ -2128,9 +2128,79 @@ The supremum guarantees this holds even for the largest value of $F$.
 
 \subsection{Simulation}
 
+If $Y_1 \dots Y_n \sim G$, by the law of large numbers:
+
+\[\frac{1}{B}\sum_{i=1}^BY_i \xrightarrow{P} \E{Y_i}\]
+
+as $B \xrightarrow{} \infty$. This is also true for arbitrary functions
+$g(Y_i)$:
+
+\[\frac{1}{B}\sum_{i=1}^Bg(Y_i) \xrightarrow{P} \E{g(Y_i)}\]
+
+Recognize the $\Var{Y_i}$ can be approximated in this way:
+
+\[\frac{1}{B}\sum_{i=1}^BY_i^2 - (\frac{1}{B}\sum_{i=1}^BY_i)^2 \xrightarrow{P}
+\E{Y_i^2} - \E{Y_i}^2 = \Var{X_i}\]
+
+So if we somehow have a simulation where we can draw
+from $G$ as many times as we like, we can get arbitrarily close to
+$\E{g(Y_i)}]$ using the LLN. 
+
+\begin{note}
+Developing the bootstrap in this way, it is clear it is a method for estimating
+the \textbf{sampling behavior} of an estimator and a generic one at that. It is
+not restricted to the variance but arbitrary functions of our estimator, like
+the CDF as we will see in pivotal confidence intervals.
+
+Recall, we can always construct the estimator so we can compute it from data in
+practice. If we can't do this, its not a useful estimator in the first place.
+\end{note}
+
 \subsection{Bootstrap Variance Estimation}
 
+So when are we able to simulate the distribution that generates a random
+variable? 
+
+Well if we know that $\hat{F_n}$ generates our data, which is the case with
+plug-in estimates, we have a full description of the distribution in "this
+world".  Simulation just amounts to picking out items from the set $\{X_1 \dots
+X_n\}$ we used to construct $\hat{F_n}$ in the first place.
+
+Our bootstrap estimation is then quite a simple procedure:
+
+\begin{definition}
+    \begin{itemize}
+        \item{Draw n observations $X^*_1 \dots X^*_n$ with replacement from $X_1 \dots X_n$.}
+        \item{Compute $T^*_n$ from $X^*_1 \dots X^*_n$.}
+        \item{Repeat 1. and 2. to get $T^*_{n, 1} \dots T^*_{n, B}$.}
+    \end{itemize}
+\end{definition}
+
+While maybe obvious, drawing n observations $X^*_1 \dots X^*_n$ with
+replacement from $X_1 \dots X_n$ is not the same as outright using the set $X_1
+\dots X_n$ even though they both use the same $n$ and come from the same set.
+The former introduces randomness distributed exactly as $\hat{F_n}$. The
+difference is incredibly important when understanding eg. pivotal confidence
+intervals.
+
+\begin{note}
+    A common use of the bootstrap is computing $\Var[\hat{F_n}]{T_n}$. This is:
+    \[ \frac{1}{B}\sum_{i=1}^B T^*_{n, i} - (\frac{1}{B}\sum_{r=1}^B T^*_{n, r})^2\]
+    Recall this is the variance of the \textbf{sampling distribution} of some statistic,
+    possibly the variance itself, not of the original observed data
+\end{note}
+
 \subsection{Bootstrap Confidence Intervals}
+
+We often use the bootstrap to build confidence intervals for our sampling
+distribution. We'll explore some techniques.
+
+\paragraph{Normal Interval.} The simplest technique assumes $T_n$ can be
+approximated by a normal distribution: $T_n
+z_{1-\alpha}\hat{s.e.}_{\text{boot}}$. Recall its actually quite difficult to
+estimate the standard error for many estimators.
+
+\paragraph{Pivotal Intervals.}
 
 \begin{definition}[Pivot Intervals]
     Let $\theta = T(F)$ and $\hat{\theta}_n = T(\hat{F}_n)$. We define our
@@ -2151,20 +2221,22 @@ The supremum guarantees this holds even for the largest value of $F$.
     2\hat{\theta}-\hat{\theta}^*_{\frac{\alpha}{2}})$.
 \end{definition}
 
-\begin{note}
-    The bootstrap is a method of estimating the expectation of any function of
-    a statistic, $\E{g(T_n)}$, not just the variance. It is implied in the
-    definition of pivot intervals that the CDF can be rewritten in this way.
+\paragraph{Percentile Intervals}. This is defined using direct bootstrap
+quantiles:
 
-    Arriving at the bootstrap replicate $R^*_{n,b} = \hat{\theta}^*_{n,b} -
-    \hat{\theta}$ from $R_n = \hat{\theta}_n - \theta$ is not obvious
-    following Wasserman's two step procedure - construct the plug-in and then
-    compute the bootstrap from the plug-in - as it is easy to arrive at
-    circular logic. It seeems arriving at two different plug-in terms for both
-    $\hat{\theta}_n$ and  $\theta$ almost certainly involves knowledge of the 
-    bootstrap process before we are allowed to start. And if this is not the
-    case, naive application of the plugin produces a degenerate ${R_n}_{\hat{F}_n} =
-    \hat{\theta}_n - \hat{\theta}_n = 0$.
+\[(\theta^*_{\frac{\alpha}{2}},  \theta^*_{1-\frac{\alpha}{2}})\]
+
+Which is very intuitive. Just grab the chunk of bootstraped $\theta$s that
+correspond to $\alpha$ of density and use the endpoints for the interval.
+
+\begin{note}
+    The pivotal and percentile intervals look very similar to each other. What
+    is the 'big idea' difference between them.
+
+    %TODO
+    The pivotal expression is a reflection about \theta:
+
+    \[\theta + (\theta - q) = 2\theta - q$\]
 \end{note}
 
 \end{document}
