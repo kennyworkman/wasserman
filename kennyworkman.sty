@@ -2,6 +2,9 @@
 \ProvidesPackage{kennyworkman}
 
 \usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{etoolbox}
+\AtBeginEnvironment{itemize}{\leavevmode}
+\AtBeginEnvironment{enumerate}{\leavevmode}
 \usepackage{mathrsfs}
 \usepackage{asymptote}
 \usepackage{cancel}
@@ -75,7 +78,7 @@
 \newcommand{\psmat}[1]{\begin{psmallmatrix} #1 \end{psmallmatrix}}
 
 \newcommand{\E}[1]{\operatorname{\mathbf{E}}\left[#1\right]}
-\newcommand{\Var}[1]{\operatorname{\mathbf{Var}}\left[#1\right]}
+\newcommand{\Var}[2][]{\operatorname{\mathbf{Var}}_{#1}\left[#2\right]}
 \newcommand{\Cov}[1]{\operatorname{\mathbf{Cov}}\left[#1\right]}
 \newcommand{\ci}{\perp\!\!\!\perp}
 
