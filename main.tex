@@ -2206,9 +2206,14 @@ estimate the standard error for many estimators.
     Let $\theta = T(F)$ and $\hat{\theta}_n = T(\hat{F}_n)$. We define our
     \textbf{pivot} as $R = \hat{\theta}_n - \theta$.
 
-    Let $H(r) = \P(R \leq r)$ be the CDF of the pivot. Because $H$ is a
-    function of $F$, we compute a bootstrap estimation $\hat{H}(r) =
-    B^{-1}\sum_{i=1}^B 1(R^*_{n,b} \leq r)$
+    Let $H(r) = \P(R \leq r)$ be the CDF of the pivot. $\P(a \leq \theta \leq
+    b) = 1 - \alpha$ if $a = \hat{\theta}_n - H^{-1}(1-\frac{\alpha}{2})$ and
+    $b = \hat{\theta}_n - H^{-1}(1-\frac{\alpha}{2})$ making this an exact
+    confidence interval.
+
+    However because $H$ is a function of $F$, we often compute a bootstrap
+    estimation $\hat{H}(r) = B^{-1}\sum_{i=1}^B 1(R^*_{n,b} \leq r)$ and build
+    an approximate confidence interval.
 
     Where $R^*_{n,b} = \hat{\theta}^*_{n,b} - \hat{\theta}_n$.
     Denote $R^*_{\beta}$ as the $\beta$ sample quantile of $(R^*_{n,i} \dots
@@ -2234,9 +2239,49 @@ correspond to $\alpha$ of density and use the endpoints for the interval.
     is the 'big idea' difference between them.
 
     %TODO
-    The pivotal expression is a reflection about \theta:
+    % The pivotal expression is a reflection about \theta:
 
-    \[\theta + (\theta - q) = 2\theta - q$\]
+    \[\theta + (\theta - q) = 2\theta - q\]
 \end{note}
+
+\setcounter{exercise}{4}
+\begin{exercise}
+    Let $X_1 \dots X_n$ be distinct observations without ties. Let $X^*_1 \dots
+    X^*_n$ be a bootstrap sample and $\bar{X^*_n} = n^{-1}\sum_{i=1}^n X^*_i$.
+    Find $\E{\bar{X^*_n}|X_1 \dots X_n}, \Var{\bar{X^*_n}|X_1 \dots X_n},
+    \E{\bar{X^*_n}}, \Var{\bar{X^*_n}}$.
+\end{exercise}
+
+\begin{proof}
+    $\E{\bar{X^*_n}|X_1 \dots X_n} = \E{n^{-1}\sum_{i=1}^n X^*_i |X_1 \dots
+    X_n} = n^{-1}\sum_{i=1}^n\E{X^*_i |X_1 \dots X_n}$. Recognize $\E{X^*_i
+    |X_1 \dots X_n}$, the expectation of a draw from our observed data, is
+    $\sum_{i=1}^n X_i n^{-1} = \bar{X_n}$. $n^{-1}\sum_{i=1}^n\E{X^*_i |X_1
+    \dots X_n} = \bar{X_n}$.
+
+    $\E{\bar{X^*_n}} =  \E{\E{\bar{X^*_n}|X_1 \dots X_n}} = \E{\bar{X_n}} = \mu$.
+
+    $\Var{\bar{X^*_n}|X_1 \dots X_n} = n^{-2} \sum_{i=1}^n \Var{X_i | X_1 \dots
+    X_n} = n^{-2} \sum_{i=1}^n (n^{-1} \sum_{i=1}^n X_i^2 - \bar{X_n}^2) =
+    n^{-2} (\sum_{i=1}^n X_i^2 - n\bar{X_n}^2) = n^{-1}(n^{-1}(\sum_{i=1}^n X_i^2 - \bar{X_n}^2))$. We
+    can use the same algebraic property to simplify sample variance:
+    $n^{-1}(n^{-1}(\sum_{i=1}^n X_i^2 - \bar{X_n}^2)) =
+    n^{-2}(\sum_{i=1}^n (X_i - \bar{X_n})^2))$ 
+
+    % TODO: total variance
+\end{proof}
+
+\setcounter{exercise}{2}
+\begin{exercise}
+    Let $X_1, \dots, X_n \sim t_3$ where $n = 25$. Let $\theta = T(F) =
+    (q_{.75} - q_{.25})/1.34$ where $q_p$ denotes the $p$th quantile. Do a
+    simulation to compare the coverage and length of the following confidence
+    intervals for $\theta$: (i) Normal interval with standard error from the
+    bootstrap, (ii) bootstrap percentile interval, and (iii) pivotal bootstrap
+    interval.
+\end{exercise}
+\begin{proof}
+    See \texttt{code/8.3.py}.
+\end{proof}
 
 \end{document}
