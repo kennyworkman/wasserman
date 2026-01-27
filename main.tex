@@ -2244,6 +2244,19 @@ correspond to $\alpha$ of density and use the endpoints for the interval.
     \[\theta + (\theta - q) = 2\theta - q\]
 \end{note}
 
+\setcounter{exercise}{2}
+\begin{exercise}
+    Let $X_1, \dots, X_n \sim t_3$ where $n = 25$. Let $\theta = T(F) =
+    (q_{.75} - q_{.25})/1.34$ where $q_p$ denotes the $p$th quantile. Do a
+    simulation to compare the coverage and length of the following confidence
+    intervals for $\theta$: (i) Normal interval with standard error from the
+    bootstrap, (ii) bootstrap percentile interval, and (iii) pivotal bootstrap
+    interval.
+\end{exercise}
+\begin{proof}
+    See \texttt{code/8.3.py}.
+\end{proof}
+
 \setcounter{exercise}{4}
 \begin{exercise}
     Let $X_1 \dots X_n$ be distinct observations without ties. Let $X^*_1 \dots
@@ -2271,17 +2284,30 @@ correspond to $\alpha$ of density and use the endpoints for the interval.
     % TODO: total variance
 \end{proof}
 
-\setcounter{exercise}{2}
+\setcounter{exercise}{6}
 \begin{exercise}
-    Let $X_1, \dots, X_n \sim t_3$ where $n = 25$. Let $\theta = T(F) =
-    (q_{.75} - q_{.25})/1.34$ where $q_p$ denotes the $p$th quantile. Do a
-    simulation to compare the coverage and length of the following confidence
-    intervals for $\theta$: (i) Normal interval with standard error from the
-    bootstrap, (ii) bootstrap percentile interval, and (iii) pivotal bootstrap
-    interval.
+    Let $X_1 \dots X_n \sim Uniform(0, \theta)$ and $\hat{\theta} = \max\{X_1
+    \dots X_n\}$. Generate a dataset of size 50 with $\theta=1$
+    \begin{enumerate}[(a)]
+        \item Compute the distribution for $\hat{\theta}$ and compare to the bootstrap histogram.
+        \item This is a case where the bootstrap is poor. Show $\P(\hat{\theta} = \theta) = 0$ and $\P(\hat{\theta}^* = \hat{\theta}) \approx 0.632$.
+    \end{enumerate}
 \end{exercise}
+
+\begin{note}
+    Wasserman writes $\P(\hat{\theta} = \hat{\theta})$ but almost certainly means
+$\P(\hat{\theta} = \theta)$.
+\end{note}
+
 \begin{proof}
-    See \texttt{code/8.3.py}.
+    \begin{enumerate}[(a)]
+        \item We can find the density of $\hat{\theta}$ by starting with the CDF $F(x) = \prod_i \P(X_i \leq x) = (\frac{x}{\theta})^n$. Then $f(x) = \frac{nx^{n-1}}{\theta^n}$.
+        \item $\hat{\theta}$ has continuous density and $\theta$ is a scalar so the first expression has value 0. The second expression is $1 - (\frac{n-1}{n})^n$, the complement of missing the maximum for each of the $n$ draws in our bootstrap replication.
+    \end{enumerate}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{code/8.7.pdf}
+    \end{figure}
 \end{proof}
 
 \end{document}
