@@ -2310,4 +2310,49 @@ $\P(\hat{\theta} = \theta)$.
     \end{figure}
 \end{proof}
 
+\section{Parametric Inference}
+
+We are now concerned with models of the form
+
+\[ \mathcal{F} = \{ f(x; \theta): \theta \in \Theta \} \]
+
+\subsection{Parameter of Interest}
+
+\subsection{Method of Moments}
+
+Suppose our parameter $\theta$ has $k$ components: $(\theta_1 \dots \theta_k)$.
+For $1 \leq j \leq k$, our $j$th moment is 
+
+\[\alpha_j(\theta) = \int x^j dF_{\theta}(x)\]
+
+Our $j$th sample moment is:
+
+\[\hat{\alpha}_j = n^{-1} \sum_i X_i^j \]
+
+\begin{definition}[Method of moments estimator]
+    The method of moments estimator $\hat{\theta}_n$ is the value of $\theta$
+    that satisfies the following system of $k$ equations:
+
+    \begin{align*}
+        \alpha_1(\hat{\theta}_n) &= \hat{\alpha}_1 \\
+        &\vdots \\
+        \alpha_k(\hat{\theta}_n) &= \hat{\alpha}_k
+    \end{align*}
+
+\end{definition}
+
+\subsection{Maximum Likelihood}
+
+\begin{definition}[Maximum likelihood method]
+    \[ \mathcal{L}_n(\theta) = \prod_{i=1}^n f(X_i; \theta) \]
+    Where the log-likelihood is $\log \mathcal{L}_n(\theta)$
+\end{definition}
+
+This is simply the joint density of data parameterized by $\theta$.
+$\mathcal{L}_n : \theta \mapsto [0, \infty)$.
+
+\begin{example}[MLE of i.i.d. Normals]
+    $X_1 \dots X_n \sim Normal(\mu, \sigma^2)$
+\end{example}
+
 \end{document}
