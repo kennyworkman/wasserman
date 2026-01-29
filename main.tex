@@ -2348,11 +2348,58 @@ Our $j$th sample moment is:
     Where the log-likelihood is $\log \mathcal{L}_n(\theta)$
 \end{definition}
 
+\begin{definition}
+    The maximum likelihood estimator (MLE) is exactly the $\hat{\theta}$ that
+    maximizes $\mathcal{L}_n(\theta)$.
+\end{definition}
+
 This is simply the joint density of data parameterized by $\theta$.
 $\mathcal{L}_n : \theta \mapsto [0, \infty)$.
 
 \begin{example}[MLE of i.i.d. Normals]
     $X_1 \dots X_n \sim Normal(\mu, \sigma^2)$
 \end{example}
+
+\subsection{Properties of Maximum Likelihood Estimators}
+
+Under specific conditions, the MLE $\hat{\theta}$ possess properties that make it an appealing
+estimator:
+
+1. The MLE is consistent: $\hat{\theta} \xrightarrow{P} \theta_*$
+where $\theta_*$ is the true value of the estimated parameter $\theta$.
+
+\subsection{Consistency of Maximum Likelihood Estimators}
+
+\begin{definition}[Kullback-Leibler distance]
+    If $f, g$ are densities:
+    \[ D(f, g) = \int f(x) \log(\frac{f(x)}{g(x)}) dx\]
+    denotes the KL distance between $f$ and $g$.
+\end{definition}
+
+Work out that $D(f, f) = 0$ and $D(f, g) \geq 0$.
+
+Denote $M_n(\theta) = n^{-1} \sum_i \log(\frac{f(X_i;\theta)}{f(X_i;\theta_*)})$. Notice by law of large numbers:
+
+\[ n^{-1} \sum_i \log(\frac{f(X_i;\theta)}{f(X_i;\theta_*)}) \xrightarrow{P} \E{(\log(\frac{f(X_i;\theta)}{f(X_i;\theta_*)}))} \]
+
+Where:
+\[ \E{(\log(\frac{f(X_i;\theta)}{f(X_i;\theta_*)}))} = \int
+\log(\frac{f(X_i;\theta)}{f(X_i;\theta_*)}) f(X_i;\theta_*) = - \int
+f(X_i;\theta_*) \log(\frac{f(X_i;\theta_*)}{f(X_i;\theta)}) dx = -D(\theta_*,
+\theta)\]
+
+\begin{note}
+    Our $D(\theta_*, \theta)$ notation is shorthand for $D(f(X_i;\theta_*),
+    f(X_i;\theta))$.
+\end{note}
+
+Now it is not enough to show $M_n$ converges to D for single values of
+$\theta$. We need to show this for all $\theta$ and that $M_n$ is well-behaved: $\theta_*$ is actually
+its global maximum and it doesn't do weird things as we get far away.
+
+\begin{theorem}
+\end{theorem}
+
+\subsection{Equivariance of Maximum Likelihood Estimators}
 
 \end{document}
