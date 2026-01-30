@@ -2397,9 +2397,39 @@ Now it is not enough to show $M_n$ converges to D for single values of
 $\theta$. We need to show this for all $\theta$ and that $M_n$ is well-behaved: $\theta_*$ is actually
 its global maximum and it doesn't do weird things as we get far away.
 
+%TODO
 \begin{theorem}
 \end{theorem}
 
 \subsection{Equivariance of Maximum Likelihood Estimators}
+
+\begin{theorem}[Equivariance]
+    Let $\tau = g(\theta)$ be a function of $\theta$ and $\hat{\theta}_n$ be
+    the MLE of $\theta$. Then $\hat{\tau}_n$ is the MLE of $\tau$.
+\end{theorem}
+
+\begin{proof}
+    Let $h = g^{-1}$. $\mathcal{L}(\tau) = \prod_i f(X_i; \tau) = 
+    \prod_i f(X_i; h(\tau)) = \prod_i f(X_i; \theta) = \mathcal{L}(\theta)$.
+    Then $\mathcal{L}(\theta) \leq \mathcal{L}(\hat{\theta}_n) \implies
+    \mathcal{L}(\tau) \leq \mathcal{L}(\hat{\tau})$
+\end{proof}
+
+Essentially we can reparameterize our likelihood by some function of $\theta$
+and its 'shape' won't change.
+
+\subsection{Asymptotic Normality of Maximum Likelihood Estimators}
+
+The distribution of $\hat{\theta}_n$ is approximately normal. This allows it to
+compute it analytically instead of relying on methods like the bootstrap.
+
+We need some definitions:
+
+\begin{definition}[Fisher Information]
+    The \textbf{score function} is:
+    \[ s(X; \theta) = \frac{d\log(f(X;\theta))}{d\theta} \]
+    The \textbf{Fisher information} is:
+    \[ I_n(\theta) = \sum_i \Var{s(X; \theta)} \]
+\end{definition}
 
 \end{document}
