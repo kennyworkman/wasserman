@@ -2429,7 +2429,30 @@ We need some definitions:
     The \textbf{score function} is:
     \[ s(X; \theta) = \frac{d\log(f(X;\theta))}{d\theta} \]
     The \textbf{Fisher information} is:
-    \[ I_n(\theta) = \sum_i \Var{s(X; \theta)} \]
+    \[ I_n(\theta) = \Var{\sum_i s(X; \theta)} = \sum_i \Var{s(X; \theta)} \]
 \end{definition}
+
+It can be shown, a fact we will just accept for the time being, that $\Var{s(X; \theta)} =
+-\mathbb{E}_\theta\left[\frac{d^2\log f(X;\theta)}{d\theta^2}\right]$. Then
+
+\begin{theorem}
+    $I_n(\theta) = nI(\theta)$ where:
+    \[I(\theta) = -\mathbb{E}_\theta \left[\frac{d^2\log f(X;\theta)}{d\theta^2}\right] \]
+    \[ = \int \frac{d^2\log f(X;\theta)}{d\theta^2} f(x;\theta) dx \]
+
+\end{theorem}
+
+\begin{theorem}[Asymptotic Normality of the MLE]
+    Let $se = \sqrt{\Var{\hat{\theta}_n}}$.
+    Under certain regularity conditions the following hold:
+    \[ se = \sqrt{\frac{1}{I_n(\theta)}} \quad \text{and} \quad \frac{\hat{\theta}_n - \theta}{se} \rightsquigarrow N(0, 1) \]
+    Also:
+    \[ \hat{se} = \sqrt{\frac{1}{I_n(\hat{\theta}_n)}} \quad \text{and} \quad
+    \frac{\hat{\theta}_n - \theta}{\hat{se}} \rightsquigarrow N(0, 1) \]
+\end{theorem}
+
+In other words, we can use Fisher information to find the error of our MLE
+analytically. We can also estimate this error and still obtain reasoanble
+normality behavior.
 
 \end{document}
