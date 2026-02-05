@@ -2438,8 +2438,7 @@ It can be shown, a fact we will just accept for the time being, that $\Var{s(X; 
 \begin{theorem}
     $I_n(\theta) = nI(\theta)$ where:
     \[I(\theta) = -\mathbb{E}_\theta \left[\frac{d^2\log f(X;\theta)}{d\theta^2}\right] \]
-    \[ = \int \frac{d^2\log f(X;\theta)}{d\theta^2} f(x;\theta) dx \]
-
+    \[ = -\int \frac{d^2\log f(X;\theta)}{d\theta^2} f(x;\theta) dx \]
 \end{theorem}
 
 \begin{theorem}[Asymptotic Normality of the MLE]
@@ -2454,5 +2453,26 @@ It can be shown, a fact we will just accept for the time being, that $\Var{s(X; 
 In other words, we can use Fisher information to find the error of our MLE
 analytically. We can also estimate this error and still obtain reasoanble
 normality behavior.
+
+\begin{example}[i.i.d. Bernoulli]
+    Let $X_1 \dots X_n \sim Bernoulli(p)$. Our MLE $\hat{\theta}_n = \hat{p} =
+    n^{-1}\sum_i X_i$. $\log(f(X;p)) = x\log(p) + (1-x)\log(1-p)$ so $s(X;p) =
+    \frac{x}{p} - \frac{1-x}{1-p}$ and $s'(X;p) = \frac{x}{p^2} +
+    \frac{1-x}{(1-p)^2}$. 
+    Indeed:
+    \[I(p) = -\mathbb{E}_p(s'(X;p)) = -(\frac{p}{p^2} - \frac{(1-p)}{(1-p)^2}) = \frac{1}{p(1-p)}\]
+    So:
+    \[se = \sqrt{\frac{1}{I_n}} = \sqrt{\frac{p(1-p)}{n}}\]
+\end{example}
+
+\begin{exercise}
+    Let $X_1 \dots X_n \sim Gamma(\alpha, \beta)$. Find the method of moments
+    estimator for $\alpha$ and $\beta$.
+\begin{exercise}
+
+\begin{proof}
+    Recall the density for $Gamma(\alpha, \beta)$ is $f(x) =
+    \frac{1}{\beta^\alpha \Gamma(\alpha)}x^{\alpha-1}e^{-\frac{x}{\beta}}$.
+\end{proof}
 
 \end{document}
