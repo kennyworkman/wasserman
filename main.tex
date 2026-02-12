@@ -2475,4 +2475,27 @@ normality behavior.
     \frac{1}{\beta^\alpha \Gamma(\alpha)}x^{\alpha-1}e^{-\frac{x}{\beta}}$.
 \end{proof}
 
+\begin{exercise}
+    Let $X_1 \dots X_n \sim Poisson(\lambda)$. Find the method of moments
+    estimator, maximum likelihood estimator and Fisher information
+    $I(\lambda)$.
+\end{exercise}
+
+\begin{proof}
+    There is a single parameter, so method of moments gives $\hat{\lambda} = \bar{X}_n$.
+
+    The MLE is $\argmax_\lambda \mathcal{L}(\lambda)$ where
+    $\mathcal{L}(\lambda) = \prod_i e^{-\lambda} \frac{\lambda^x_i}{x_i!}$.
+    We use the log likelihood function, $\log(\prod_i e^{-\lambda}
+    \frac{\lambda^x_i}{x_i!})$, and simplify to $\sum_i \log(e^{-\lambda}
+    \frac{\lambda^x_i}{x_i!}) = n\log(e^{\lambda}) + \sum_i \log(\lambda^x_i) +
+    \log(x_i!)$. Taking the derivative wrt $\lambda$ and setting to 0 we arrive
+    at the expression:
+    \[ 0 = -n + \frac{\sum_i x_i}{\lambda}\]
+    So:
+    \[ \hat{\lambda} = \frac{\sum_i x_i}{n}\]
+
+    The Fisher information $I(\lambda) = n * \E{}$
+\end{proof}
+
 \end{document}
