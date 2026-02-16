@@ -2468,7 +2468,7 @@ normality behavior.
 \begin{exercise}
     Let $X_1 \dots X_n \sim Gamma(\alpha, \beta)$. Find the method of moments
     estimator for $\alpha$ and $\beta$.
-\begin{exercise}
+\end{exercise}
 
 \begin{proof}
     Recall the density for $Gamma(\alpha, \beta)$ is $f(x) =
@@ -2495,7 +2495,12 @@ normality behavior.
     So:
     \[ \hat{\lambda} = \frac{\sum_i x_i}{n}\]
 
-    The Fisher information $I(\lambda) = n * \E{}$
+    To compute Fisher information, we first find the score function: 
+    \[s(x; \lambda) = \frac{d(\log(f(x;\lambda)))}{d\lambda}\]
+    \[= \frac{-e^{-\lambda}\frac{\lambda^x}{x!} + e^{-\lambda}\frac{x\lambda^{x-1}}{x!}}{e^{-\lambda}\frac{\lambda^x}{x!}}\]
+    \[= \frac{x}{\lambda}-1\]
+    Then find:
+    \[I_n(\lambda) = nI(\lambda) = n*\E{-s'(x;\lambda)} = n *\frac{\E{x}}{\lambda^2} = \frac{n}{\lambda}\]
 \end{proof}
 
 \end{document}
