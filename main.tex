@@ -2465,14 +2465,54 @@ normality behavior.
     \[se = \sqrt{\frac{1}{I_n}} = \sqrt{\frac{p(1-p)}{n}}\]
 \end{example}
 
+\begin{note}[Gamma function]
+    $\Gamma(x) = \int_0^{\infty} t^{x-1}e^{-t} dt$ as a continuous extension of
+    the factorial function.
+    The key property here is $\Gamma(x+1) = x\Gamma(x)$:
+    \[\Gamma(x+1) = \int_0^{\infty} t^{x}e^{-t} dt = x\int_0^{\infty}
+    t^{x-1}e^{-t} dt = x\Gamma(x)\]
+    Where the second equality comes from integration by parts.
+\end{note}
+
+\begin{note}[Gamma distribution]
+    $f_X(x) = \frac{x^{\alpha-1}}{\beta^{\alpha}\Gamma(\alpha)}e^{-\frac{x}{\beta}}$
+
+    Think of the $\alpha$, the "shape parameter" as a fight between the
+    $x^{\alpha-1}$ and $e^{-\frac{x}{\beta}}$ terms with the exponential
+    eventually winning out. But increasing the $\alpha$ increases the time it
+    takes for this to happen, shifting the peak.
+
+    The peak can be calculated be deriving
+    $\frac{x^{\alpha-1}}{e^{\frac{x}{\beta}}}$ and setting it to 0.
+
+    \[ \log (\frac{x^{\alpha-1}}{e^{\frac{x}{\beta}}}) \]
+    \[ = \alpha-1\log({x}) - \frac{x}{\beta} \]
+
+    Taking the derivative:
+    \[ 0 = \frac{\alpha-1}{x} - \frac{1}{\beta}\]
+    \[ x = \beta(\alpha-1)\]
+
+    At this value of $x$, the function starts to exponentially decay forever.
+\end{note}
+
 \begin{exercise}
     Let $X_1 \dots X_n \sim Gamma(\alpha, \beta)$. Find the method of moments
     estimator for $\alpha$ and $\beta$.
 \end{exercise}
 
 \begin{proof}
-    Recall the density for $Gamma(\alpha, \beta)$ is $f(x) =
-    \frac{1}{\beta^\alpha \Gamma(\alpha)}x^{\alpha-1}e^{-\frac{x}{\beta}}$.
+    If $X \sim Gamma(\alpha, \beta)$, $\E{X} = \alpha\beta$ and $\E{X^2} =
+    \alpha\beta^2 - \alpha^2\beta^2$ ($\Var{X} = \alpha\beta^2$ and expand
+    algebraically). Our system of equations is as follows:
+    \[ \hat{\alpha}\hat{\beta} = \sum_i X_i \]
+    \[ \hat{\alpha}\hat{\beta}^2 - \hat{\alpha}^2\hat{\beta}^2 = \sum_i X_i^2 \]
+    Let $m_1 = \sum_i X_i$ and $m_2 = \sum_i X_i^2$. If $\hat{\alpha} =
+    \frac{m_1}{\hat{\beta}}$, the second equation becomes:
+    \[\hat{\beta}^2(\frac{m_1}{\hat{\beta}} + \frac{m_1^2}{\hat{\beta}}^2) = m_2\]
+    \[\hat{\beta}m_1 + m_1^2 = m_2\]
+    \[\hat{\beta} = \frac{m_2 - m_1^2}{m_1}\]
+    and
+    \[\hat{\alpha} = \frac{m_1^2}{m_2 - m_1^2}\]
 \end{proof}
 
 \begin{exercise}
