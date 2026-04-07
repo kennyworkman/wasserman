@@ -2433,7 +2433,9 @@ We need some definitions:
 \end{definition}
 
 It can be shown, a fact we will just accept for the time being, that $\Var{s(X; \theta)} =
--\mathbb{E}_\theta\left[\frac{d^2\log f(X;\theta)}{d\theta^2}\right]$. Then
+-\mathbb{E}_\theta\left[\frac{d^2\log f(X;\theta)}{d\theta^2}\right]$. We will
+use this in routine calculations for the Fisher Information to compute errors
+of MLEs.
 
 \begin{theorem}
     $I_n(\theta) = nI(\theta)$ where:
@@ -2451,7 +2453,7 @@ It can be shown, a fact we will just accept for the time being, that $\Var{s(X; 
 \end{theorem}
 
 In other words, we can use Fisher information to find the error of our MLE
-analytically. We can also estimate this error and still obtain reasoanble
+analytically. In practice, we estimate this error and still obtain reasoanble
 normality behavior.
 
 \begin{example}[i.i.d. Bernoulli]
@@ -2465,6 +2467,127 @@ normality behavior.
     \[se = \sqrt{\frac{1}{I_n}} = \sqrt{\frac{p(1-p)}{n}}\]
 \end{example}
 
+\subsection{Optimality}
+
+It can be shown the MLE is "the closest" in distribution to our true parameter
+asymptotically. To show this formally, we need a tool to compare estimators to
+each other.
+
+\begin{definition}[Asymptotic Relative Efficiency]
+    Let $T_n$ and $U_n$ be two estimators of our data where:
+    \[\sqrt{n}(T_n - \theta) \rightsquigarrow N(0, t^2)\]
+    \[\sqrt{n}(U_n - \theta) \rightsquigarrow N(0, u^2)\]
+    The asymptotic relative efficiency of U to T is defined as:
+    \[ ARE(U, T) = \frac{t^2}{u^2}\]
+\end{definition}
+
+Using the ARE, we can show any other estimator we could construct would always
+have more variance:
+
+\begin{theorem}
+    Let $\hat{\theta}$ be the MLE and $\tilde{\theta}$ be any other estimator.
+    Then $ARE(\tilde{\theta}, \hat{\theta}) < 1$. The MLE has the smallest
+    (asymptotic) variance. We say it is \textbf{efficient} or
+    \textbf{asymptotically optimal}.
+\end{theorem}
+
+\subsection{The Delta Method}
+
+So far we have been generally interested in computing and proving properties of
+the MLE. However, practical quantities of interest are often functions of the
+MLE. How do we find or estimate variance for such quantities?
+
+\begin{definition}[The Delta Method]
+    Let $\tau = g(\theta)$ where $g$ is differentiable and $g'(\theta) \neq 0$.
+
+    Let $\hat{\tau}_n = g(\hat{\theta}) \rightsquigarrow N(0, 1)$.
+    Then:
+    \[ \frac{(\hat{\tau}_n - \tau)}{\hat{se}(\hat{\tau})} \]
+    Where: 
+    \[\hat{se}(\hat{\tau}) = |g'(\hat{\theta})|se(\hat{\theta})\]
+    Then if:
+    \[ C_n = (\hat{\tau}_n - 2z_{\frac{\alpha}{2}}\hat{se}(\hat{\tau}),
+    \hat{\tau}_n + 2z_{\frac{\alpha}{2}}\hat{se}(\hat{\tau})) \]
+    So $\P(\tau \in C_n) \xrightarrow{} 1-\alpha$
+\end{definition}
+
+\subsection{Multiparameter Models}
+
+Let's extend the analytical variance and delta method to the multivariate case.
+
+Let $\theta = (\theta_1 \dots \theta_k)$ and the MLE $\hat{\theta} =
+(\hat{\theta}_1 \dots \hat{\theta}_k)$. $\ell_n = \sum_{i=1}^n \log(f(X_i;
+\theta))$.
+
+Denote $H_{jj} = \frac{\dd^2\ell_n}{\dd \theta_j^2}$ and $H_{jk} =
+\frac{\dd^2\ell_n}{\dd \theta_j \dd \theta_k}$.
+
+The multivariate Fisher Information matrix is then:
+
+\[I_n(\theta) = \bmat{-\E{H_{11}} & -\E{H_{12}} & \cdots & -\E{H_{1k}} \\ -\E{H_{21}} & -\E{H_{22}} & \cdots & -\E{H_{2k}} \\ \vdots & \vdots & \ddots & \vdots \\ -\E{H_{k1}} & -\E{H_{k2}} & \cdots & -\E{H_{kk}}}\]
+
+Let $J_n(\theta) = I_n^{-1}(\theta)$.
+
+\begin{theorem}
+Under appropriate regularity conditions,
+\[(\hat{\theta} - \theta) \approx N(0, J_n)\]
+For a single parameter $\theta_k$, we obtain:
+\[\frac{(\hat{\theta_k} - \theta)}{\widehat{\se}} \rightsquigarrow N(0, 1)\]
+
+Where $\widehat{\se}_j^2 = J_{jj}$ is the jth diagonal of $J_n$ and the off
+diagonal entries are the approximate covariance of two parameters:
+$\Cov{\hat{\theta_j}, \hat{\theta_k}} \approx J_{jk}$.
+\end{theorem}
+
+Note the inverse of the multivariate Fisher Information matrix is a transformed
+Hessian and is therefore symmetric. Eg. use of column or row major indexing for
+off diagonal terms should yield identical values for the covariances.
+
+There is also a multivariate delta method. Let
+
+\[\Delta g = \bmat{\pdv{g}{\theta_1} \\ \vdots \\ \pdv{g}{\theta_k}}\]
+
+\begin{theorem}[Multiparameter delta method]
+    Let $\hat{\tau} = g(\hat{\theta})$. Suppose $\Delta g$ evaluated at
+    $\hat{\theta}$ not be 0. Then:
+\[\frac{\hat{\tau} - \tau}{\widehat{\se}(\hat{\tau})} \rightsquigarrow N(0, 1)\]
+    where: 
+    \[\widehat{\se}(\hat{\tau}) = \sqrt{(\widehat{\Delta} g)^T \widehat{J}_n \widehat{\Delta} g}\]
+    Where $\widehat{J_n} = J_n(\hat{\theta})$ and $\widehat{\Delta} g$ is $\Delta g$
+    evaluated at $\theta = \hat{\theta}$
+\end{theorem}
+
+\begin{note}[Building intuition for standard error of $\tau$]
+
+$\widehat{\se}(\hat{\tau})$ is a scalar in the multivariate case. It is a
+linear combination of the various variances and covariances of all parameters, 
+weighted by "how much each matters" under the transformation $g$.
+
+To get a sense for this, let's calculate a simple example where $g(\theta_1,
+\theta_2) = \theta_1\theta_2$ and $\Delta g = \bmat{\theta_2 \theta_1}^T$. Then
+the variance of $\hat{\tau}$:
+
+\[ \bmat{\theta_2 \theta_1} \bmat{J_{11} J_{12} \\ J_{21} J_{22}} \bmat{\theta_2 \\ \theta_1} \] 
+
+Working out the algebra:
+
+\[ \theta_2^2 J_{11} + 2\theta_1 \theta_2 J_{12} + \theta_1^2 J_{22}\] 
+
+Notice:
+
+\begin{itemize}
+    \item{$J_{11}$ is the variance of $\theta_1$}
+    \item{$J_{22}$ is the variance of $\theta_2$}
+    \item{$J_{12} = J_{21}$ is the covariance of $\theta_1$ and $\theta_2$}
+\end{itemize}
+
+So our final scalar incorporates all of this information. Notice the weights
+make some amount of intuitive sense, eg. small changes in $\theta_1$ get
+multiplied by $\theta_2^2$ when (1) passed through $g$ and (2) because variance
+squares factors.
+\end{note}
+
+
 \begin{note}[Gamma function]
     $\Gamma(x) = \int_0^{\infty} t^{x-1}e^{-t} dt$ as a continuous extension of
     the factorial function.
@@ -2473,6 +2596,7 @@ normality behavior.
     t^{x-1}e^{-t} dt = x\Gamma(x)\]
     Where the second equality comes from integration by parts.
 \end{note}
+
 
 \begin{note}[Gamma distribution]
     $f_X(x) = \frac{x^{\alpha-1}}{\beta^{\alpha}\Gamma(\alpha)}e^{-\frac{x}{\beta}}$
@@ -2542,5 +2666,38 @@ normality behavior.
     Then find:
     \[I_n(\lambda) = nI(\lambda) = n*\E{-s'(x;\lambda)} = n *\frac{\E{x}}{\lambda^2} = \frac{n}{\lambda}\]
 \end{proof}
+
+\begin{exercise}
+\end{exercise}
+
+\setcounter{exercise}{7}
+\begin{exercise}
+    Let $X_1 \dots X_n \sim N(\mu, \sigma^2)$. Find the Fisher information matrix.
+\end{exercise}
+
+\begin{proof}
+    \[\ell_n = \sum_i \log f(x; \theta) = n(-\frac{1}{2}\log(2\pi) - \log(\sigma) - \frac{1}{2\sigma^2}(x - \mu)^2)\]
+    \[s(x; \theta) = \Delta \ell_n = \bmat{\frac{n(x-\mu)}{\sigma^2} \\ n(-\frac{1}{\sigma} + \frac{(x-\mu)^2}{\sigma^3})} \]
+
+    Then our Hessian, where $H_{jk} = \frac{\dd^2 \ell_n}{\dd\theta_j \dd\theta_k}$, is:
+
+    \[H(\theta) = \bmat{-\frac{n}{\sigma^2} & \frac{2n(\mu - x)}{\sigma^3} \\ \frac{n(2\mu - 2x)}{\sigma^3} & n(\frac{1}{\sigma^2} - \frac{3(x-\mu)^2}{\sigma^4})}\]
+
+    Because $I_n(\theta)_{jk} = -\E{H_{jk}}$:
+
+    \[I_n(\theta) = \bmat{\frac{n}{\sigma^2} & 0 \\ 0 & \frac{2n}{\sigma^2}}\]
+    % TODO: https://chatgpt.com/c/69cbe8f2-27d4-832a-8dc8-5cb3dba745de
+\end{proof}
+
+\begin{note}
+    What is the connection between "information" and estimation of error? Here
+    information is an expression for curvature w.r.t our parameters and high
+    curvature, eg. sharp peaks, near our MLE informs us the data is
+    distinguished by this
+
+    If our likelihood is flat around the MLE, our data is less distinguished by
+    parameters and therefore exists more uncertainty in our estimates of the
+    MLE, eg. the parameters that best fit our data.
+\end{note}
 
 \end{document}
