@@ -2587,6 +2587,39 @@ multiplied by $\theta_2^2$ when (1) passed through $g$ and (2) because variance
 squares factors.
 \end{note}
 
+\subsection{Sufficiency}
+
+Wasserman introduces sufficiency as a measure of a statistics ability to
+"contain all of the information in the data". This was slightly misleading.
+Rather, its a way of recovering all the information in the data
+\textbf{relevant to the likelihood function} (alternatively parameters).
+
+\begin{definition}
+    Let $x^n = (x_1 \dots x_n)$ denote a tuple of data.
+    Let $x^n \leftrightarrow y^n$ if $f(x^n; \lambda) = cf(y^n; \lambda)$ where
+    $c$ can depend on $x^n$ and $y^n$ but not on $\lambda$. 
+
+    We say a statistic $T$ is \textbf{sufficient} if $T(x^n) \leftrightarrow
+    T(y^n) \implies x^n \leftrightarrow y^n$
+\end{definition}
+
+Notice $f(y^n; \lambda)$ is the evaluation of the likelihood for given data and
+parameters.
+
+We can make this clear with an example:
+
+\begin{example}
+    Consider $X_1, X_2, Y_1, Y_2 \sim Poisson(\lambda)$. $x^n = (1, 1)$ and
+    $y^n = (2, 0)$.
+
+    Notice: 
+    \[f(x^n; \lambda) = (\lambda*e^{-\lambda})^2\]
+    \[f(y^n; \lambda) = \frac{1}{2}\lambda^2*e^{-\lambda}e^{-\lambda}\]
+    \[f(x^n; \lambda) = \frac{1}{2}f(y^n; \lambda)\]
+
+    Indeed $x^n \leftrightarrow y^n$. Now consider the sum $T(X^n) = \sum_i
+    X_i$.
+\end{example}
 
 \begin{note}[Gamma function]
     $\Gamma(x) = \int_0^{\infty} t^{x-1}e^{-t} dt$ as a continuous extension of
@@ -2639,6 +2672,54 @@ squares factors.
     \[\hat{\alpha} = \frac{m_1^2}{m_2 - m_1^2}\]
 \end{proof}
 
+
+\setcounter{exercise}{2}
+\begin{exercise}
+    Let $X_1 \dots X_n \sim N(\mu, \sigma^2)$. Let $\tau$ be the 0.95
+    percentile, ie. $\P(X < \tau) = 0.95$.
+    \begin{itemize}
+        \item{Find the MLE of $\tau$}
+        \item{Compute the approximate $1-\alpha$ confidence interval of $\tau$}
+        \item{Given the data provided in the text, compute the MLE $\hat{\tau}$. Then find the standard error with both the delta method and parametric bootstrap.}
+    \end{itemize}
+\end{exercise}
+
+\begin{proof}
+    The first part amounts to recognizing the percentile $\tau = g(\theta)$ is
+    a function of our parameters, computing the MLE of i.i.d. Normal variables
+    and finally using equivariance of the MLE to pass them through $g$.
+
+    First, we compute the MLE of our data in two parameters:
+
+    \[\mathcal{L}_n(\theta) = \prod_i f(x_i; \theta)\]
+    \[\mathcal{L}_n(\theta) = \prod_i \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2\sigma^2}(x_i-\mu)^2} \]
+    \[\ell_n(\theta) = n\log(\frac{1}{\sqrt{2\pi}\sigma}) + \sum_i -\frac{1}{2\sigma^2}(x_i-\mu)^2 \]
+    \[\ell_n(\theta) = -\frac{n}{2}\log({2\pi) - n\log(\sigma) + \sum_i -\frac{1}{2\sigma^2}(x_i-\mu)^2 \]
+
+    To compute $\hat{\mu}$, we derive w.r.t. $\mu$:
+
+    \[\pdv{\l_n}{\mu} =  -\frac{1}{2\sigma^2} \sum_i -2x_i + 2\mu \]
+
+    and set the expression equal to 0:
+
+    \[-\frac{1}{2\sigma^2} \sum_i -2x_i + 2\mu  = 0\]
+    \[n\mu - \sum_i x_i  = 0\]
+    \[\hat{\mu} = n^{-1}\sum_i x_i = \bar{X}_n\]
+
+    Similarly for $\hat{\sigma}$:
+
+    \[\pdv{\l_n}{\sigma} =  -\frac{n}{\sigma} + \sum_i \frac{(x_i - \mu)^2}{\sigma^3} \]
+
+    Setting equal to 0 and using $\hat{\mu}$:
+
+    \[n^{-1} \sum_i (X_i - \mu_i)^2 = \hat{\sigma}^2 = S_n\]
+
+    Indeed $\hat{\theta} = (\hat{\mu}, \hat{\sigma^2}) = (\bar{X}_n, S_n)$
+
+    Then $\hat{\tau} = \bar{X}_n + z_{0.95}S_n$ is the MLE of $\tau$.
+\end{proof}
+
+\setcounter{exercise}{4}
 \begin{exercise}
     Let $X_1 \dots X_n \sim Poisson(\lambda)$. Find the method of moments
     estimator, maximum likelihood estimator and Fisher information
@@ -2666,9 +2747,6 @@ squares factors.
     Then find:
     \[I_n(\lambda) = nI(\lambda) = n*\E{-s'(x;\lambda)} = n *\frac{\E{x}}{\lambda^2} = \frac{n}{\lambda}\]
 \end{proof}
-
-\begin{exercise}
-\end{exercise}
 
 \setcounter{exercise}{7}
 \begin{exercise}
