@@ -2694,7 +2694,7 @@ We can make this clear with an example:
     \[\mathcal{L}_n(\theta) = \prod_i f(x_i; \theta)\]
     \[\mathcal{L}_n(\theta) = \prod_i \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2\sigma^2}(x_i-\mu)^2} \]
     \[\ell_n(\theta) = n\log(\frac{1}{\sqrt{2\pi}\sigma}) + \sum_i -\frac{1}{2\sigma^2}(x_i-\mu)^2 \]
-    \[\ell_n(\theta) = -\frac{n}{2}\log({2\pi) - n\log(\sigma) + \sum_i -\frac{1}{2\sigma^2}(x_i-\mu)^2 \]
+    \[\ell_n(\theta) = -\frac{n}{2}\log(2\pi) - n\log(\sigma) + \sum_i -\frac{1}{2\sigma^2}(x_i-\mu)^2 \]
 
     To compute $\hat{\mu}$, we derive w.r.t. $\mu$:
 
@@ -2777,5 +2777,39 @@ We can make this clear with an example:
     parameters and therefore exists more uncertainty in our estimates of the
     MLE, eg. the parameters that best fit our data.
 \end{note}
+
+
+\section{Hypothesis Testing and p-values}
+
+\begin{definition}
+    Assuming we partition our parameter space $\Theta$, our null hypothesis
+    $H_0$ and alternative hypothesis $H_1$ are defined $H_0: \theta \in \Theta_0$ and $H_1: \theta \in \Theta_1$
+\end{definition}
+
+\begin{example}
+    Let $X_1 \dots X_n$ be i.i.d. $N(\mu, \sigma^2)$ where $\sigma^2$ is known.
+    We're interested in $H_0: \mu \leq 0$ and $H_1: \mu > 0$. Suppose our test
+    is we reject $H_0$ if $\bar{X} > c$ and we wish to compute our critical
+    value $c$.
+
+    \[ \beta(\mu) = \P_{\mu}(\bar{X} > c) \]
+    \[ = \P_{\mu}(\frac{\sqrt{n}(\bar{X} - \mu)}{\sigma} > \frac{\sqrt{n}(c-\mu)}{\sigma}) \]
+    \[ = \P_{\mu}(Z > \frac{\sqrt{n}(c-\mu)}{\sigma}) \]
+
+    The size of this test is $\sup_{\mu \in (-\infty, 0]} \beta(\mu) = \beta(0)
+    = 1 - \phi(\frac{\sqrt{n}c}{\sigma})$. 
+
+    If we're interested in finding the critical point for a size $\alpha$ (eg.
+    false prediction rate), $\alpha = 1 - \phi(\frac{\sqrt{n}c}{\sigma})$ so $c
+    = \frac{\sigma \phi^{-1}(1-\alpha)}{\sqrt{n}}$
+
+    Then we reject our hypothesis when $\bar{X} > \frac{\sigma
+    \phi^{-1}(1-\alpha)}{\sqrt{n}}$.
+
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=0.8\linewidth]{code/10.1.pdf}
+    \end{figure}
+\end{example}
 
 \end{document}
