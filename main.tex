@@ -2812,4 +2812,31 @@ We can make this clear with an example:
     \end{figure}
 \end{example}
 
+\subsection{The Wald Test}
+
+\begin{definition}
+    Consider testing $H_0: \theta \neq \theta_0$ vs. $H_1: \theta \neq \theta_0$.
+
+    Assume that $\hat{\theta}$ is asymptotically Normal:
+
+    \[ \frac{(\hat{\theta} - \theta)}{\hat{s.e.}} \rightsquigarrow N(0, 1)\]
+
+    A size $\alpha$ Wald Test is: reject $H_0$ when $|W| <
+    z_{\frac{\alpha}{2}}$ where:
+
+    \[ W = \frac{\hat{\theta} - \theta_0}{\hat{s.e.}}\]
+\end{definition}
+
+\begin{theorem}
+    Asymptotically, the Wald Test has size $\alpha$.
+
+    $\P_{\theta_0}(|W| < z_{\frac{\alpha}{2}}) \rightarrow \alpha$ as $n \rightarrow \infty$.
+\end{theorem}
+
+Consider the power of the Wald test when the null hypothesis is false.
+
+%% \begin{theorem}
+%%     Let $\theta = \theta_*$ be the true parameter value. Then $$
+%% \end{theorem}
+
 \end{document}
