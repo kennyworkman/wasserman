@@ -2812,6 +2812,7 @@ We can make this clear with an example:
     \end{figure}
 \end{example}
 
+
 \subsection{The Wald Test}
 
 \begin{definition}
@@ -2835,8 +2836,122 @@ We can make this clear with an example:
 
 Consider the power of the Wald test when the null hypothesis is false.
 
-%% \begin{theorem}
-%%     Let $\theta = \theta_*$ be the true parameter value. Then $$
-%% \end{theorem}
+\begin{theorem}
+    Let $\theta = \theta_*$ be the true parameter value. Then $\beta(\theta_*)
+    = 1 - \phi(\frac{\theta_0 - \theta_*}{\hat{s.e.}} + z_{\frac{\alpha}{2}}) + \phi()$
+\end{theorem}
+
+\begin{proof}
+    If the true parameter value is $\theta_*$, our estimator is $\hat{\theta}
+    \approx N(\theta_*, \hat{s.e.}^2)$. Then $\frac{\hat{\theta} -
+    \theta_0}{\hat{s.e.}} \approx N(\frac{\theta_* - \theta_0}{\hat{s.e.}}, 1)$
+
+    \[\P(|W| > z_{\frac{\alpha}{2}})\] 
+    \[= \P(\frac{\hat{\theta} - \theta_0 - (\theta_* - \theta_0)}{\hat{se}} >
+    z_{\frac{\alpha}{2}} - \frac{\theta_* - \theta_0}{\hat{se}}) +
+\P(\frac{\hat{\theta} - \theta_0 - (\theta_* - \theta_0)}{\hat{se}} < -z_{\frac{\alpha}{2}} - \frac{\theta_* - \theta_0}{\hat{se}})\]
+
+Because $\frac{\hat{\theta} - \theta_0 - (\theta_* - \theta_0)}{\hat{se}}
+\approx Z$:
+
+    \[= \P(Z > z_{\frac{\alpha}{2}} - \frac{\theta_* - \theta_0}{\hat{se}}) + \P(Z < -z_{\frac{\alpha}{2}} - \frac{\theta_* - \theta_0}{\hat{se}})\]
+    \[= \P(Z > \frac{\theta_0 - \theta_*}{\hat{se}} + z_{\frac{\alpha}{2}}) +
+    \P(Z < \frac{\theta_0 - \theta_*}{\hat{se}} -z_{\frac{\alpha}{2}})\]
+    \[= 1 - \Phi(\frac{\theta_0 - \theta_*}{\hat{se}} + z_{\frac{\alpha}{2}}) +
+    \Phi(\frac{\theta_0 - \theta_*}{\hat{se}} -z_{\frac{\alpha}{2}})\]
+\end{proof}
+
+\subsection{p-values}
+
+\begin{definition}
+\end{definition}
+
+\begin{theorem}
+\[p-value = \sup_{\theta \in \Theta_0} \P(T(X^n) > T(x^n))\]
+\end{theorem}
+
+
+
+\subsection{The $\Chi^2$ Distribution}
+
+\subsection{Pearson's $\Chi^2$ Test for Multinomial Data}
+
+Recall if $X = (X_1 \dots X_k)$ has a multinomial distribution, then the MLE of
+$p$ is $\hat{p} = (\hat{p_1} \dots \hat{p_k}) = (\frac{X_1}{n} \dots
+\frac{X_k}{n})$.
+
+Let $p_0 = (p_{01} \dots p_{0k})$ be some fixed vector and suppose we want to
+test:
+
+\[H_0: p = p_0 \text{ vs } H_1: p \neq p0\]
+
+\begin{definition}
+    Pearson's $\Chi^2$ statistic is:
+    \[T = \sum_{j=1}^k \frac{(X_j - E_j)^2}{E_j}\]
+    Where $E_j = \E{X_j} = np_{0j}$ is the expected value of $X_j$ under $H_0$
+\end{definition}
+
+\begin{theorem}
+    Under $H_0$, $T \rightsquigarrow \Chi_{k-1}^2$. Hence the test: reject
+    $H_0$ if $T > \Chi^2_{k-1,\alpha}$ has asymptotic level $\alpha$.
+\end{theorem}
+
+\begin{note}
+    The Mendel example in the text highlights a case where the p-value is very high. This
+    means the observed data are not surprising under the null hypothesis. But it
+    is not the same as proving the null hypothesis.
+
+    A high p-value could occur because the null is true. It could also occur
+    because the test has low power against the alternatives we care about. A
+    size $\alpha$ test controls the probability of false rejection under the
+    null:
+    \[
+        \sup_{\theta \in \Theta_0} 
+        \mathbb{P}_\theta(T(X^n) \in R_\alpha) \leq \alpha.
+    \]
+    But it does not, in general, control the probability of incorrectly failing
+    to reject the null when the null is false.
+
+    For $\theta \in \Theta_1$, the probability of failing to reject is
+    \[
+        \mathbb{P}_\theta(X^n \notin R_\alpha)
+        = 1 - \beta(\theta),
+    \]
+    where
+    \[
+        \beta(\theta) = \mathbb{P}_\theta(X^n \in R_\alpha)
+    \]
+    is the power function. This probability can be large if the power
+    $\beta(\theta)$ is small, for example when the true alternative is very
+    close to the null.
+\end{note}
+
+\begin{theorem}
+    If the test statistic has a continuous distribution, then under $H_0:
+    \theta_0 = \theta$
+\end{theorem}
+
+\begin{example}
+    The infimum and supremum definitions describe the p-value in different
+    ways. Consider the example from above with i.i.d. Normals and $H_0: \mu
+    \leq 0$ vs $H_1: \mu > 0$. 
+
+    Let's first look at the p-value from the infimum definition:
+
+    \[\inf\{ \alpha : \bar{x} > \frac{\sigma}{\sqrt{n}}z_\alpha \} \]
+    \[ \frac{\sqrt{n}\bar{x}}{\sigma} > \Phi^{-1}(1-\alpha)\]
+    \[ \alpha > 1 - \Phi(\frac{\sqrt{n}\bar{x}}{\sigma}) \]
+
+    Then the lowest level at which we can reject $H_0$ is
+    $\alpha = 1- \Phi(\frac{\sqrt{n}\bar{x}}{\sigma})$.
+
+    % https://chatgpt.com/c/69fcaaba-694c-83ea-a00f-da908d54f8a5
+
+    \[\sup_{\mu \in \Theta_0} \P(\bar{X} > \bar{x}) \]
+
+\end{example}
+
+\begin{proof}
+\end{proof}
 
 \end{document}
