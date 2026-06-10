@@ -2867,10 +2867,63 @@ Because $\frac{\hat{\theta} - \theta_0 - (\theta_* - \theta_0)}{\hat{se}}
 \end{definition}
 
 \begin{theorem}
-\[p-value = \sup_{\theta \in \Theta_0} \P(T(X^n) > T(x^n))\]
+Let a level $\alpha$ test be of the form $T(X^n) > c_\alpha$
+
+\[p-value = \sup_{\theta \in \Theta_0} \P_{\theta_0}(T(X^n) > T(x^n))\]
+
+When $\Theta_0 = \{ \theta_0 \}$:
+
+\[p-value = \P_{\theta_0}(T(X^n) > T(x^n))\]
 \end{theorem}
 
+\begin{proof}
+    First consider the $\Theta_0 = \{ \theta_0 \}$ case. Let $\alpha =
+    \P_{\theta_0}(T(X^n) > T(x^n))$. Assume there exists some $\alpha' <
+    \alpha$ where $T(x^n) \in R_\alpha'$ so $\alpha$ is not the infimum.
+    Then $c_\alpha' > T(x^n)$, where $c_\alpha'$ is the cutoff for
+    $R_\alpha'$. But then $T(x^n) \notin R_\alpha'$, producing a contradiction.
+\end{proof}
 
+\begin{theorem}
+    Assuming.
+\end{theorem}
+
+\begin{note}
+    The fact that the p-value has a Uniform(0,1) distribution under the null
+    follows simply from the probability integral transform: $F_X(X)
+    \sim Uniform(0, 1)$. If plug a variable obeying some distribution into its
+    own CDF, we get a $Uniform(0, 1)$. The fact that the tail probability also
+    obeys this uniform distribution follows because $Y = 1 - X$ where $X \sim
+    Uniform(0, 1)$ is also $Uniform(0, 1)$.
+\end{note}
+
+\begin{theorem}
+    If the test statistic has a continuous distribution, then under $H_0:
+    \theta_0 = \theta$
+\end{theorem}
+
+\begin{proof}
+\end{proof}
+
+\begin{example}
+    The infimum and supremum definitions describe the p-value in different
+    ways. Consider the example from above with i.i.d. Normals and $H_0: \mu
+    \leq 0$ vs $H_1: \mu > 0$. 
+
+    Let's first look at the p-value from the infimum definition:
+
+    \[\inf\{ \alpha : \bar{x} > \frac{\sigma}{\sqrt{n}}z_\alpha \} \]
+    \[ \frac{\sqrt{n}\bar{x}}{\sigma} > \Phi^{-1}(1-\alpha)\]
+    \[ \alpha > 1 - \Phi(\frac{\sqrt{n}\bar{x}}{\sigma}) \]
+
+    Then the lowest level at which we can reject $H_0$ is
+    $\alpha = 1- \Phi(\frac{\sqrt{n}\bar{x}}{\sigma})$.
+
+    % https://chatgpt.com/c/69fcaaba-694c-83ea-a00f-da908d54f8a5
+
+    \[\sup_{\mu \in \Theta_0} \P(\bar{X} > \bar{x}) \]
+
+\end{example}
 
 \subsection{The $\Chi^2$ Distribution}
 
@@ -2926,32 +2979,23 @@ test:
     close to the null.
 \end{note}
 
-\begin{theorem}
-    If the test statistic has a continuous distribution, then under $H_0:
-    \theta_0 = \theta$
-\end{theorem}
+\subsection{The Permutation Test}
 
-\begin{example}
-    The infimum and supremum definitions describe the p-value in different
-    ways. Consider the example from above with i.i.d. Normals and $H_0: \mu
-    \leq 0$ vs $H_1: \mu > 0$. 
+This test is appropriate if we have data $X_1 \dots X_m$ and $Y_1 \dots Y_n$
+and we want to understand if they come from the same distribution. Eg. $H_0: F_X
+= F_Y$.
 
-    Let's first look at the p-value from the infimum definition:
+\begin{definition}
+    Let $T(X_1 \dots X_m, Y_1 \dots Y_n)$. Let $N = n + m$. $T_i$ denotes a permutation of
+    this data of which there are $N!$ possibilities. Let $t_{obs}$ be the
+    observed value of the test statistic and $P_0$ be the distribution that
+    puts mass $\frac{1}{N!}$ on each $T_i$.
+    \[p-value = \P_0(T > t_obs) = \frac{1}{N!} \sum_{i=0}^{N!} 1(T_i > t_{obs}) \]
+\end{definition}
 
-    \[\inf\{ \alpha : \bar{x} > \frac{\sigma}{\sqrt{n}}z_\alpha \} \]
-    \[ \frac{\sqrt{n}\bar{x}}{\sigma} > \Phi^{-1}(1-\alpha)\]
-    \[ \alpha > 1 - \Phi(\frac{\sqrt{n}\bar{x}}{\sigma}) \]
+\subsection{The Likelihood Test}
 
-    Then the lowest level at which we can reject $H_0$ is
-    $\alpha = 1- \Phi(\frac{\sqrt{n}\bar{x}}{\sigma})$.
-
-    % https://chatgpt.com/c/69fcaaba-694c-83ea-a00f-da908d54f8a5
-
-    \[\sup_{\mu \in \Theta_0} \P(\bar{X} > \bar{x}) \]
-
-\end{example}
-
-\begin{proof}
-\end{proof}
+\begin{definition}
+\end{definition}
 
 \end{document}
