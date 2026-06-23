@@ -2990,12 +2990,62 @@ and we want to understand if they come from the same distribution. Eg. $H_0: F_X
     this data of which there are $N!$ possibilities. Let $t_{obs}$ be the
     observed value of the test statistic and $P_0$ be the distribution that
     puts mass $\frac{1}{N!}$ on each $T_i$.
-    \[p-value = \P_0(T > t_obs) = \frac{1}{N!} \sum_{i=0}^{N!} 1(T_i > t_{obs}) \]
+    \[p-value = \P_0(T > t_{obs}) = \frac{1}{N!} \sum_{i=0}^{N!} 1(T_i > t_{obs}) \]
 \end{definition}
 
 \subsection{The Likelihood Test}
 
 \begin{definition}
 \end{definition}
+
+
+\setcounter{exercise}{4}
+\begin{exercise}
+    Let $X_1 \dots X_n \sim Uniform(0, \theta)$ and $Y = max\{X_1 \dots
+    X_n\}$. We want to test $H_0: \theta = \frac{1}{2}$ vs. $H_1: \theta >
+    \frac{1}{2}$. The Wald Test is inappropriate because $Y$ is not
+    asymptotically Normal. Suppose we want to test this hypothesis by rejecting
+    $H_0$ when $Y > c$.
+    \begin{itemize}
+        \item{Find the power function}
+        \item{What choice of c will make the size of the test 0.05}
+        \item{Let $N=20$ and $Y=0.48$. What is the p-value and what can we say about $H_0$?}
+        \item{Let $N=20$ and $Y=0.52$. What is the p-value and what can we say about $H_0$?}
+    \end{itemize}
+\end{exercise}
+
+\begin{proof}
+    \begin{itemize}
+        \item{The CDF of the max of i.i.d. $Uniform(0, \theta)$ is $F_Y(y) =
+                (\frac{y}{\theta})^n$. The power function is then
+                $\beta(\theta) = \P_\theta(Y > c) = 1 - F_{Y, \theta}(c) = 1 -
+            (\frac{c}{\theta})^n$.}
+        \item{Because $H_0$ is parameterized by a single value, size is the
+            power function at $\theta=\frac{1}{2}$:
+            \[\beta(\frac{1}{2}) = 1 - (\frac{c}{\frac{1}{2}})^n\]
+            Then the value of $c$ that controls power at $0.05$ is
+            $\frac{\sqrt[n]{0.95}}{2}$
+        \item{$1 - \frac{0.48}{0.50}^n$. We do not have sufficient evidence to
+            conclude $\theta > 0.5$. }
+        \item{p-value = 0. $H_0$ is impossible given the evidence}
+    \end{itemize}
+\end{proof}
+
+\begin{note}
+
+The above problem highlights the difference between "evidence supporting $H_0$"
+and "being unable to reject $H_0$". 
+
+For the third part of the problem, at size 0.05, $c=0.4987$. Now if we observe
+a smaller value, it could be because $H_0$ is true or it could be because the
+test is bad at picking out true values of $\theta$, especially close to
+$theta_0=\frac{1}{2}$. Consider $\theta=0.51$: the power under this true value
+is only $0.31$. This means even if we know for sure the parameter is 0.51, the
+way our test is set up causes rejection almost 1 out of 3 trials.
+
+So returning to the conclusion, our decision to "not reject $H_0$" is because
+the true value of $\theta$ is in fact $\frac{1}{2}$ or because $\theta$ is not
+$\frac{1}{2}$ but we are unable to prove it.
+\end{note}
 
 \end{document}
