@@ -3024,7 +3024,7 @@ and we want to understand if they come from the same distribution. Eg. $H_0: F_X
             power function at $\theta=\frac{1}{2}$:
             \[\beta(\frac{1}{2}) = 1 - (\frac{c}{\frac{1}{2}})^n\]
             Then the value of $c$ that controls power at $0.05$ is
-            $\frac{\sqrt[n]{0.95}}{2}$
+        $\frac{\sqrt[n]{0.95}}{2}$}
         \item{$1 - \frac{0.48}{0.50}^n$. We do not have sufficient evidence to
             conclude $\theta > 0.5$. }
         \item{p-value = 0. $H_0$ is impossible given the evidence}
@@ -3032,6 +3032,48 @@ and we want to understand if they come from the same distribution. Eg. $H_0: F_X
 \end{proof}
 
 \begin{note}
+
+\setcounter{exercise}{5}
+\begin{exercise}
+In 1861, 10 essays appeared in the New Orleans Daily Crescent. They were signed
+"Quintus Snodgrass" and some people suspected they were actually written by
+Mark Twain. To investigate this, we will investigate the proportion of three
+letter words found in the author's work.
+\begin{itemize}
+    \item{Use a Wald Test to test equality of mean using a nonparametric plug
+        in estimator. Report the p-value and 95 percent confidence interval.
+        What do you conclude?}
+\end{itemize}
+\end{exercise}
+
+\begin{proof}
+\begin{itemize}
+\item{
+        Let $X_1 \dots X_n$ denote the Twain frequencies and $Y_1 \dots Y_m$
+        denote the Snodgrass frequencies. First we construct our statistic. If
+        the distribution we're interested in is $\delta = \mu_T - \mu_S$, then
+        $\hat{\delta} = \hat{\mu}_T - \hat{\mu}_S = \bar{X}_n - \bar{Y}_m$ is
+        the plug-in estimator, where the bar denotes sample average.
+
+        The Wald Statistic is:
+        \[ W = \frac{\bar{\delta}}{\bar{se}(\hat{\delta})} \]
+        \[ W = \frac{\hat{\mu}_T - \hat{\mu}_S}{\sqrt{\frac{\hat{\sigma_T}}{n}+\frac{\hat{\sigma_S}}{m}}} \]
+
+        % TODO
+        Where $\bar{se}(\hat{\delta}) = $ and $\hat{\sigma_n}$ denotes the sample variance.
+
+        The value of the wald statistic given the data is $\frac{0.022}{0.056} = 3.94$. The p-value is
+        then $\P(|W| > 3.94) = 2*\Theta(-3.94) = 0.00008$.
+
+        The 95 percent CI is $0.022 + +- z_{0.95}*\hat{\se}(\hat{\delta}) =
+        (0.0112, 0.0332)$. Eg. within 0.95 probability, the difference is
+        somewhere between 1 and 3 pp.
+
+        The conclusion is we can reject the hypothesis that Snodgrass and Twain
+        share the same three letter word frequency.
+}
+\end{itemize}
+\end{proof}
 
 The above problem highlights the difference between "evidence supporting $H_0$"
 and "being unable to reject $H_0$". 
