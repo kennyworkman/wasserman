@@ -3090,4 +3090,44 @@ the true value of $\theta$ is in fact $\frac{1}{2}$ or because $\theta$ is not
 $\frac{1}{2}$ but we are unable to prove it.
 \end{note}
 
+
+\setcounter{exercise}{9}
+\begin{exercise}
+    Compare the mortality patterns of elderly Jewish and Chinese women who died
+    just before and after the Chinese Harvest Moon Festival.
+\end{exercise}
+
+\begin{proof}
+    We'll proceed with the Likelihood Ratio Test.
+
+    Assume our Chinese mortality rates are distributed like $C \sim
+    Multinomial(207, p)$ and our Jewish mortality rates like $J \sim
+    Multinomial(586, q)$. We'll test $H_0: p = q$ vs. $H_1: p \neq q$.
+
+    Our likelihood function for $H_0$ assumes the binomial parameters are the same:
+
+    \[ \L_{\Theta_0}(\theta) = \binom{207}{x_1,\ldots,x_k}\prod_i \theta_i^{x_i} \binom{586}{y_1 \dots y_k} \theta_i^{y_i}\]
+    \[ \L_{\Theta_0}(\theta) = \binom{207}{x_1,\ldots,x_k}\binom{586}{y_1 \dots y_k}\prod_i \theta_i^{x_i+y_i} \]
+
+    While our likelihood function for $H_1$ is joint over Chinese and Jewish:
+
+    \[ \L_{\Theta}(\theta) = \binom{207}{x_1 \dots x_k}\prod_i p_i^{x_i} \binom{586}{y_1 \dots y_k} q_i^{y_i}\]
+
+    We setup our likelihood statistic as follows:
+
+    \[ \lambda = -2\log\frac{\L_{\Theta}(\hat{\theta})}{\L_{\Theta_0}(\hat{\theta_0})} \]
+    \[ \lambda = -2\log\frac{\prod_i p_i^{x_i} \prod q_i^{y_i}}{\prod_i \theta_i^{x_i + y_i}} \]
+
+    Because there are 6 free parameters in the alternative and 3 in the null: 
+
+    \[ \lambda \rightsquigarrow \Chi^2_{3}\]
+
+    An appropriate p-value for this data is then:
+
+    \[\P(\Chi^2_{3} > \lambda(x))\]
+    \[\P(\Chi^2_{3} > 12.53) = 0.005\]
+
+    Our data does not support that these mortality patterns are the same.
+\end{proof}
+
 \end{document}
