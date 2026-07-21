@@ -3130,4 +3130,57 @@ $\frac{1}{2}$ but we are unable to prove it.
     Our data does not support that these mortality patterns are the same.
 \end{proof}
 
+
+\setcounter{exercise}{9}
+\begin{exercise}
+    A randomized, double-blind experiment was conducted to assess the
+    effectiveness of several drugs for reducing postoperative nausea.
+    \begin{itemize}
+        \item{Test each drug versus the placebo at the 5 per cent level. Also,
+            report the estimated odds-ratios. Summarize your findings.}
+        \item{Use the Bonferroni and the FDR method to adjust for multiple
+            testing}
+    \end{itemize}
+\end{exercise}
+
+\begin{proof}
+    \begin{itemize}
+        \item{We'll compute a test for Chlorpromazine vs. Placebo using the log
+            likelihood statistic.
+
+            Let $P \sim Binomial(80, p)$ and $C \sim Binomial(75, 26)$. Test
+            $H_0: p = q$ vs $H_1: p \neq q$. 
+
+            The log likelihood of the MLE under the null assumes separate
+            binomial with shared $\hat{p} = p = q = \frac{71}{155}$:
+
+            \[\L_{\theta_0(\hat{p})} =
+            \binom{80}{45}{\hat{p}}^{45}{1-\hat{p}}^{35}\binom{75}{26}{\hat{p}}^{26}{1-\hat{p}}^{49} \]
+            \[\L_{\theta_0(\hat{p})} = \binom{80}{45}\binom{75}{26}{\hat{p}}^{71}{1-\hat{p}}^{84}\]
+            \[\L_{\theta_0(\frac{71}{155})} = \binom{80}{45}\binom{75}{26}(\frac{71}{155})^{71}(\frac{84}{155})^{84}\]
+
+            The log likelihood of the MLE under the alternative assumes
+            separate binomial with distinct mean:
+
+
+            \[\L_{\theta(\hat{p})} = \binom{80}{45}(\frac{45}{80})^{45}(\frac{35}{80})^{35} \binom{75}{26}(\frac{26}{75})^{26}(\frac{49}{75})^{49}\]
+        }
+
+            The statistic is then: 
+
+            \[ \lambda = 2log(\frac{\L_{\theta(\hat{p})}}{\L_{\theta_0(\hat{p})}}) \]
+            \[ \lambda = 2log(\L_{\theta(\hat{p})}) - 2log(\L_{\theta_0(\hat{p})}) \]
+
+            Binomial coefficients cancel:
+
+            \[ \lambda = 2log((\frac{45}{80})^{45}(\frac{35}{80})^{35}(\frac{26}{75})^{26}(\frac{49}{75})^{49}) - 2log((\frac{71}{155})^{71}(\frac{84}{155})^{84}) \]
+
+            And $\lambda \approx 7.33$. Under Wilk's, $lambda \rightsquigarrow
+            \Chi_1^2$ giving $p-value \approx 0.0068$. At a 5 per cent level,
+            we can reject the hypothesis that the rate of nausea is different.
+
+            The odds ratio is given as %TODO
+    \end{itemize}
+\end{proof}
+
 \end{document}
